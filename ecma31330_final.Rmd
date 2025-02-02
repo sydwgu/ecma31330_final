@@ -11,3 +11,41 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r}
+library(glmnet)
+library(dplyr)
+data <- read.csv("data.csv", sep=";")
+
+data <- data %>%
+  mutate(across(.cols = 1:36, .fns = scale))
+
+
+word_to_number <- c(Graduate = 1, Enrolled = 2, Dropout = 3)
+
+# Assign numbers using the custom mapping
+data$"Target" <- word_to_number[data$"Target"]
+
+
+
+y <- data$"Target"
+x <- as.matrix(data[, -c(1, 2, 4, 7, 8, 9, 10, 11, 37)])  # Predictors
+
+
+# Perform 5-fold cross-validation
+set.seed(42)
+lasso_model_cv <- cv.glmnet(x, y, alpha = 1, nfolds = 5, type.measure = "mse")
+best_lambda_cv <- lasso_model_cv$lambda.min
+cat("Best lambda (chosen by 5-fold CV):", best_lambda_cv)
+
+# Obtain selected covariates
+lasso_coef <- as.matrix(coef(lasso_model_cv))
+selected <- rownames(lasso_coef)[lasso_coef != 0]
+cat("Selected covariates:", selected[2:length(selected)], "\n")
+num_covariates <- length(selected) - 1
+cat("Number of covariates chosen by LASSO:", num_covariates)
+coef(lasso_model_cv)
+
+
+
+```
