@@ -46,6 +46,13 @@ num_covariates <- length(selected) - 1
 cat("Number of covariates chosen by LASSO:", num_covariates)
 coef(lasso_model_cv)
 
+# Install and load the knitr package if you don't have it
+# install.packages("knitr")
+library(knitr)
+
+
+# Create a nice table with kable
+kable(coef(lasso_model_cv), caption = "Summary Table", align = "c")
 
 
 ```
