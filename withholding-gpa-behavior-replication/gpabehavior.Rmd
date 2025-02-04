@@ -1,0 +1,24 @@
+---
+title: "Metrics and ML - Final Paper"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(readxl)
+library(haven)
+```
+
+```{r}
+load("data.rdata")
+```
+
