@@ -12,47 +12,33 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 ```{r}
-library(glmnet)
+library(haven)
+data <- read_dta("~/Downloads/208325-V2/Replication/STATA/dta/cpi.dta")
+head(data)
+
+data2 <- read_dta("~/Downloads/208325-V2/Replication/STATA/raw/CEX_sampleA_80_22.dta")
+print(dim(data2))
+data3 <- read.csv("~/Downloads/208325-V2/Replication/STATA/raw/CPIAUCSL_april2000.csv")
+head(data3)
+```
+
+```{r}
 library(dplyr)
-data <- read.csv("data.csv", sep=";")
 
-data <- data %>%
-  mutate(across(.cols = 1:36, .fns = scale))
-
-
-word_to_number <- c(Graduate = 1, Enrolled = 2, Dropout = 3)
-
-# Assign numbers using the custom mapping
-data$"Target" <- word_to_number[data$"Target"]
+data2 <- data2[, colMeans(is.na(data2)) < 0.9]  # Keep columns with <50% missing
+data2 <- data2[rowMeans(is.na(data2)) < 0.9, ]  # Keep rows with <50% missing
 
 
+data2 <- data2 %>%
+  mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
+  mutate(across(where(is.character), ~replace_na(., "Unknown")))
+head(data2)
 
-y <- data$"Target"
-x <- as.matrix(data[, -c(1, 2, 4, 7, 8, 9, 10, 11, 37)])  # Predictors
-
-
-# Perform 5-fold cross-validation
-set.seed(42)
-lasso_model_cv <- cv.glmnet(x, y, alpha = 1, nfolds = 5, type.measure = "mse")
-best_lambda_cv <- lasso_model_cv$lambda.min
-cat("Best lambda (chosen by 5-fold CV):", best_lambda_cv)
-
-# Obtain selected covariates
-lasso_coef <- as.matrix(coef(lasso_model_cv))
-selected <- rownames(lasso_coef)[lasso_coef != 0]
-cat("Selected covariates:", selected[2:length(selected)], "\n")
-num_covariates <- length(selected) - 1
-cat("Number of covariates chosen by LASSO:", num_covariates)
-coef(lasso_model_cv)
-
-# Install and load the knitr package if you don't have it
-# install.packages("knitr")
-library(knitr)
-
-
-# Create a nice table with kable
-kable(coef(lasso_model_cv), caption = "Summary Table", align = "c")
-
+str(data2)
+colSums(is.na(data2))
 
 ```
+
+
