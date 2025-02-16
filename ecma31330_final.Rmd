@@ -12,33 +12,47 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-```{r}
-library(haven)
-data <- read_dta("~/Downloads/208325-V2/Replication/STATA/dta/cpi.dta")
-head(data)
-
-data2 <- read_dta("~/Downloads/208325-V2/Replication/STATA/raw/CEX_sampleA_80_22.dta")
-print(dim(data2))
-data3 <- read.csv("~/Downloads/208325-V2/Replication/STATA/raw/CPIAUCSL_april2000.csv")
-head(data3)
-```
-
 ```{r}
 library(dplyr)
+library(tidyr)
+library(haven)
+```
 
-data2 <- data2[, colMeans(is.na(data2)) < 0.9]  # Keep columns with <50% missing
-data2 <- data2[rowMeans(is.na(data2)) < 0.9, ]  # Keep rows with <50% missing
 
 
-data2 <- data2 %>%
+```{r}
+cpi <- read_dta("~/Desktop/metrics_and_ml/Replication/cpi.dta")
+head(cpi)
+
+cex <- read_dta("~/Desktop/metrics_and_ml/Replication/CEX_sampleA_80_22.dta")
+print(dim(cex))
+april2k <- read.csv("~/Desktop/metrics_and_ml/Replication/CPIAUCSL_april2000.csv")
+head(april2k)
+```
+CPI dataset contains the quarterly U.S. CPI values from 1947-2023. 
+Consumer Price Index for All Urban Consumers: All Items in
+U.S. City Average (CPIAUCSL)
+
+```{r}
+cex <- cex[, colMeans(is.na(cex)) < 0.9]  # Keep columns with <50% missing
+cex <- cex[rowMeans(is.na(cex)) < 0.9, ]  # Keep rows with <50% missing
+
+
+cex <- cex %>%
   mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
   mutate(across(where(is.character), ~replace_na(., "Unknown")))
-head(data2)
+head(cex)
 
-str(data2)
-colSums(is.na(data2))
+str(cex)
+colSums(is.na(cex))
 
+```
+```{r}
+# Count unique values
+summary_counts <- cex %>%
+  count(year, name = "Frequency")
+
+print(summary_counts)
 ```
 
 
