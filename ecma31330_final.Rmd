@@ -18,6 +18,24 @@ library(tidyr)
 library(haven)
 ```
 
+```{r}
+cex_final <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CES/data/cex_final_8022.dta")
+```
+```{r}
+cex_final <- cex_final[, colMeans(is.na(cex_final)) < 0.9]  # Keep columns with <50% missing
+cex_final <- cex_final[rowMeans(is.na(cex_final)) < 0.9, ]  # Keep rows with <50% missing
+
+
+cex_final <- cex_final %>%
+  mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
+  mutate(across(where(is.character), ~replace_na(., "Unknown")))
+head(cex_final)
+
+str(cex_final)
+colSums(is.na(cex_final))
+
+```
+
 
 
 ```{r}
@@ -55,4 +73,13 @@ summary_counts <- cex %>%
 print(summary_counts)
 ```
 
+Remove all columns where over half of the entries are empty or blank:
+```{r}
+remove_empty_columns <- function(df) {
+  df[, colSums(df == "" | is.na(df)) <= (nrow(df) / 2)]
+}
+```
+```{r}
+cleaned_cex <- remove_empty_columns(cex)
+```
 
