@@ -19,8 +19,6 @@ library(haven)
 ```
 
 
-
-
 ```{r}
 cpi <- read_dta("~/Desktop/metrics_and_ml/Replication/cpi.dta")
 head(cpi)
@@ -48,12 +46,11 @@ str(cex)
 colSums(is.na(cex))
 
 ```
-```{r}
-# Count unique values
-summary_counts <- cex %>%
-  count(year, name = "Frequency")
 
-print(summary_counts)
+Examine how many unique values there are per variable to determine which are categorical:
+```{r}
+unique_counts <- sapply(cex, function(x) length(unique(x)))
+print(unique_counts)
 ```
 
 Remove all columns where over half of the entries are empty or blank:
