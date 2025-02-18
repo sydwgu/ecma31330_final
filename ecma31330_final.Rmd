@@ -18,23 +18,6 @@ library(tidyr)
 library(haven)
 ```
 
-```{r}
-cex_final <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CES/data/cex_final_8022.dta")
-```
-```{r}
-cex_final <- cex_final[, colMeans(is.na(cex_final)) < 0.9]  # Keep columns with <50% missing
-cex_final <- cex_final[rowMeans(is.na(cex_final)) < 0.9, ]  # Keep rows with <50% missing
-
-
-cex_final <- cex_final %>%
-  mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
-  mutate(across(where(is.character), ~replace_na(., "Unknown")))
-head(cex_final)
-
-str(cex_final)
-colSums(is.na(cex_final))
-
-```
 
 
 
@@ -82,4 +65,51 @@ remove_empty_columns <- function(df) {
 ```{r}
 cleaned_cex <- remove_empty_columns(cex)
 ```
+
+
+examining larger datasets:
+```{r}
+cex_final <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CES/data/cex_final_8022.dta")
+```
+
+Cannot clean the cex_final dataset (1359133 observations of 300 variables), vector memory limit being reached
+```{r}
+cex_final <- cex_final[, colMeans(is.na(cex_final)) < 0.9]  # Keep columns with <50% missing
+cex_final <- cex_final[rowMeans(is.na(cex_final)) < 0.9, ]  # Keep rows with <50% missing
+
+
+cex_final <- cex_final %>%
+  mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
+  mutate(across(where(is.character), ~replace_na(., "Unknown")))
+head(cex_final)
+
+str(cex_final)
+colSums(is.na(cex_final))
+
+```
+
+CPS data on Annual Social and Economic Supplements (ASEC):
+```{r}
+asec_hh <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CPS/data/asecplus_6222_hh.dta")
+```
+
+Survey of Consumer Finances (SCF) data:
+```{r}
+scfi6_bulletin <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/SCF/data/scfi6_bulletin_89_19_raw.dta")
+```
+
+University of Michigan's Survey Research Center's (SRC) Panel Study of Income Dynamics (PSID):
+```{r}
+psid_src <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/PSID/data/PSID_SRC_Immigrant_Census_68_19.dta")
+```
+```{r}
+psid_src <- psid_src[, colMeans(is.na(psid_src)) < 0.9]  # Keep columns with <50% missing
+psid_src <- psid_src[rowMeans(is.na(psid_src)) < 0.9, ]  # Keep rows with <50% missing
+```
+
+American Community Survey (ACS) 2000-2020:
+```{r}
+# acs <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/ACS/data/acs_2000_2020_hh.dta") can't read this in, not enough vector memory
+```
+
 
