@@ -12,10 +12,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, echo=FALSE, warning=FALSE}
 library(dplyr)
 library(tidyr)
 library(haven)
+library(glmnet)
 ```
 
 
@@ -25,6 +26,7 @@ head(cpi)
 
 cex <- read_dta("~/Desktop/metrics_and_ml/Replication/CEX_sampleA_80_22.dta")
 print(dim(cex))
+
 april2k <- read.csv("~/Desktop/metrics_and_ml/Replication/CPIAUCSL_april2000.csv")
 head(april2k)
 ```
@@ -33,18 +35,47 @@ Consumer Price Index for All Urban Consumers: All Items in
 U.S. City Average (CPIAUCSL)
 
 ```{r}
-cex <- cex[, colMeans(is.na(cex)) < 0.9]  # Keep columns with <50% missing
-cex <- cex[rowMeans(is.na(cex)) < 0.9, ]  # Keep rows with <50% missing
+# Add relevant dummy variables
+cex$married <- ifelse(!is.na(cex$age_spouse), 1, 0)
+cex$straight <- ifelse(cex$sex_spouse != cex$sex_ref, 0, 1)
+cex$White <- ifelse(cex$membrace == 1, 1, 0)
+cex$Black <- ifelse(cex$membrace == 2, 1, 0)
+cex$American_Indian <- ifelse(cex$membrace == 3, 1, 0)
+cex$Asian <- ifelse(cex$membrace == 4, 1, 0)
+cex$Native_Hawaiian <- ifelse(cex$membrace == 5, 1, 0)
+```
+
+```{r}
+# Remove irrelevant variables
+cols_to_remove <- c("id", "intnum", "iearnx", "relref", "age_ref", "age_spouse", "edu_spouse", 
+                    "edu_ref", "educa", "unemp", "farmincx_flag", "farmincm_flag", "ffrmincx", 
+                    "iearnm?", "inc_hrsq", "incweekq", "nondurx", "nonfarmx_flag", "nonfarmm_flag", 
+                    "region", "salaryx_flag", "salarym_flag", "selfempinx_flag", "selfempinm_flag", 
+                    "sex_ref", "sex_spouse", "state", "newid", "nbab", "nkids", "nmo15", "nmu15", 
+                    "nwo15", "nwu15", "educ0ref", "educa2_", "fedtaxx", "finlwt21", "incnonw1", "incnonw2")
+cex_clean <- cex[, !names(cex) %in% cols_to_remove]
 
 
-cex <- cex %>%
+# Remove columns with over 50% NAs
+cex_clean <- cex_clean[, colMeans(is.na(cex_clean)) < 0.5]
+cex_clean <- cex_clean[rowMeans(is.na(cex_clean)) < 0.5, ]  
+
+
+cex_clean <- cex_clean %>%
   mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
   mutate(across(where(is.character), ~replace_na(., "Unknown")))
-head(cex)
+head(cex_clean)
+```
 
-str(cex)
-colSums(is.na(cex))
+```{r}
+X <- as.matrix(cex_clean[, setdiff(names(cex_clean), "totexp")])
+Y <- cex_clean$totexp
+```
 
+```{r}
+lasso <- cv.glmnet(X, Y, alpha = 1)
+print(lasso$lambda.min)
+plot(lasso)
 ```
 
 Examine how many unique values there are per variable to determine which are categorical:
@@ -55,18 +86,18 @@ print(unique_counts)
 
 Remove all columns where over half of the entries are empty or blank:
 ```{r}
-remove_empty_columns <- function(df) {
-  df[, colSums(df == "" | is.na(df)) <= (nrow(df) / 2)]
-}
+#remove_empty_columns <- function(df) {
+ # df[, colSums(df == "" | is.na(df)) <= (nrow(df) / 2)]
+#}
 ```
 ```{r}
-cleaned_cex <- remove_empty_columns(cex)
+#cleaned_cex <- remove_empty_columns(cex)
 ```
 
 
 examining larger datasets:
 ```{r}
-cex_final <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CES/data/cex_final_8022.dta")
+#cex_final <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CES/data/cex_final_8022.dta")
 ```
 
 Cannot clean the cex_final dataset (1359133 observations of 300 variables), vector memory limit being reached
