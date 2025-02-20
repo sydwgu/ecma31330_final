@@ -182,35 +182,6 @@ ggplot(coef_df, aes(x = reorder(variable, coefficient), y = coefficient)) +
 ```
 
 ```{r}
-<<<<<<< Updated upstream
 pca_loadings <- pca$rotation
 print(head(pca_loadings))
 ```
-=======
-asec_hh <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CPS/data/asecplus_6222_hh.dta")
-```
-
-Survey of Consumer Finances (SCF) data:
-```{r}
-scfi6_bulletin <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/SCF/data/scfi6_bulletin_89_19_raw.dta")
-```
-
-University of Michigan's Survey Research Center's (SRC) Panel Study of Income Dynamics (PSID):
-```{r}
-psid_src <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/PSID/data/PSID_SRC_Immigrant_Census_68_19.dta")
-```
-```{r}
-psid_src <- psid_src[, colMeans(is.na(psid_src)) < 0.9]  # Keep columns with <50% missing
-psid_src <- psid_src[rowMeans(is.na(psid_src)) < 0.9, ]  # Keep rows with <50% missing
-```
-
-American Community Survey (ACS) 2000-2020:
-```{r}
-# acs <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/ACS/data/acs_2000_2020_hh.dta") can't read this in, not enough vector memory
-```
-
-```{r}
-colnames(cex)
-```
-
->>>>>>> Stashed changes
