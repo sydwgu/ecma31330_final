@@ -34,6 +34,49 @@ CPI dataset contains the quarterly U.S. CPI values from 1947-2023.
 Consumer Price Index for All Urban Consumers: All Items in
 U.S. City Average (CPIAUCSL)
 
+This part is deleting all the rows in cex for some reason:
+```{r}
+# Ensure the DATE column is in Date format (yy-mm-dd)
+april2k$DATE <- as.Date(april2k$DATE, format = "%y-%m-%d")
+
+# Check the first few rows of the converted DATE column
+head(april2k$DATE)
+
+# Filter for rows where the Date is January 1st of each year
+january_cpi <- april2k[format(april2k$DATE, "%m-%d") == "01-01", ]
+
+# Check how many rows are left after filtering for January 1st
+nrow(january_cpi)
+
+# Extract the 'year' from the DATE column
+january_cpi$year <- format(january_cpi$DATE, "%Y")
+january_cpi$year <- as.numeric(january_cpi$DATE)
+# Ensure 'year' is the same format in cex
+#cex$year <- as.numeric(cex$year)  
+
+# Merge the two datasets by 'year'
+cex <- merge(cex, january_cpi, by = "year")
+
+# Check the dimensions of the merged dataset
+dim(cex)
+
+```
+
+```{r}
+# Ensure your CPI date is in Date format
+april2k$DATE <- as.Date(april2k$DATE)
+
+# Filter for rows where the Date is January 1st of each year
+january_cpi <- april2k[format(april2k$DATE, "%m-%d") == "01-01", ]
+
+# Optionally, you can also extract the year from the Date column to make it easier for merging
+january_cpi$year <- format(january_cpi$Date, "%Y")
+
+cex <- merge(cex, january_cpi, by = "year" )
+dim(cex)
+```
+
+
 ```{r}
 # Add relevant dummy variables
 cex$married <- ifelse(!is.na(cex$age_spouse), 1, 0)
@@ -43,101 +86,102 @@ cex$Black <- ifelse(cex$membrace == 2, 1, 0)
 cex$American_Indian <- ifelse(cex$membrace == 3, 1, 0)
 cex$Asian <- ifelse(cex$membrace == 4, 1, 0)
 cex$Native_Hawaiian <- ifelse(cex$membrace == 5, 1, 0)
+# Add dummy for home ownership vs. renting?
 ```
 
 ```{r}
 # Remove irrelevant variables
 cols_to_remove <- c("id", "intnum", "iearnx", "relref", "age_ref", "age_spouse", "edu_spouse", 
-                    "edu_ref", "educa", "unemp", "farmincx_flag", "farmincm_flag", "ffrmincx", 
-                    "iearnm?", "inc_hrsq", "incweekq", "nondurx", "nonfarmx_flag", "nonfarmm_flag", 
+                    "edu_ref", "educa", "unemp", "farmincm", "farmincx_flag", "farmincm_flag", "ffrmincx", "nonfarmm",
+                    "iearnm", "inc_hrsq", "incweekq", "nondurx", "nonfarmx_flag", "nonfarmm_flag", 
                     "region", "salaryx_flag", "salarym_flag", "selfempinx_flag", "selfempinm_flag", 
                     "sex_ref", "sex_spouse", "state", "newid", "nbab", "nkids", "nmo15", "nmu15", 
-                    "nwo15", "nwu15", "educ0ref", "educa2_", "fedtaxx", "finlwt21", "incnonw1", "incnonw2")
+                    "nwo15", "nwu15", "educ0ref", "educa2_", "fedtaxx", "finlwt21", "incnonw1", "incnonw2",
+                    "no_sex", "zero_hrs", "zero_salary", "bad_hh_wgt", "low_wage", "selftcf", "hh_drop",
+                    "ntcf", "ftcf", "no_age", "respstat",  "nrentpaid", "nproptax", "DATE")
 cex_clean <- cex[, !names(cex) %in% cols_to_remove]
 
 
 # Remove columns with over 50% NAs
-cex_clean <- cex_clean[, colMeans(is.na(cex_clean)) < 0.5]
-cex_clean <- cex_clean[rowMeans(is.na(cex_clean)) < 0.5, ]  
+#cex_clean <- cex_clean[, colMeans(is.na(cex_clean)) < 0.5]
+#cex_clean <- cex_clean[rowMeans(is.na(cex_clean)) < 0.5, ]  
 
 
-cex_clean <- cex_clean %>%
-  mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
-  mutate(across(where(is.character), ~replace_na(., "Unknown")))
+#cex_clean <- cex_clean %>%
+ # mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
+  #mutate(across(where(is.character), ~replace_na(., "Unknown")))
 head(cex_clean)
 ```
 
 ```{r}
-X <- as.matrix(cex_clean[, setdiff(names(cex_clean), "totexp")])
-Y <- cex_clean$totexp
+# Function to convert money columns to 2000 prices (overwrites original columns)
+convert_to_2000_prices <- function(df, money_columns, cpi_column, cpi_2000_column) {
+  
+  # Loop over the specified money columns
+  for (col in money_columns) {
+    # Check if the column exists in the dataframe
+    if (col %in% colnames(df)) {
+      # Overwrite the existing column with the converted values
+      df[[col]] <- (df[[col]] / df[[cpi_column]]) * df[[cpi_2000_column]]
+    }
+  }
+  
+  return(df)
+}
+
+# Example usage of the function
+# Assuming your dataset is 'cex', with the relevant columns
+money_columns <- c("Price", "Expenditure")  # List of columns that need to be converted
+cex <- convert_to_2000_prices(cex_clean, money_columns, cpi_column = "CPI", cpi_2000_column = "cpi_2000")
+
+# View the updated dataset
+head(cex_clean)
+
+
+#cex_clean$dye <- (cex_clean$dye / cex_clean$"CPIAUCSL_NBC20000401") * cex_clean$cpi_2000
+#cex_clean$totexp <- (cex_clean$totexp / cex_clean$"CPIAUCSL_NBC20000401") * cex_clean$cpi_2000
+#cex_clean$totexpx <- (cex_clean$totexpx / cex_clean$"CPIAUCSL_NBC20000401") * cex_clean$cpi_2000
+#cex_clean$dye <- (cex_clean$dye / cex_clean$"CPIAUCSL_NBC20000401") * cex_clean$cpi_2000
+```
 ```
 
 ```{r}
-lasso <- cv.glmnet(X, Y, alpha = 1)
+sampled_data <- cex_clean[sample(nrow(cex_clean), 1000), ]
+X <- model.matrix(~ . - 1, data = sampled_data[, -which(names(cex_clean) == "totexp")])
+X <- scale(X)
+Y <- sampled_data$totexp
+
+
+pca <- prcomp(X, center = TRUE, scale. = TRUE)
+X_pca <- pca$x[, 1:10]
+```
+
+```{r}
+lasso <- cv.glmnet(X_pca, Y, alpha = 1)
 print(lasso$lambda.min)
 plot(lasso)
 ```
 
-Examine how many unique values there are per variable to determine which are categorical:
 ```{r}
-unique_counts <- sapply(cex, function(x) length(unique(x)))
-print(unique_counts)
-```
+# Extract coefficients at the optimal lambda (lambda.min)
+coef_values <- coef(lasso, s = "lambda.min")
 
-Remove all columns where over half of the entries are empty or blank:
-```{r}
-#remove_empty_columns <- function(df) {
- # df[, colSums(df == "" | is.na(df)) <= (nrow(df) / 2)]
-#}
-```
-```{r}
-#cleaned_cex <- remove_empty_columns(cex)
-```
+# Create a data frame for plotting
+coef_df <- data.frame(variable = rownames(coef_values), coefficient = coef_values[, 1])
+coef_df <- coef_df[coef_df$coefficient != 0, ]  # Only non-zero coefficients
 
-
-examining larger datasets:
-```{r}
-#cex_final <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CES/data/cex_final_8022.dta")
-```
-
-Cannot clean the cex_final dataset (1359133 observations of 300 variables), vector memory limit being reached
-```{r}
-cex_final <- cex_final[, colMeans(is.na(cex_final)) < 0.9]  # Keep columns with <50% missing
-cex_final <- cex_final[rowMeans(is.na(cex_final)) < 0.9, ]  # Keep rows with <50% missing
-
-
-cex_final <- cex_final %>%
-  mutate(across(where(is.numeric), ~replace_na(., median(., na.rm = TRUE)))) %>%
-  mutate(across(where(is.character), ~replace_na(., "Unknown")))
-head(cex_final)
-
-str(cex_final)
-colSums(is.na(cex_final))
+# Create a bar plot with vertical bars
+library(ggplot2)
+ggplot(coef_df, aes(x = reorder(variable, coefficient), y = coefficient)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Variables Selected by Lasso", x = "Variable", y = "Coefficient") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red")  # Horizontal dashed line at y=0
 
 ```
 
-CPS data on Annual Social and Economic Supplements (ASEC):
 ```{r}
-asec_hh <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/CPS/data/asecplus_6222_hh.dta")
+pca_loadings <- pca$rotation
+print(head(pca_loadings))
 ```
-
-Survey of Consumer Finances (SCF) data:
-```{r}
-scfi6_bulletin <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/SCF/data/scfi6_bulletin_89_19_raw.dta")
-```
-
-University of Michigan's Survey Research Center's (SRC) Panel Study of Income Dynamics (PSID):
-```{r}
-psid_src <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/PSID/data/PSID_SRC_Immigrant_Census_68_19.dta")
-```
-```{r}
-psid_src <- psid_src[, colMeans(is.na(psid_src)) < 0.9]  # Keep columns with <50% missing
-psid_src <- psid_src[rowMeans(is.na(psid_src)) < 0.9, ]  # Keep rows with <50% missing
-```
-
-American Community Survey (ACS) 2000-2020:
-```{r}
-# acs <- read_dta("~/Desktop/metrics_and_ml/Replication_materials/ACS/data/acs_2000_2020_hh.dta") can't read this in, not enough vector memory
-```
-
-
