@@ -1,0 +1,34 @@
+---
+title: "Metrics and ML - Final Paper"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+```
+
+```{r}
+cex <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/cexall.dta")
+
+data <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/data.dta")
+
+natpr <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/natpr.dta")
+
+tax9192 <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/tax9192.dta")
+
+# this will be our comparison 
+finprice <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/finprice.dta")
+```
+
