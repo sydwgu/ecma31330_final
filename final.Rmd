@@ -1,0 +1,90 @@
+---
+title: "Final ECMA"
+author: "Isabella Lin"
+date: "2025-02-23"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+```
+
+```{r}
+data <- read_dta("~/Downloads/113270/data.dta")
+head(data)
+```
+
+```{r}
+natpr <- read_dta("~/Downloads/113270/natpr.dta")
+head(natpr)
+```
+
+```{r}
+tax9192 <- read_dta("~/Downloads/113270/tax9192.dta")
+head(tax9192)
+```
+
+```{r}
+cex <- read_dta("~/Downloads/113270/cexall.dta")
+head(cex)
+```
+
+```{r}
+finprc <- read_dta("~/Downloads/113270/finprice.dta")
+head(finprc)
+```
+
+```{r}
+
+# Merge the two datasets by 'id' and 'year'
+data_merged <- merge(data, tax9192, by = c("id", "year"), all.x = TRUE)
+
+# Impute values from 'fiitax' into 'ftax' where 'ftax' is 0
+data_merged$ftax[data_merged$year %in% c(1991, 1992)] <- data_merged$fiitax[data_merged$ftax == 0]
+
+
+data_merged <- data_merged[, !(names(data_merged) %in% c("fiitax"))]
+
+sum(data$ftax==0, na.rm=TRUE)
+sum(data_merged$ftax==0, na.rm=TRUE)
+
+```
+
+```{r}
+remove_cols <- function(df) {
+  non_na_cols <- colSums(!is.na(df)) > 0  # Keep columns with at least one non-NA value
+  constant_cols <- sapply(df, function(col) length(unique(na.omit(col))) == 1)
+  df_clean <- df[, non_na_cols & !constant_cols]
+  return(df_clean)
+}
+
+filtered_data <- remove_cols(data)
+head(filtered_data)
+
+check_missing_cols <- function(df) {
+  missing_cols <- names(df)[colSums(is.na(df)) > 0]  # Get columns with missing values
+  return(missing_cols)
+}
+
+missing_cols <- check_missing_cols(filtered_data)
+
+imputed_data <- filtered_data
+for (col in missing_cols) {
+  imputed_data[, col] <- na_mean(imputed_data[, col]) 
+}
+
+# Matrix completion with 2 components
+completed_2 <- prcomp(imputed_data, scale. = TRUE, rank. = 2)
+reconstructed_2 <- (completed_2$x %*% t(completed_2$rotation[, 1:2]) + 
+                      completed_2$center)
+imputed_2_df <- data.frame(reconstructed_2)
+head(imputed_2_df)
+
+````
