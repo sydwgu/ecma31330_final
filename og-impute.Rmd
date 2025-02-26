@@ -1,0 +1,189 @@
+---
+title: "Metrics and ML - Original Imputation Method"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(data.table)
+```
+
+```{r}
+cex <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/cexall.dta")
+```
+
+```{r}
+# Create 'educ' variable based on 'educh'
+cex <- cex %>%
+  mutate(educ = case_when(
+    educh %in% c(7, 1, 2) ~ 1,
+    educh == 3 ~ 2,
+    educh %in% c(4, 5, 6) ~ 3,
+    TRUE ~ NA_real_
+  ))
+```
+
+```{r}
+# Create additional variables
+cex <- cex %>%
+  mutate(
+    white = as.integer(race == "1"),
+    coh = case_when(
+      yb >= 1955 & yb <= 1959 ~ 1,
+      yb >= 1950 & yb <= 1954 ~ 2,
+      yb >= 1945 & yb <= 1949 ~ 3,
+      yb >= 1940 & yb <= 1944 ~ 4,
+      yb >= 1935 & yb <= 1939 ~ 5,
+      yb >= 1930 & yb <= 1934 ~ 6,
+      yb >= 1925 & yb <= 1929 ~ 7,
+      yb >= 1920 & yb <= 1924 ~ 8,
+      TRUE ~ NA_real_
+    ),
+    pf = pf / 100,
+    lq = log((food + fout) / pf),
+    lp = log(pf),
+    lx = log(ndur),
+    lxs = log(ndurplus),
+    lX = log(cons2),
+    lXs = log(cons2 + (ndurplus - ndur)),
+    weekh = ifelse(is.na(weekh), 0, weekh),
+    hourh = ifelse(is.na(hourh), 0, hourh),
+    yhourh = weekh * hourh,
+    parth = as.integer(yhourh > 0),
+    weekw = ifelse(is.na(weekw), 0, weekw),
+    hourw = ifelse(is.na(hourw), 0, hourw),
+    yhourw = weekw * hourw,
+    partw = as.integer(yhourw > 0)
+  )
+```
+```{r}
+# create education-related dummies
+cex <- cex %>%
+  mutate(
+    edd1 = as.integer(educ == 1),
+    edd2 = as.integer(educ == 2),
+    edd3 = as.integer(educ == 3)
+  )
+
+```
+
+
+```{r}
+# Generate interaction terms
+cex <- cex %>%
+  mutate(
+    lxed2 = lx * edd2,
+    lxed3 = lx * edd3,
+    lxsed2 = lxs * edd2,
+    lxsed3 = lxs * edd3,
+    lXed2 = lX * edd2,
+    lXed3 = lX * edd3,
+    lXsed2 = lXs * edd2,
+    lXsed3 = lXs * edd3
+  )
+```
+
+```{r}
+# Recategorize and generate dummies
+cex <- cex %>%
+  mutate(kidcat = case_when(
+    kid == 0 ~ 0,
+    kid == 1 ~ 1,
+    kid == 2 ~ 2,
+    kid >= 4 ~ 4,
+    TRUE ~ NA_real_
+  ))
+```
+
+```{r}
+# create child-related dummies
+cex <- cex %>%
+  mutate(
+    kidd2 = as.integer(kidcat == 2),
+    kidd3 = as.integer(kidcat == 3),
+    kidd4 = as.integer(kidcat == 4)
+  )
+
+```
+
+
+```{r}
+# Generate additional interactions
+cex <- cex %>%
+  mutate(
+    lxkid2 = lx * kidd2,
+    lxkid3 = lx * kidd3,
+    lxkid4 = lx * kidd4,
+    lxskid2 = lxs * kidd2,
+    lxskid3 = lxs * kidd3,
+    lxskid4 = lxs * kidd4,
+    lXkid2 = lX * kidd2,
+    lXkid3 = lX * kidd3,
+    lXkid4 = lX * kidd4,
+    lXskid2 = lXs * kidd2,
+    lXskid3 = lXs * kidd3,
+    lXskid4 = lXs * kidd4
+  )
+```
+
+```{r}
+# Generate year dummies
+year_dummies <- model.matrix(~ factor(year) - 1, cex)
+colnames(year_dummies) <- paste0("yrd", 1:ncol(year_dummies))  # Ensure yrd1, yrd2, ...
+cex <- cbind(cex, year_dummies)
+```
+
+```{r}
+# Generate interaction terms dynamically
+for (i in 1:12) {
+  cex[[paste0("lxy", i)]] <- cex$lx * cex[[paste0("yrd", i)]]
+  cex[[paste0("lxsy", i)]] <- cex$lxs * cex[[paste0("yrd", i)]]
+  cex[[paste0("lXy", i)]] <- cex$lX * cex[[paste0("yrd", i)]]
+  cex[[paste0("lXsy", i)]] <- cex$lXs * cex[[paste0("yrd", i)]]
+}
+```
+
+```{r}
+# Load and merge with finprice dataset
+finprice <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/finprice.dta")
+merged_cex <- merge(cex, finprice, by = "year", all.x = TRUE)
+```
+
+```{r}
+merged_cex <- merge(cex, finprice, by = "year", all.x = TRUE, all.y = TRUE, suffixes = c("_data", "_finprice"))
+merged_cex$merge_status <- ifelse(is.na(merged_cex$year), 1, 
+                             ifelse(is.na(merged_cex$age), 2, 3))
+```
+
+
+```{r}
+# Filter merged dataset
+merged_cex <- merged_cex %>%
+  filter(!is.na(merge_status) & merge_status == 3) %>%
+  select(-merge_status)
+```
+
+```{r}
+# Save imputed dataset
+fwrite(merged_cex, "imputed_cex.csv")
+```
+
+
+
+
+
+
+
