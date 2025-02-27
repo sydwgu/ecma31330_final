@@ -1,0 +1,29 @@
+---
+title: "Metrics and ML - Original Imputation Method"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(data.table)
+```
+
+```{r}
+cex <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/cexall.dta")
+psid <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/data.dta")
+```
+
+
