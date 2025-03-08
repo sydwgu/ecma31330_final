@@ -1,0 +1,36 @@
+---
+title: "Metrics and ML - Original Imputation Method"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(data.table)
+library(knitr)
+```
+
+```{r}
+purl("cleaning.Rmd", output = "cleaning2.R")
+source("cleaning2.R")
+```
+
+```{r}
+dim(cex)
+cex2 <- na.omit(cex)
+dim(cex2)
+```
+
+

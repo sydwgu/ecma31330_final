@@ -26,12 +26,11 @@ psid <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/data.dta")
 
 Create dummy columns for categorical variables in PSID:
 ```{r}
-psid <- dummy_cols(psid, select_columns = c("race", "state", "smsa", "educ"))
+psid <- dummy_cols(psid, select_columns = c("race", "state", "smsa"))
 
 # Remove columns that represent >2 categorical variables
 psid <- psid %>%
-  select(-c(vet, disab, outkid, unioni, unionj, race, state, smsa, educ))
-head(psid)
+  select(-c(vet, disab, outkid, unioni, unionj, race, state, smsa))
 ```
 
 Create dummy columns for categorical variables in CEX:
@@ -96,10 +95,12 @@ Now, let's rename the variables that have the same values across both datasets:
 ```{r}
 cex <- cex %>%
   rename(fsize = ncomp)
-```
-```{r}
 cex <- cex %>%
   rename(kids = kid)
 ```
 
-
+Convert all columns in CEX to numeric:
+```{r}
+cex <- cex %>%
+  mutate(across(everything(), ~ as.numeric(as.character(.))))
+```
