@@ -22,25 +22,43 @@ library(data.table)
 ```
 
 ```{r}
-cex <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/cexall.dta")
+cexall <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/cexall.dta")
 ```
 
 ```{r}
-# Create 'educ' variable based on 'educh'
-cex <- cex %>%
-  mutate(educ = case_when(
-    educh %in% c(7, 1, 2) ~ 1,
-    educh == 3 ~ 2,
-    educh %in% c(4, 5, 6) ~ 3,
-    TRUE ~ NA_real_
-  ))
-```
-
-```{r}
-# Create additional variables
-cex <- cex %>%
+# Generate education levels
+cexall <- cexall %>%
   mutate(
-    white = as.integer(race == "1"),
+    educ = case_when(
+      educh %in% c(7, 1, 2) ~ 1,
+      educh == 3 ~ 2,
+      educh %in% c(4, 5, 6) ~ 3
+    ),
+    white = ifelse(race == "1", 1, 0)  # Dummy for white husband
+  )
+```
+
+
+```{r}
+# Generate education dummies
+cexall <- cexall %>%
+  mutate(
+    edd1 = ifelse(educ == 1, 1, 0),
+    edd2 = ifelse(educ == 2, 1, 0),
+    edd3 = ifelse(educ == 3, 1, 0)
+  )
+```
+
+```{r}
+# Generate regional dummies
+cexall <- cexall %>%
+  mutate(across(starts_with("region"), ~ as.numeric(. == region), .names = "regd{col}"))
+```
+
+```{r}
+# Generate birth cohort variable
+cexall <- cexall %>%
+  mutate(
     coh = case_when(
       yb >= 1955 & yb <= 1959 ~ 1,
       yb >= 1950 & yb <= 1954 ~ 2,
@@ -49,41 +67,52 @@ cex <- cex %>%
       yb >= 1935 & yb <= 1939 ~ 5,
       yb >= 1930 & yb <= 1934 ~ 6,
       yb >= 1925 & yb <= 1929 ~ 7,
-      yb >= 1920 & yb <= 1924 ~ 8,
-      TRUE ~ NA_real_
-    ),
+      yb >= 1920 & yb <= 1924 ~ 8
+    )
+  ) %>%
+  filter(!is.na(coh))
+```
+
+```{r}
+# Generate cohort dummies
+for (i in 1:8) {
+  cexall <- cexall %>%
+    mutate(!!paste0("cohd", i) := as.numeric(coh == i))
+}
+```
+
+```{r}
+# Adjust price and log transformations
+cexall <- cexall %>%
+  mutate(
     pf = pf / 100,
     lq = log((food + fout) / pf),
     lp = log(pf),
     lx = log(ndur),
     lxs = log(ndurplus),
     lX = log(cons2),
-    lXs = log(cons2 + (ndurplus - ndur)),
-    weekh = ifelse(is.na(weekh), 0, weekh),
-    hourh = ifelse(is.na(hourh), 0, hourh),
-    yhourh = weekh * hourh,
-    parth = as.integer(yhourh > 0),
-    weekw = ifelse(is.na(weekw), 0, weekw),
-    hourw = ifelse(is.na(hourw), 0, hourw),
-    yhourw = weekw * hourw,
-    partw = as.integer(yhourw > 0)
+    lXs = log(cons2 + (ndurplus - ndur))
   )
 ```
+
 ```{r}
-# create education-related dummies
-cex <- cex %>%
+# Work hours calculations
+cexall <- cexall %>%
   mutate(
-    edd1 = as.integer(educ == 1),
-    edd2 = as.integer(educ == 2),
-    edd3 = as.integer(educ == 3)
+    weekh = replace_na(weekh, 0),
+    hourh = replace_na(hourh, 0),
+    yhourh = weekh * hourh,
+    parth = as.numeric(yhourh > 0),
+    weekw = replace_na(weekw, 0),
+    hourw = replace_na(hourw, 0),
+    yhourw = weekw * hourw,
+    partw = as.numeric(yhourw > 0)
   )
-
 ```
 
-
 ```{r}
-# Generate interaction terms
-cex <- cex %>%
+# Interaction terms with education
+cexall <- cexall %>%
   mutate(
     lxed2 = lx * edd2,
     lxed3 = lx * edd3,
@@ -97,93 +126,119 @@ cex <- cex %>%
 ```
 
 ```{r}
-# Recategorize and generate dummies
-cex <- cex %>%
-  mutate(kidcat = case_when(
-    kid == 0 ~ 0,
-    kid == 1 ~ 1,
-    kid == 2 ~ 2,
-    kid >= 4 ~ 4,
-    TRUE ~ NA_real_
-  ))
-```
-
-```{r}
-# create child-related dummies
-cex <- cex %>%
+# Generate kid categories
+cexall <- cexall %>%
   mutate(
-    kidd2 = as.integer(kidcat == 2),
-    kidd3 = as.integer(kidcat == 3),
-    kidd4 = as.integer(kidcat == 4)
-  )
-
-```
-
-
-```{r}
-# Generate additional interactions
-cex <- cex %>%
-  mutate(
-    lxkid2 = lx * kidd2,
-    lxkid3 = lx * kidd3,
-    lxkid4 = lx * kidd4,
-    lxskid2 = lxs * kidd2,
-    lxskid3 = lxs * kidd3,
-    lxskid4 = lxs * kidd4,
-    lXkid2 = lX * kidd2,
-    lXkid3 = lX * kidd3,
-    lXkid4 = lX * kidd4,
-    lXskid2 = lXs * kidd2,
-    lXskid3 = lXs * kidd3,
-    lXskid4 = lXs * kidd4
+    kidcat = case_when(
+      kid == 0 ~ 0,
+      kid == 1 ~ 1,
+      kid == 2 ~ 2,
+      kid >= 4 ~ 4
+    )
   )
 ```
 
 ```{r}
-# Generate year dummies
-year_dummies <- model.matrix(~ factor(year) - 1, cex)
-colnames(year_dummies) <- paste0("yrd", 1:ncol(year_dummies))  # Ensure yrd1, yrd2, ...
-cex <- cbind(cex, year_dummies)
-```
-
-```{r}
-# Generate interaction terms dynamically
-for (i in 1:12) {
-  cex[[paste0("lxy", i)]] <- cex$lx * cex[[paste0("yrd", i)]]
-  cex[[paste0("lxsy", i)]] <- cex$lxs * cex[[paste0("yrd", i)]]
-  cex[[paste0("lXy", i)]] <- cex$lX * cex[[paste0("yrd", i)]]
-  cex[[paste0("lXsy", i)]] <- cex$lXs * cex[[paste0("yrd", i)]]
+# Generate kid dummies
+for (i in unique(cexall$kidcat)) {
+  cexall <- cexall %>%
+    mutate(!!paste0("kidd", i) := as.numeric(kidcat == i))
 }
 ```
 
 ```{r}
-# Load and merge with finprice dataset
-finprice <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/finprice.dta")
-merged_cex <- merge(cex, finprice, by = "year", all.x = TRUE)
+# Year dummies
+for (i in unique(cexall$year)) {
+  cexall <- cexall %>%
+    mutate(!!paste0("yrd", i) := as.numeric(year == i))
+}
 ```
 
 ```{r}
-merged_cex <- merge(cex, finprice, by = "year", all.x = TRUE, all.y = TRUE, suffixes = c("_data", "_finprice"))
-merged_cex$merge_status <- ifelse(is.na(merged_cex$year), 1, 
-                             ifelse(is.na(merged_cex$age), 2, 3))
-```
-
-
-```{r}
-# Filter merged dataset
-merged_cex <- merged_cex %>%
-  filter(!is.na(merge_status) & merge_status == 3) %>%
-  select(-merge_status)
+# Merge with external price data
+finprice <- read_dta("finprice.dta")
+cexall <- merge(cexall, finprice, by = "year") %>%
+  filter(!is.na(palc))
 ```
 
 ```{r}
-# Save imputed dataset
-fwrite(merged_cex, "imputed_cex.csv")
+# Log transformations for additional prices
+cexall <- cexall %>%
+  mutate(
+    lpalc = log(palc / 100),
+    lpfut = log(pfutil / 100),
+    lptra = log(ptran / 100),
+    lwh = log(wageh / (hourh * weekh)),
+    lww = log(wagew / (hourw * weekw)),
+    age2 = age^2
+  )
 ```
 
+```{r}
+# Grouped means for cohort, education, and year
+cexall <- cexall %>%
+  group_by(coh, educ, year) %>%
+  mutate(lwhi = mean(lwh, na.rm = TRUE), lwwi = mean(lww, na.rm = TRUE)) %>%
+  ungroup()
+```
 
+```{r}
+# Instrumental Variable Regression
+iv_formula <- as.formula(
+  "lq ~ lx + lxed2 + lxed3 + lxkid2 + lxkid3 + lxkid4 + lxy* + 
+  age + age2 + lp + lpalc + lpfut + lptra + edd2 + edd3 + regd1 + regd2 + regd3 + 
+  cohd1 + cohd2 + cohd3 + cohd4 + cohd5 + cohd6 + cohd7 + kidd2 + kidd3 + kidd4 + 
+  ncomp + white | lwhi* + lwwi*"
+)
+```
+```{r}
+iv_result <- ivreg(iv_formula, data = cexall, subset = (complete == 1))
+```
 
+```{r}
+# Extract coefficients and save them
+coef_names <- names(coef(iv_result))
+coef_values <- coef(iv_result)
 
+for (name in coef_names) {
+  cexall <- cexall %>%
+    mutate(!!paste0("b0_", name) := coef_values[name])
+}
+```
+
+```{r}
+# Save results
+write.csv(cexall, "imputed_data.csv", row.names = FALSE)
+```
+
+Load in the PSID data:
+```{r}
+psid <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/data.dta")
+```
+
+```{r}
+# Merge PSID with tax data
+tax_data <- read_dta("tax9192.dta")
+psid <- merge(psid, tax_data, by = c("id", "year"), all.x = TRUE) %>%
+  mutate(ftax = ifelse(year > 1990, fiitax, ftax)) %>%
+  select(-fiitax)
+```
+
+```{r}
+# Regression for tax imputation
+psid <- psid %>%
+  mutate(y2 = y^2, y3 = y^3, y4 = y^4, y5 = y^5, ncomp2 = ncomp^2, post86 = year > 1986)
+
+lm_tax <- lm(ftax ~ y + y2 + y3 + y4 + y5 + ncomp + ncomp2 + post86 + kids + self + asset, data = psid %>% filter(year < 1991))
+psid <- psid %>%
+  mutate(ftaxp = predict(lm_tax, psid)) %>%
+  mutate(ftax = ifelse(year >= 1991 & is.na(ftax), ftaxp, ftax))
+```
+
+```{r}
+# Save final results
+write.csv(psid, "imputed_psid.csv", row.names = FALSE)
+```
 
 
 
