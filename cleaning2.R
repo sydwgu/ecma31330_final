@@ -15,20 +15,19 @@ psid <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/data.dta")
 
 
 ## -------------------------------------------------------------------------------------------------------
-psid <- dummy_cols(psid, select_columns = c("race", "state", "smsa", "educ"))
+psid <- dummy_cols(psid, select_columns = c("race", "state", "smsa"))
 
 # Remove columns that represent >2 categorical variables
 psid <- psid %>%
-  select(-c(vet, disab, outkid, unioni, unionj, race, state, smsa, educ))
-head(psid)
+  select(-c(vet, disab, outkid, unioni, unionj, race, state, smsa))
 
 
 ## -------------------------------------------------------------------------------------------------------
-cex <- dummy_cols(cex, select_columns = c("race", "region", "famtype", "educh", "educw"))
+cex <- dummy_cols(cex, select_columns = c("race", "region", "famtype"))
 
 # Remove columns that represent >2 categorical variables
 cex <- cex %>%
-  select(-c(race, region, famtype, educh, educw))
+  select(-c(race, region, famtype))
 head(cex)
 
 
@@ -79,8 +78,16 @@ psid <- psid %>%
 ## -------------------------------------------------------------------------------------------------------
 cex <- cex %>%
   rename(fsize = ncomp)
+cex <- cex %>%
+  rename(kids = kid)
+
 
 ## -------------------------------------------------------------------------------------------------------
 cex <- cex %>%
-  rename(kids = kid)
+  mutate(across(everything(), ~ as.numeric(as.character(.))))
+
+
+## -------------------------------------------------------------------------------------------------------
+cex <- cex %>%
+  mutate(across(c(hourh, hourw, wageh, wagew), ~ ifelse(is.na(.), 0, .)))
 

@@ -35,11 +35,11 @@ psid <- psid %>%
 
 Create dummy columns for categorical variables in CEX:
 ```{r}
-cex <- dummy_cols(cex, select_columns = c("race", "region", "famtype", "educh", "educw"))
+cex <- dummy_cols(cex, select_columns = c("race", "region", "famtype"))
 
 # Remove columns that represent >2 categorical variables
 cex <- cex %>%
-  select(-c(race, region, famtype, educh, educw))
+  select(-c(race, region, famtype))
 head(cex)
 ```
 
@@ -103,4 +103,10 @@ Convert all columns in CEX to numeric:
 ```{r}
 cex <- cex %>%
   mutate(across(everything(), ~ as.numeric(as.character(.))))
+```
+
+Convert husband and wife columns to 0 in place of NA:
+```{r}
+cex <- cex %>%
+  mutate(across(c(hourh, hourw, wageh, wagew), ~ ifelse(is.na(.), 0, .)))
 ```
