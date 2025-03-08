@@ -89,5 +89,5 @@ cex <- cex %>%
 
 ## -------------------------------------------------------------------------------------------------------
 cex <- cex %>%
-  mutate(across(c(hourh, hourw, wageh, wagew), ~ ifelse(is.na(.), 0, .)))
+  mutate(across(c(hourh, hourw, wageh, wagew, hours, hw_wages), ~ ifelse(is.na(.), 0, .)))
 
