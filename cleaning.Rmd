@@ -1,5 +1,5 @@
 ---
-title: "Metrics and ML - Data Cleaning"
+title: "Metrics and ML - Data Cleaning and Preprocessing"
 author: "Sydney Gu and Isabella Lin"
 date: "2025-02-02"
 output:
@@ -90,23 +90,6 @@ cex <- cex %>%
 ```{r}
 psid <- psid %>%
   mutate(hwage_inc = wages * hours)
-```
-
-As the CEX data on income is adjusted to the annual CPI of when the survey data was collected, we will also adjust the income data from the PSID dataset with the annual CPI:
-```{r}
-# Set the seed for reproducibility
-set.seed(123)
-
-# Step 1: Convert all columns to numeric (excluding 'food' column for prediction)
-cex <- cex %>%
-  mutate(across(everything(), ~ as.numeric(as.character(.)), .names = "{.col}_2"))
-cex <- cex %>%
-  select(ends_with("_2"))
-head(cex)
-```
-
-```{r}
-cex$adj_income <- cex$income_2*cex$cpi_2/172.2
 ```
 
 Now, let's rename the variables that have the same values across both datasets:
