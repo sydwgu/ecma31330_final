@@ -1,0 +1,92 @@
+---
+title: "Metrics and ML - Read in mtab file"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(knitr)
+library(kableExtra)
+library(caret)
+library(stats)
+```
+
+
+```{r}
+process_file <- function(year, quarter) {
+  file_path <- paste0("c:/cex/cex/", year, "/mtabq", year, quarter, ".dta")
+  df <- read_dta(file_path)
+  
+  df <- df %>%
+    mutate(
+      intno = round(((NEWID / 10) - floor(NEWID / 10)) * 10),
+      NEWID = (NEWID - intno) / 10,
+      ucc = as.numeric(UCC),
+      foodin = ifelse(ucc %in% c(190904, 790220, 790230), COST, NA),
+      foodout = ifelse(ucc %in% c(190901:190903, 790410, 790430, 800700), COST, NA),
+      cons = ifelse(ucc %in% c(190901:190904, 200900, 210110:210902, 220111:220122, 220901:220902, 
+                               230111:230902, 250111:250904, 260111:260114, 260211:260214, 
+                               270000:270104, 270211:270214, 270310, 270411:270414, 270901:270904, 
+                               330511, 340210:340212, 340310:340420, 340510:340530, 340610:340905, 
+                               340906, 340907:340908, 340911:340912, 340914, 340915, 350110, 
+                               360110:420120, 440110:440140, 440150, 440210, 440900, 470111:470212, 
+                               470220:490900, 520110:520907, 530110:530902, 590110:590212, 590220:590230, 
+                               610900, 620110:620115, 620121:620320, 620330:620926, 630110, 630210, 
+                               650110:650900, 790220, 790230, 790310, 790320, 790410, 790420, 790430, 
+                               790600, 800700, 800710), COST, NA),
+      homevalue = ifelse(ucc == 800721, COST, NA),
+      educ = ifelse(ucc >= 660110 & ucc <= 670902, COST, NA),
+      health = ifelse(ucc == 340910 | (ucc >= 540000 & ucc <= 580906), COST, NA),
+      othexp = ifelse(ucc %in% c(002120, 220211:220322, 240111:240323, 280110:320904, 340910, 
+                                 430110:430130, 450110, 450210, 450220, 450310, 450313:450410, 
+                                 450413:460110, 460901:460902, 500110, 510110:510902, 540000:580906, 
+                                 600110:600122, 600132, 600141:600142, 600210:610320, 640130:640420, 
+                                 660110:710110, 790690, 800111, 800121, 800800:800861, 880110, 
+                                 880210, 880310, 900002, 990920:990940), COST, NA),
+      reasexp = ifelse(ucc %in% c(240111:240323, 280110:320904, 340910, 430110:430130, 450310, 
+                                  450313:450410, 500110, 540000:580906, 600210:610320, 640130:640420, 
+                                  660110:710110, 790690, 800800:800861, 900002, 990920:990940), COST, NA),
+      nd_extra = ifelse(ucc %in% c(500110, 320903, 610210, 680110:680902, 690113:690114), COST, NA),
+      durables = ifelse(ucc %in% c(280110:290440, 320110:320904, 300111:300412, 310110:310342, 
+                                   430110:430130, 450110, 450210, 450220, 450310, 450313:450410, 
+                                   450413:460110, 460901:460902, 600110:600122, 600132, 600141:600142, 
+                                   600210:610320), COST, NA)
+    )
+  
+  df_summary <- df %>%
+    group_by(NEWID, intno, REF_MO, REF_YR) %>%
+    summarise(across(c(foodin, foodout, cons, homevalue, educ, health, othexp, nd_extra, reasexp, durables), sum, na.rm = TRUE))
+  
+  df_summary <- df_summary %>% select(NEWID, intno, REF_YR, REF_MO, cons, foodin, foodout, homevalue, educ, health, othexp, nd_extra, reasexp, durables)
+  
+  output_path <- paste0("c:/papers/partial/revise2/expq", year, quarter, ".rds")
+  saveRDS(df_summary, output_path)
+}
+```
+
+```{r}
+# Process files for different years and quarters
+for (i in 80:103) {
+  for (j in 1:4) {
+    process_file(i, j)
+  }
+}
+```
+
+```{r}
+# Process additional files
+process_file(86, 1)
+process_file(96, 1)
+process_file(104, 1)
+```
+
+
+

@@ -1,0 +1,21 @@
+---
+title: "Metrics and ML - Data Cleaning"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(knitr)
+library(kableExtra)
+library(caret)
+library(stats)
+```
+
