@@ -19,6 +19,7 @@ library(tidyr)
 library(haven)
 library(glmnet)
 library(data.table)
+library(AER)
 ```
 
 ```{r}
@@ -138,13 +139,39 @@ cexall <- cexall %>%
   )
 ```
 
+Generate kid dummies:
 ```{r}
-# Generate kid dummies
-for (i in unique(cexall$kidcat)) {
-  cexall <- cexall %>%
-    mutate(!!paste0("kidd", i) := as.numeric(kidcat == i))
-}
+cexall <- cexall %>%
+  mutate(
+    kidcat = case_when(
+      kid == 0 ~ 0,
+      kid == 1 ~ 1,
+      kid == 2 ~ 2,
+      kid >= 4 ~ 4  # Ensures categories are only 0, 1, 2, 4
+    )
+  )
 ```
+```{r}
+cexall <- cexall %>%
+  mutate(
+    kidd0 = as.numeric(kidcat == 0),
+    kidd1 = as.numeric(kidcat == 1),
+    kidd2 = as.numeric(kidcat == 2),
+    kidd4 = as.numeric(kidcat == 4)
+  )
+```
+
+```{r}
+# Create kid interaction terms
+cexall <- cexall %>%
+  mutate(
+    lxkid0 = lx * kidd0,
+    lxkid1 = lx * kidd1,
+    lxkid2 = lx * kidd2,
+    lxkid4 = lx * kidd4
+  )
+```
+
 
 ```{r}
 # Year dummies
@@ -155,10 +182,15 @@ for (i in unique(cexall$year)) {
 ```
 
 ```{r}
+finprice <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/finprice.dta")
+```
+
+```{r}
 # Merge with external price data
-finprice <- read_dta("finprice.dta")
-cexall <- merge(cexall, finprice, by = "year") %>%
-  filter(!is.na(palc))
+cexall <- merge(cexall, finprice, by = "year")
+  # filter(!is.na(palc))
+
+cexall <- cexall %>% filter(!is.na(palc))
 ```
 
 ```{r}
@@ -183,17 +215,55 @@ cexall <- cexall %>%
 ```
 
 ```{r}
-# Instrumental Variable Regression
+# region dummy variables
+cexall <- cexall %>%
+  mutate(
+    regd1 = as.numeric(region == 1),
+    regd2 = as.numeric(region == 2),
+    regd3 = as.numeric(region == 3),
+    regd4 = as.numeric(region == 4)
+  )
+```
+
+```{r}
+# Generate interaction terms for lwhi and lwwi with year dummies
+for (i in unique(cexall$year)) {
+  cexall <- cexall %>%
+    mutate(
+      !!paste0("lwhiy", i) := lwhi * !!sym(paste0("yrd", i)),
+      !!paste0("lwwiy", i) := lwwi * !!sym(paste0("yrd", i))
+    )
+}
+```
+
+
+```{r}
+# List all variables explicitly
 iv_formula <- as.formula(
-  "lq ~ lx + lxed2 + lxed3 + lxkid2 + lxkid3 + lxkid4 + lxy* + 
-  age + age2 + lp + lpalc + lpfut + lptra + edd2 + edd3 + regd1 + regd2 + regd3 + 
-  cohd1 + cohd2 + cohd3 + cohd4 + cohd5 + cohd6 + cohd7 + kidd2 + kidd3 + kidd4 + 
-  ncomp + white | lwhi* + lwwi*"
+  "lq ~ lx + lxed2 + lxed3 + lxkid0 + lxkid1 + lxkid2 + lxkid4 + 
+   age + age2 + lp + lpalc + lpfut + lptra + edd2 + edd3 + 
+   regd1 + regd2 + regd3 + regd4 + cohd1 + cohd2 + cohd3 + cohd4 + 
+   cohd5 + cohd6 + cohd7 + kidd0 + kidd1 + kidd2 + kidd4 + ncomp + white | 
+   lwhiy1980 + lwhiy1981 + lwhiy1982 + lwhiy1983 + lwhiy1984 + lwhiy1985 + lwhiy1986 + 
+   lwhiy1987 + lwhiy1988 + lwhiy1989 + lwhiy1990 + lwhiy1991 + lwhiy1992 + 
+   lwwiy1980 + lwwiy1981 + lwwiy1982 + lwwiy1983 + lwwiy1984 + lwwiy1985 + lwwiy1986 + 
+   lwwiy1987 + lwwiy1988 + lwwiy1989 + lwwiy1990 + lwwiy1991 + lwwiy1992"
 )
 ```
+To account for that there's more regressors than instruments, let's check:
+```{r}
+summary(iv_result, diagnostics = TRUE)
+```
+
 ```{r}
 iv_result <- ivreg(iv_formula, data = cexall, subset = (complete == 1))
 ```
+
+```{r}
+length(attr(terms(iv_formula), "term.labels"))  # Count regressors
+length(attr(terms(iv_formula, rhs = 2), "term.labels"))  # Count instruments
+```
+
 
 ```{r}
 # Extract coefficients and save them
@@ -218,7 +288,7 @@ psid <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/data.dta")
 
 ```{r}
 # Merge PSID with tax data
-tax_data <- read_dta("tax9192.dta")
+tax_data <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/tax9192.dta")
 psid <- merge(psid, tax_data, by = c("id", "year"), all.x = TRUE) %>%
   mutate(ftax = ifelse(year > 1990, fiitax, ftax)) %>%
   select(-fiitax)
@@ -227,9 +297,9 @@ psid <- merge(psid, tax_data, by = c("id", "year"), all.x = TRUE) %>%
 ```{r}
 # Regression for tax imputation
 psid <- psid %>%
-  mutate(y2 = y^2, y3 = y^3, y4 = y^4, y5 = y^5, ncomp2 = ncomp^2, post86 = year > 1986)
+  mutate(y2 = y^2, y3 = y^3, y4 = y^4, y5 = y^5, fsize2 = fsize^2, post86 = year > 1986)
 
-lm_tax <- lm(ftax ~ y + y2 + y3 + y4 + y5 + ncomp + ncomp2 + post86 + kids + self + asset, data = psid %>% filter(year < 1991))
+lm_tax <- lm(ftax ~ y + y2 + y3 + y4 + y5 + fsize + fsize2 + post86 + kids + self + asset, data = psid %>% filter(year < 1991))
 psid <- psid %>%
   mutate(ftaxp = predict(lm_tax, psid)) %>%
   mutate(ftax = ifelse(year >= 1991 & is.na(ftax), ftaxp, ftax))
