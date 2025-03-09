@@ -26,11 +26,26 @@ library(knitr)
 purl("cleaning.Rmd", output = "cleaning2.R")
 source("cleaning2.R")
 ```
-
+Remove observations with NAs:
 ```{r}
-dim(cex)
-cex2 <- na.omit(cex)
-dim(cex2)
+cex <- na.omit(cex)
 ```
 
+```{r}
+features <- cex %>% select(-food, -pfaw, -pf, -pfout, -pfood, -pfoodin, -pfin, -cpi)
+pca <- prcomp(features, center = TRUE, scale. = TRUE)
+loadings <- abs(pca$rotation)
+top <- 5
+num_pcs <- 5
+
+top_vars <- apply(loadings[, 1:num_pcs], 2, function(x) {
+  names(sort(x, decreasing = TRUE)[1:top])
+})
+
+print(top_vars)
+```
+
+```{r}
+test_pca_data <- predict(pca, newdata = psid)
+```
 

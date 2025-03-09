@@ -61,6 +61,11 @@ Add national price data to PSID data:
 psid <- merge(psid, natpr, by = "year")
 ```
 
+Remove unnecessary columns:
+```{r}
+cex <- cex %>% select(-c(complete, cons1, cons2, family))
+```
+
 Adjust hours worked values in CEX dataframe:
 ```{r}
 cex <- cex %>%
@@ -94,9 +99,11 @@ psid <- psid %>%
 Now, let's rename the variables that have the same values across both datasets:
 ```{r}
 cex <- cex %>%
-  rename(fsize = ncomp)
-cex <- cex %>%
-  rename(kids = kid)
+  rename(fsize = ncomp,
+         kids = kid,
+         educ = educh,
+         total_income = income_at,
+         )
 ```
 
 Convert all columns in CEX to numeric:
