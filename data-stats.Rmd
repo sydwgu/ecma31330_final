@@ -1,0 +1,39 @@
+---
+title: "data_stats"
+author: "Isabella Lin and Sydney Gu"
+date: "2025-03-10"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(data.table)
+library(knitr)
+```
+
+```{r}
+purl("cleaning.Rmd", output = "cleaning2.R")
+source("cleaning2.R")
+```
+
+Remove observations with NAs:
+```{r}
+cex <- na.omit(cex)
+```
+
+```{r}
+data_stats <- data.frame(
+  Variable = c("John", "Jane", "Alice", "Bob"),
+  PSID = c(23, 25, 30, 22),
+  CEX = c("Male", "Female", "Female", "Male")
+)
+kable(data_stats)
+
+```
