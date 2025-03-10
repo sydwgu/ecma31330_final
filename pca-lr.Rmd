@@ -32,20 +32,39 @@ cex <- na.omit(cex)
 ```
 
 ```{r}
-features <- cex %>% select(-food, -pfaw, -pf, -pfout, -pfood, -pfoodin, -pfin, -cpi)
-pca <- prcomp(features, center = TRUE, scale. = TRUE)
-loadings <- abs(pca$rotation)
-top <- 5
-num_pcs <- 5
+ndur_model <- lm(ndur ~ income + fsize + sex + age + factor(region) + 
+                   factor(race), data = cex)
+summary(ndur_model)
+```
+```{r}
+psid <- psid %>%
+  mutate(
+    region = as.factor(region), 
+    race = as.factor(race)       
+  )
 
-top_vars <- apply(loadings[, 1:num_pcs], 2, function(x) {
-  names(sort(x, decreasing = TRUE)[1:top])
-})
 
-print(top_vars)
+psid$ndur_pred <- predict(ndur_model, newdata = psid)
+
+head(psid$ndur_pred)
+
 ```
 
 ```{r}
-test_pca_data <- predict(pca, newdata = psid)
+#features <- cex %>% select(-c(ndur, ndurplus))
+#pca <- prcomp(features, center = TRUE, scale. = TRUE)
+#loadings <- abs(pca$rotation)
+#top <- 5
+#num_pcs <- 5
+
+#top_vars <- apply(loadings[, 1:num_pcs], 2, function(x) {
+ # names(sort(x, decreasing = TRUE)[1:top])
+#})
+
+#print(top_vars)
+```
+
+```{r}
+#test_pca_data <- predict(pca, newdata = psid)
 ```
 
