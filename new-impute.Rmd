@@ -19,11 +19,14 @@ library(tidyr)
 library(haven)
 library(glmnet)
 library(data.table)
+library(keras)
 ```
 
+Run the cleaning.Rmd file first, in order to clean the CEX and PSID datasets.
+
+Now, we're going to train our neural network to predict non-durable consumption.
 ```{r}
-cex <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/cexall.dta")
-psid <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/data.dta")
+
 ```
 
 
