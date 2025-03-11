@@ -108,7 +108,7 @@ psid <- psid %>%
 
 Remove unnecessary columns in CEX:
 ```{r}
-cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, pf, pfaw, pfin, pfood, pfout, wageh, wagew, weekh, weekw, yb))
+cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, pf, pfaw, pfin, wageh, wagew, weekh, weekw, yb, ndurplus))
 ```
 
 Rename the variables that have the same values across both datasets:

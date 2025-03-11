@@ -35,6 +35,17 @@ cex <- na.omit(cex)
 ndur_model <- lm(ndur ~ income + fsize + sex + age + factor(region) + 
                    factor(race), data = cex)
 summary(ndur_model)
+
+ndur_model2 <- lm(log(ndur) ~ log(income) + log(food) + fsize + sex + age + factor(region) + 
+                   factor(race), data = cex)
+summary(ndur_model2)
+
+ndur_model3 <- lm(log(ndur) ~ log(income) + log(food) + fsize + hours + sex + age + factor(region) + 
+                   factor(race), data = cex)
+summary(ndur_model3)
+
+ndur_model3 <- lm(log(ndur) ~ log(income) + log(food) + fsize + hours + sex + age + log(food)*fsize, data = cex)
+summary(ndur_model3)
 ```
 ```{r}
 psid <- psid %>%
