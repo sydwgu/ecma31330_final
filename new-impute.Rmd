@@ -171,4 +171,41 @@ model %>% evaluate(X_test, Y_test)
 predictions <- model %>% predict(X_test)
 ```
 
+Then, in order to predict ndur for PSID:
+```{r}
+setdiff(feature_cols, names(psid))
+```
+```{r}
+feature_cols[feature_cols == "hourh"] <- "hours"
+```
+
+debugging:
+```{r}
+sum(is.na(X_psid))  # Should be 0
+sum(is.nan(X_psid))  # Should be 0
+sum(is.infinite(X_psid))  # Should be 0
+```
+```{r}
+X_psid[is.na(X_psid)] <- 0
+```
+
+```{r}
+X_psid <- apply(X_psid, 2, normalize)
+X_psid <- as.matrix(X_psid)  # Ensure it's a matrix
+```
+
+
+```{r}
+# check formatting for psid
+psid <- as.data.frame(psid)
+X_psid <- as.matrix(psid[, feature_cols])  # Extract features (same as CEX)
+```
+```{r}
+# Predict ndur for PSID
+psid$pred_ndur <- model %>% predict(X_psid)
+
+# View first few predictions
+head(psid$pred_ndur)
+```
+
 
