@@ -1,5 +1,5 @@
 ---
-title: "Metrics and ML - Original Imputation Method"
+title: "Metrics and ML - Crossvalidation"
 author: "Sydney Gu and Isabella Lin"
 date: "2025-02-02"
 output:
@@ -23,6 +23,7 @@ library(tensorflow)
 library(keras)
 library(caret)
 ```
+
 To use the keras package, we need to make sure that TensorFlow is installed and can be used correctly:
 ```{r}
 library(reticulate)
@@ -66,39 +67,6 @@ X_test <- X_data[-train_idx, ]
 Y_test <- Y_data[-train_idx]
 ```
 
-Define our model:
-```{r}
-train_control <- trainControl(method = "cv", number = 10)  # 10-fold cross-validation
-model <- train(X_train, Y_train, 
-               method = "keras", 
-               trControl = train_control,
-               tuneGrid = data.frame(layer1 = 64, layer2 = 32, layer3 = 16, activation = "relu"),
-               verbose = TRUE)
-```
-```{r}
-# og model
-
-model <- keras_model_sequential() %>%
-  layer_dense(units = 64, activation = "relu", input_shape = ncol(X_train)) %>%
-  layer_dense(units = 32, activation = "relu") %>%
-  layer_dense(units = 16, activation = "relu") %>%
-  layer_dense(units = 1, activation = "linear") 
-```
-
-
-
-
-debugging:
-```{r}
-sum(is.na(X_train))  # Check for missing values in features
-sum(is.nan(X_train))  # Check for NaNs
-sum(is.infinite(X_train))  # Check for infinite values
-
-sum(is.na(Y_train))  # Check for missing values in target
-sum(is.nan(Y_train))  # Check for NaNs
-sum(is.infinite(Y_train))  # Check for infinite values
-```
-All of these missing values are in the hourh column, so let's adjust all the NA values in X_train to equal 0:
 ```{r}
 X_train[is.na(X_train)] <- 0
 ```
@@ -117,36 +85,6 @@ Y_train <- matrix(Y_train, ncol = 1)
 ```
 
 
-Compile it:
-```{r}
-model %>% compile(
-  loss = "mse",  # Mean Squared Error (MSE) for regression
-  optimizer = optimizer_adam(lr = 0.001),  # Adam optimizer
-  metrics = c("mae")  # Mean Absolute Error (MAE) for evaluation
-)
-```
-
-Train it:
-```{r}
-history <- model %>% fit(
-  X_train, Y_train,
-  epochs = 50,
-  batch_size = 32,
-  validation_split = 0.2,
-  verbose = 1
-)
-```
-
-some more quick debugging:
-```{r}
-sum(is.na(X_test))  # Should be 0
-sum(is.nan(X_test))  # Should be 0
-sum(is.infinite(X_test))  # Should be 0
-
-sum(is.na(Y_test))  # Should be 0
-sum(is.nan(Y_test))  # Should be 0
-sum(is.infinite(Y_test))  # Should be 0
-```
 ```{r}
 X_test[is.na(X_test)] <- 0
 ```
@@ -162,13 +100,59 @@ Y_test <- matrix(Y_test, ncol = 1)
 
 
 ```{r}
-# Evaluate on test set
-model %>% evaluate(X_test, Y_test)
+library(caret)
+folds <- createFolds(Y_train, k = 10)
+
+cv_results <- list()
+
+for (i in seq_along(folds)) {
+  train_idx <- unlist(folds[-i])  # Training indices
+  test_idx <- folds[[i]]  # Validation indices
+
+  X_train_cv <- X_train[train_idx, ]
+  Y_train_cv <- Y_train[train_idx]
+  X_val_cv <- X_train[test_idx, ]
+  Y_val_cv <- Y_train[test_idx]
+
+  # Define model
+  model <- keras_model_sequential() %>%
+    layer_dense(units = 64, activation = "relu", input_shape = ncol(X_train_cv)) %>%
+    layer_dense(units = 32, activation = "relu") %>%
+    layer_dense(units = 16, activation = "relu") %>%
+    layer_dense(units = 1, activation = "linear")
+
+  # Compile
+  model %>% compile(
+    loss = "mse",
+    optimizer = optimizer_adam(learning_rate = 0.001),
+    metrics = c("mae")
+  )
+
+  # Train
+  history <- model %>% fit(
+    X_train_cv, Y_train_cv,
+    epochs = 50,
+    batch_size = 32,
+    validation_data = list(X_val_cv, Y_val_cv),
+    verbose = 1
+  )
+
+  # Evaluate
+  eval_results <- model %>% evaluate(X_val_cv, Y_val_cv)
+  cv_results[[i]] <- eval_results
+}
+
+# Calculate average MAE across folds
+mean(unlist(lapply(cv_results, function(x) x["mae"])))
+
+```
+
+calculate average loss (MSE) across folds:
+```{r}
+mean(unlist(lapply(cv_results, function(x) x["loss"])))
 ```
 
 ```{r}
-# Predict consumption values (ndur) for test data
-predictions <- model %>% predict(X_test)
+sqrt(mean(unlist(lapply(cv_results, function(x) x["loss"]))))
 ```
-
 
