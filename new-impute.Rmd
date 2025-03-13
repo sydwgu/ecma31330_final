@@ -19,8 +19,30 @@ library(tidyr)
 library(haven)
 library(glmnet)
 library(data.table)
+library(tensorflow)
 library(keras)
 ```
+To use the keras package, we need to make sure that TensorFlow is installed and can be used correctly:
+```{r}
+library(reticulate)
+use_condaenv("r-tensorflow", required = TRUE)
+
+library(tensorflow)
+
+# Print TensorFlow configuration properly
+# tf_info <- tensorflow::tf_config()
+# str(tf_info)  # View the structure of the config output
+
+# Manually extract the TensorFlow version
+# tf_version <- tf_info$version
+# cat("TensorFlow Version:", tf_version, "\n")
+
+# Manually extract the Python binary path
+# py_path <- tf_info$python
+# cat("Using Python at:", py_path, "\n")
+
+```
+
 
 Run the cleaning.Rmd file first, in order to clean the CEX and PSID datasets.
 
@@ -30,12 +52,12 @@ Now, we're going to train our neural network to predict non-durable consumption.
 feature_cols <- setdiff(names(cex), "ndur")
 
 # convert data to matrices for keras
-X_data <- as.matrix(CEX[, feature_cols])  # Features
+X_data <- as.matrix(cex[, feature_cols])  # Features
 Y_data <- as.matrix(cex$ndur) 
 
 # split CEX data into training and testing sets (80/20 split)
 set.seed(42)
-train_idx <- sample(1:nrow(CEX), size = 0.8 * nrow(CEX))
+train_idx <- sample(1:nrow(cex), size = 0.8 * nrow(cex))
 
 X_train <- X_data[train_idx, ]
 Y_train <- Y_data[train_idx]
@@ -52,6 +74,35 @@ model <- keras_model_sequential() %>%
   layer_dense(units = 1, activation = "linear") 
 ```
 
+debugging:
+```{r}
+sum(is.na(X_train))  # Check for missing values in features
+sum(is.nan(X_train))  # Check for NaNs
+sum(is.infinite(X_train))  # Check for infinite values
+
+sum(is.na(Y_train))  # Check for missing values in target
+sum(is.nan(Y_train))  # Check for NaNs
+sum(is.infinite(Y_train))  # Check for infinite values
+```
+let's adjust all the NA values in X_train to equal 0:
+```{r}
+X_train[is.na(X_train)] <- 0
+```
+
+Normalize the values in the training set:
+```{r}
+normalize <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x) + 1e-8))  # Adding small value to prevent division by zero
+}
+X_train <- apply(X_train, 2, normalize)  # Apply function to columns
+```
+
+convert both back to matrices just to be safe:
+```{r}
+Y_train <- matrix(Y_train, ncol = 1)
+```
+
+
 Compile it:
 ```{r}
 model %>% compile(
@@ -65,11 +116,27 @@ Train it:
 ```{r}
 history <- model %>% fit(
   X_train, Y_train,
-  epochs = 50, batch_size = 32,
+  epochs = 50,
+  batch_size = 32,
   validation_split = 0.2,
   verbose = 1
 )
 ```
+
+some more quick debugging:
+```{r}
+sum(is.na(X_test))  # Should be 0
+sum(is.nan(X_test))  # Should be 0
+sum(is.infinite(X_test))  # Should be 0
+
+sum(is.na(Y_test))  # Should be 0
+sum(is.nan(Y_test))  # Should be 0
+sum(is.infinite(Y_test))  # Should be 0
+```
+```{r}
+X_test[is.na(X_test)] <- 0
+```
+
 
 ```{r}
 # Evaluate on test set
