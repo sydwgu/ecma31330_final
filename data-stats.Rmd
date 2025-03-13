@@ -65,12 +65,12 @@ data_stats <- data.frame(
   Mean = round(c(agec[4], famc[4], yoec[4], incc[4], foodc[4]), 2),
   Median = round(c(agec[3], famc[3], yoec[3], incc[3], foodc[3]), 2),
   Min. = round(c(agec[1], famc[1], yoec[1], incc[1], foodc[1]), 2),
-  Max. = round(c(agec[5], famc[5], yoec[5], incc[5], foodc[5]), 2),
+  Max. = round(c(agec[6], famc[6], yoec[6], incc[6], foodc[6]), 2),
   Variance = format(c(agecv, famcv, yoecv, inccv, foodcv), scientific=TRUE, digits=2),
   Mean = round(c(agep[4], famp[4], yoep[4], incp[4], foodp[4]), 2),
   Median = round(c(agep[3], famp[3], yoep[3], incp[3], foodp[3]), 2),
   Min. = round(c(agep[1], famp[1], yoep[1], incp[1], foodp[1]), 2),
-  Max. = round(c(agep[5], famp[5], yoep[5], incp[5], foodp[5]), 2),
+  Max. = round(c(agep[6], famp[6], yoep[6], incp[6], foodp[6]), 2),
   Variance = format(c(agepv, fampv, yoepv, incpv, foodpv), scientific=TRUE, digits=2), 
   check.names = FALSE
 )
