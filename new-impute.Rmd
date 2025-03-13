@@ -103,14 +103,6 @@ All of these missing values are in the hourh column, so let's adjust all the NA 
 X_train[is.na(X_train)] <- 0
 ```
 
-Normalize the values in the training set:
-```{r}
-normalize <- function(x) {
-  return ((x - min(x)) / (max(x) - min(x) + 1e-8))  # Adding small value to prevent division by zero
-}
-X_train <- apply(X_train, 2, normalize)  # Apply function to columns
-```
-
 convert both back to matrices just to be safe:
 ```{r}
 Y_train <- matrix(Y_train, ncol = 1)
@@ -151,7 +143,7 @@ sum(is.infinite(Y_test))  # Should be 0
 X_test[is.na(X_test)] <- 0
 ```
 ```{r}
-X_test <- apply(X_test, 2, normalize)  # Ensure the same scaling as training
+# X_test <- apply(X_test, 2, normalize)  # Ensure the same scaling as training
 X_test <- as.matrix(X_test)
 ```
 
@@ -177,6 +169,7 @@ setdiff(feature_cols, names(psid))
 ```
 ```{r}
 feature_cols[feature_cols == "hourh"] <- "hours"
+feature_cols[feature_cols == "nondur"] <- "ndur"
 ```
 
 debugging:
@@ -190,7 +183,7 @@ X_psid[is.na(X_psid)] <- 0
 ```
 
 ```{r}
-X_psid <- apply(X_psid, 2, normalize)
+# X_psid <- apply(X_psid, 2, normalize)
 X_psid <- as.matrix(X_psid)  # Ensure it's a matrix
 ```
 
