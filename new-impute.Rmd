@@ -26,7 +26,59 @@ Run the cleaning.Rmd file first, in order to clean the CEX and PSID datasets.
 
 Now, we're going to train our neural network to predict non-durable consumption.
 ```{r}
+# feature columns (remove Y)
+feature_cols <- setdiff(names(cex), "ndur")
 
+# convert data to matrices for keras
+X_data <- as.matrix(CEX[, feature_cols])  # Features
+Y_data <- as.matrix(cex$ndur) 
+
+# split CEX data into training and testing sets (80/20 split)
+set.seed(42)
+train_idx <- sample(1:nrow(CEX), size = 0.8 * nrow(CEX))
+
+X_train <- X_data[train_idx, ]
+Y_train <- Y_data[train_idx]
+X_test <- X_data[-train_idx, ]
+Y_test <- Y_data[-train_idx]
+```
+
+Define our model:
+```{r}
+model <- keras_model_sequential() %>%
+  layer_dense(units = 64, activation = "relu", input_shape = ncol(X_train)) %>%
+  layer_dense(units = 32, activation = "relu") %>%
+  layer_dense(units = 16, activation = "relu") %>%
+  layer_dense(units = 1, activation = "linear") 
+```
+
+Compile it:
+```{r}
+model %>% compile(
+  loss = "mse",  # Mean Squared Error (MSE) for regression
+  optimizer = optimizer_adam(lr = 0.001),  # Adam optimizer
+  metrics = c("mae")  # Mean Absolute Error (MAE) for evaluation
+)
+```
+
+Train it:
+```{r}
+history <- model %>% fit(
+  X_train, Y_train,
+  epochs = 50, batch_size = 32,
+  validation_split = 0.2,
+  verbose = 1
+)
+```
+
+```{r}
+# Evaluate on test set
+model %>% evaluate(X_test, Y_test)
+```
+
+```{r}
+# Predict consumption values (ndur) for test data
+predictions <- model %>% predict(X_test)
 ```
 
 
