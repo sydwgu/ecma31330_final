@@ -16,6 +16,8 @@ library(haven)
 library(glmnet)
 library(data.table)
 library(knitr)
+library(webshot2)
+library(kableExtra)
 ```
 
 ```{r}
@@ -26,9 +28,6 @@ source("cleaning2.R")
 Remove observations with NAs:
 ```{r}
 cex <- na.omit(cex)
-psid2 <- na.omit(psid)
-dim(psid)
-dim(psid2)
 ```
 
 Calculate summary statistics:
@@ -38,8 +37,6 @@ agec <- summary(cex$age)
 agecv <- var(cex$age)
 famc <- summary(cex$fsize)
 famcv <- var(cex$fsize)
-yoec <- summary(cex$educ)
-yoecv <- var(cex$educ)
 incc <- summary(cex$income)
 inccv <- var(cex$income)
 foodc <- summary(cex$food)
@@ -47,36 +44,51 @@ foodcv <- var(cex$food)
 
 # PSID
 agep <- summary(psid$age)
-agepv <- var(psid$age)
+agepv <- var(psid$age, na.rm=TRUE)
 famp <- summary(psid$fsize)
 fampv <- var(psid$fsize)
-yoep <- summary(psid$educ)
-yoepv <- var(psid$educ, na.rm=TRUE)
 incp <- summary(psid$income)
 incpv <- var(psid$income)
 foodp <- summary(psid$food)
-foodpv <- var(psid$food)
+foodpv <- var(psid$food, na.rm=TRUE)
 ```
 
 Format into table:
 ```{r}
 data_stats <- data.frame(
-  Variable = c("Age", "Family Size", "Years of Education", "Income", "Food Expenditure"),
-  Mean = round(c(agec[4], famc[4], yoec[4], incc[4], foodc[4]), 2),
-  Median = round(c(agec[3], famc[3], yoec[3], incc[3], foodc[3]), 2),
-  Min. = round(c(agec[1], famc[1], yoec[1], incc[1], foodc[1]), 2),
-  Max. = round(c(agec[6], famc[6], yoec[6], incc[6], foodc[6]), 2),
-  Variance = format(c(agecv, famcv, yoecv, inccv, foodcv), scientific=TRUE, digits=2),
-  Mean = round(c(agep[4], famp[4], yoep[4], incp[4], foodp[4]), 2),
-  Median = round(c(agep[3], famp[3], yoep[3], incp[3], foodp[3]), 2),
-  Min. = round(c(agep[1], famp[1], yoep[1], incp[1], foodp[1]), 2),
-  Max. = round(c(agep[6], famp[6], yoep[6], incp[6], foodp[6]), 2),
-  Variance = format(c(agepv, fampv, yoepv, incpv, foodpv), scientific=TRUE, digits=2), 
+  Variable = c("Age", "Family Size", "Income", "Food Expenditure"),
+  Mean = round(c(agec[4], famc[4], incc[4], foodc[4]), 2),
+  Median = round(c(agec[3], famc[3], incc[3], foodc[3]), 2),
+  Min. = round(c(agec[1], famc[1], incc[1], foodc[1]), 2),
+  Max. = round(c(agec[6], famc[6], incc[6], foodc[6]), 2),
+  Variance = format(c(agecv, famcv, inccv, foodcv), scientific=TRUE, digits=2),
+  Mean = round(c(agep[4], famp[4], incp[4], foodp[4]), 2),
+  Median = round(c(agep[3], famp[3], incp[3], foodp[3]), 2),
+  Min. = round(c(agep[1], famp[1], incp[1], foodp[1]), 2),
+  Max. = round(c(agep[6], famp[6], incp[6], foodp[6]), 2),
+  Variance = format(c(agepv, fampv, incpv, foodpv), scientific=TRUE, digits=2), 
   check.names = FALSE
 )
-kable(data_stats, caption = "Comparison of Summary Statistics in CEX and PSID") %>%
+
+
+
+table <- kable(data_stats, caption = "Comparison of Summary Statistics in CEX and PSID") %>%
   kable_styling("striped") %>%
   add_header_above(c(" " = 1, "CEX" = 5, "PSID" = 5)) %>%
-  row_spec(0, bold = TRUE)
+  row_spec(0, bold = TRUE) %>%
+  kable_styling("striped", full_width = FALSE) %>%
+  column_spec(1, width = "2cm") %>%  
+  column_spec(2, width = ".8cm") %>%  
+  column_spec(3, width = ".8cm") %>% 
+  column_spec(4, width = ".8cm") %>%  
+  column_spec(5, width = ".8cm")%>%
+  column_spec(6, width = ".8cm") %>%  
+  column_spec(7, width = ".8cm") %>%  
+  column_spec(8, width = ".8cm") %>% 
+  column_spec(9, width = ".8cm") %>%  
+  column_spec(10, width = ".8cm") %>%
+  column_spec(11, width = ".8cm")  
+
+table
 
 ```

@@ -20,12 +20,10 @@ library(stats)
 library(fastDummies)
 ```
 
+Read in data sets:
 ```{r}
 cex <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/cexall.dta")
 psid <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/data.dta")
-```
-
-```{r}
 natpr <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/natpr.dta")
 tax9192 <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/tax9192.dta")
 finprc <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/finprice.dta")
@@ -33,7 +31,7 @@ finprc <- read_dta("~/Desktop/metrics_and_ml/ecma31330_final/113270/finprice.dta
 
 Impute missing federal income tax values for observations in 1991 and 1992:
 ```{r}
-psid <- merge(psid, tax9192, by = c("id", "year"))
+psid <- merge(psid, tax9192, by = c("id", "year"), all.x=TRUE)
 psid$ftax[psid$year %in% c(1991, 1992)] <- psid$fiitax[psid$year %in% c(1991, 1992)]
 psid <- psid[, !(names(psid) %in% c("fiitax"))]
 ```
@@ -53,10 +51,10 @@ cex <- cex %>%
 
 Add columns to CEX for federal taxes and assets:
 ```{r}
-cex<- cex %>%
+cex <- cex %>%
   mutate(
-    ftax = income - income_at,  # Federal tax estimate
-    asset = pf + pfaw           # Total asset estimate
+    ftax = income - income_at,  
+    asset = pf + pfaw          
   )
 ```
 
@@ -78,8 +76,6 @@ state_to_region <- function(state_code) {
 
 psid <- psid %>%
   mutate(region = sapply(state, state_to_region))
-
-head(psid)
 ```
 
 Recode PSID race so it matches in CEX:
@@ -99,17 +95,18 @@ psid <- psid %>%
 ```
 
 
-
-Standardize household income variables:
+Standardize household income and food expenditure in PSID:
 ```{r}
 psid <- psid %>%
-  mutate(income = tyhw + tyoth)
+  mutate(income = ly + wly + y) %>%
+  mutate(food = food + fout)
 ```
 
 Remove unnecessary columns in CEX:
 ```{r}
 cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, pf, pfaw, pfin, wageh, wagew, weekh, weekw, yb, ndurplus))
 ```
+
 
 Rename the variables that have the same values across both datasets:
 ```{r}
@@ -127,11 +124,18 @@ cex <- cex %>%
   mutate(across(everything(), ~ as.numeric(as.character(.))))
 ```
 
-Convert husband and wife columns to 0 in place of NA:
+Convert husband and wife hours worked columns to 0 in place of NA:
 ```{r}
 cex <- cex %>%
   mutate(across(c(hours, hourw), ~ ifelse(is.na(.), 0, .)))
 ```
+
+Remove observations with negative income in CEX and PSID:
+```{r}
+cex <- cex[cex$income >= 0, ]
+psid <- psid[psid$income >= 0, ]
+```
+
 
 Create dummy columns for categorical variables in PSID:
 ```{r}

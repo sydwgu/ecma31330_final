@@ -29,23 +29,24 @@ source("cleaning2.R")
 Remove observations with NAs:
 ```{r}
 cex <- na.omit(cex)
+cex <- cex[cex$fout > 0, ]
+set.seed(123)
+total <- nrow(cex)
+train_idx <- sample(1:total, size=0.7*total)
+test_idx <- setdiff(1:total, train_idx)
+train <- cex[train_idx, ]
+test <- cex[test_idx, ]
 ```
 
 ```{r}
-ndur_model <- lm(ndur ~ income + fsize + sex + age + factor(region) + 
-                   factor(race), data = cex)
+ndur_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, data = train)
 summary(ndur_model)
-
-ndur_model2 <- lm(log(ndur) ~ log(income) + log(food) + fsize + sex + age + factor(region) + 
-                   factor(race), data = cex)
-summary(ndur_model2)
-
-ndur_model3 <- lm(log(ndur) ~ log(income) + log(food) + fsize + hours + sex + age + factor(region) + 
-                   factor(race), data = cex)
-summary(ndur_model3)
-
-ndur_model4 <- lm(log(ndur) ~ log(income) + log(food) + fsize + hours + sex + age + log(food)*fsize, data = cex)
-summary(ndur_model4)
+ndur_pred_log <- predict(ndur_model4, newdata = test)
+ndur_pred <- exp(ndur_pred_log)
+sq_diff <- (test$ndur - ndur_pred)^2
+rmse <- sqrt(mean(sq_diff))
+rmse
+rmse_log <- sqrt(mean((log(test$ndur)-ndur_pred_log)^2))
 ```
 ```{r}
 #psid <- psid %>%
@@ -55,9 +56,9 @@ summary(ndur_model4)
   #)
 
 
-psid$ndur_pred <- 2.72^predict(ndur_model4, newdata = psid)
+#psid$ndur_pred <- 2.72^predict(ndur_model4, newdata = psid)
 
-head(psid$ndur_pred)
+#head(psid$ndur_pred)
 
 ```
 
@@ -78,4 +79,5 @@ head(psid$ndur_pred)
 ```{r}
 #test_pca_data <- predict(pca, newdata = psid)
 ```
+
 
