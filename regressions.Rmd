@@ -26,10 +26,13 @@ library(knitr)
 purl("cleaning.Rmd", output = "cleaning2.R")
 source("cleaning2.R")
 ```
+
 Remove observations with NAs:
 ```{r}
 cex <- na.omit(cex)
 cex <- cex[cex$fout > 0, ]
+psid <- psid[psid$income > 0, ]
+psid <- psid[psid$fout > 0, ]
 set.seed(123)
 total <- nrow(cex)
 train_idx <- sample(1:total, size=0.7*total)
@@ -38,6 +41,7 @@ train <- cex[train_idx, ]
 test <- cex[test_idx, ]
 ```
 
+Baseline linear regression model:
 ```{r}
 ndur_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, data = train)
 summary(ndur_model)
@@ -47,80 +51,38 @@ sq_diff <- (test$ndur - ndur_pred)^2
 rmse <- sqrt(mean(sq_diff))
 rmse
 rmse_log <- sqrt(mean((log(test$ndur)-ndur_pred_log)^2))
-```
-```{r}
-#psid <- psid %>%
- # mutate(
-  #  region = as.factor(region), 
-   # race = as.factor(race)       
-  #)
+rmse_log
 
-
-#psid$ndur_pred <- 2.72^predict(ndur_model4, newdata = psid)
-
-#head(psid$ndur_pred)
-
+psid$lr_pred <- exp(predict(ndur_model, newdata=psid))
+summary(psid$lr_pred)
 ```
 
-
-
+Imputation procedure from Blundell et al. (2008):
 ```{r}
 paper_lr <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
                + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
                + log(pfood) + `55-59` + `50-54` + `45-49` + `40-44` + `35-39` 
-               + `30-34` + `25-29` + white, data = cex)
+               + `30-34` + `25-29` + white, data = train)
 coef <- coef(paper_lr)
 gamma <- coef[2]
-betaDc <- predict(paper_lr, newdata = cex) - gamma*log(cex$ndur) 
+betaDc <- predict(paper_lr, newdata = test) - gamma*log(test$ndur) 
 
-cex$paper_ndur <- exp((log(cex$food) - betaDc)/gamma)
-
-psid$lpfood <- log(psid$pfood)
+test$paper_pred <- exp((log(test$food) - betaDc)/gamma)
+sq_diff <- (test$ndur - test$paper_pred)^2
+rmse <- sqrt(mean(sq_diff))
+rmse
+rmse_log <- sqrt(mean((log(test$ndur)-test$paper_pred)^2))
+rmse_log
 
 betaDp <- (coef[3]*psid$onec + coef[4]*psid$twoc 
            + coef[5]*psid$three_plusc + coef[6]*psid$hs_drop + coef[7]*psid$hs_grad 
            + coef[8]*psid$age + coef[9]*psid$age^2 + coef[10]*psid$northeast 
            + coef[11]*psid$midwest + coef[12]*psid$south + coef[13]*psid$fsize 
-           + coef[14]*psid$lpfood + coef[15]*psid$`55-59` + coef[16]*psid$`50-54` 
+           + coef[14]*log(psid$pfood) + coef[15]*psid$`55-59` + coef[16]*psid$`50-54` 
            + coef[17]*psid$`45-49` + coef[18]*psid$`40-44` + coef[19]*psid$`35-39` 
            + coef[20]*psid$`30-34` + coef[21]*psid$`25-29` + coef[22]*psid$white)
 
 psid$paper_ndur <- exp((log(psid$food) - betaDp)/gamma)
-
-
-```
-```{r}
-
-
-# Generate necessary variables (log-transformed values)
-psid$lq <- log((psid$food) / psid$pf)
-psid$lp <- log(psid$pf)
-
-# Merge with other datasets if needed, e.g., `finprice` for price data
-# merge() function can be used for merging datasets
-
-# Generate dummy variables for region, education, cohort, etc.
-psid$age2 <- psid$age^2
-psid$kidcat <- as.factor(psid$kids)
-
+summary(psid$paper_ndur)
 ```
 
-```{r}
-# Apply the imputation formula from Stata using the coefficients from CEX
-
-# Example for `lc0` imputation using the formula from Stata
-psid$lc0 <- (psid$lq - (
-  b0["age"] * psid$age +
-  b0["age2"] * psid$age2 +
-  b0["lp"] * psid$lp +
-  b0["lpalc"] * psid$lpalc +
-  b0["lpfut"] * psid$lpfut +
-  b0["lptra"] * psid$lptra +
-  # Add other terms similarly for all variables from the regression
-)) / (b0["lx"] + b0["lxed2"] * psid$edd2 + b0["lxed3"] * psid$edd3 + 
-       b0["lxkid2"] * psid$kidd2 + b0["lxkid3"] * psid$kidd3 + b0["lxkid4"] * psid$kidd4 +
-       # Add other interaction terms here
-)
-
-
-```
