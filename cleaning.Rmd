@@ -94,6 +94,10 @@ psid <- psid %>%
   ))
 ```
 
+Add year born column to PSID:
+```{r}
+psid$yb <- psid$year - psid$age
+```
 
 Standardize household income and food expenditure in PSID:
 ```{r}
@@ -104,7 +108,7 @@ psid <- psid %>%
 
 Remove unnecessary columns in CEX:
 ```{r}
-cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, pf, pfaw, pfin, wageh, wagew, weekh, weekw, yb, ndurplus))
+cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, wageh, wagew, weekh, weekw, ndurplus))
 ```
 
 
@@ -137,17 +141,82 @@ psid <- psid[psid$income >= 0, ]
 ```
 
 
-Create dummy columns for categorical variables in PSID:
+Create dummy columns for variables in the CEX:
 ```{r}
-#psid <- dummy_cols(psid, select_columns = c("race", "region"))
-#psid <- psid %>%
- # select(-c(race, region, state))
+cex$hs_drop <- ifelse(cex$educ == 1, 1, 0)
+cex$hs_grad <- ifelse(cex$educ > 1 & cex$educ < 7, 1, 0)
+
+cex$"1981" <- ifelse(cex$year == 1981, 1, 0)
+cex$"1982" <- ifelse(cex$year == 1982, 1, 0)
+cex$"1983" <- ifelse(cex$year == 1983, 1, 0)
+cex$"1984" <- ifelse(cex$year == 1984, 1, 0)
+cex$"1985" <- ifelse(cex$year == 1985, 1, 0)
+cex$"1986" <- ifelse(cex$year == 1986, 1, 0)
+cex$"1987" <- ifelse(cex$year == 1987, 1, 0)
+cex$"1988" <- ifelse(cex$year == 1988, 1, 0)
+cex$"1989" <- ifelse(cex$year == 1989, 1, 0)
+cex$"1990" <- ifelse(cex$year == 1990, 1, 0)
+cex$"1991" <- ifelse(cex$year == 1991, 1, 0)
+cex$"1992" <- ifelse(cex$year == 1992, 1, 0)
+
+cex$onec <- ifelse(cex$kids == 1, 1, 0)
+cex$twoc <- ifelse(cex$kids == 2, 1, 0)
+cex$three_plusc <- ifelse(cex$kids >= 3, 1, 0)
+
+cex$northeast <- ifelse(cex$region == 1, 1, 0)
+cex$midwest <- ifelse(cex$region == 2, 1, 0)
+cex$south <- ifelse(cex$region == 3, 1, 0)
+
+cex$"55-59" <- ifelse(cex$yb >= 1955 & cex$yb <= 1959, 1, 0)
+cex$"50-54" <- ifelse(cex$yb >= 1950 & cex$yb <= 1954, 1, 0)
+cex$"45-49" <- ifelse(cex$yb >= 1945 & cex$yb <= 1949, 1, 0)
+cex$"40-44" <- ifelse(cex$yb >= 1940 & cex$yb <= 1944, 1, 0)
+cex$"35-39" <- ifelse(cex$yb >= 1935 & cex$yb <= 1939, 1, 0)
+cex$"30-34" <- ifelse(cex$yb >= 1930 & cex$yb <= 1934, 1, 0)
+cex$"25-29" <- ifelse(cex$yb >= 1925 & cex$yb <= 1929, 1, 0)
+
+cex$white <- ifelse(cex$race == 1, 1, 0)
+
+head(cex)
 ```
 
-Create dummy columns for categorical variables in CEX:
+
+Create dummy columns for variables in the CEX:
 ```{r}
-#cex <- dummy_cols(cex, select_columns = c("race", "region"))
-#cex <- cex %>%
- # select(-c(race, region))
+psid$hs_drop <- ifelse(psid$educ == 1, 1, 0)
+psid$hs_grad <- ifelse(psid$educ > 1 & psid$educ < 7, 1, 0)
+
+psid$"1981" <- ifelse(psid$year == 1981, 1, 0)
+psid$"1982" <- ifelse(psid$year == 1982, 1, 0)
+psid$"1983" <- ifelse(psid$year == 1983, 1, 0)
+psid$"1984" <- ifelse(psid$year == 1984, 1, 0)
+psid$"1985" <- ifelse(psid$year == 1985, 1, 0)
+psid$"1986" <- ifelse(psid$year == 1986, 1, 0)
+psid$"1987" <- ifelse(psid$year == 1987, 1, 0)
+psid$"1988" <- ifelse(psid$year == 1988, 1, 0)
+psid$"1989" <- ifelse(psid$year == 1989, 1, 0)
+psid$"1990" <- ifelse(psid$year == 1990, 1, 0)
+psid$"1991" <- ifelse(psid$year == 1991, 1, 0)
+psid$"1992" <- ifelse(psid$year == 1992, 1, 0)
+
+psid$onec <- ifelse(psid$kids == 1, 1, 0)
+psid$twoc <- ifelse(psid$kids == 2, 1, 0)
+psid$three_plusc <- ifelse(psid$kids >= 3, 1, 0)
+
+psid$northeast <- ifelse(psid$region == 1, 1, 0)
+psid$midwest <- ifelse(psid$region == 2, 1, 0)
+psid$south <- ifelse(psid$region == 3, 1, 0)
+
+psid$"55-59" <- ifelse(psid$yb >= 1955 & psid$yb <= 1959, 1, 0)
+psid$"50-54" <- ifelse(psid$yb >= 1950 & psid$yb <= 1954, 1, 0)
+psid$"45-49" <- ifelse(psid$yb >= 1945 & psid$yb <= 1949, 1, 0)
+psid$"40-44" <- ifelse(psid$yb >= 1940 & psid$yb <= 1944, 1, 0)
+psid$"35-39" <- ifelse(psid$yb >= 1935 & psid$yb <= 1939, 1, 0)
+psid$"30-34" <- ifelse(psid$yb >= 1930 & psid$yb <= 1934, 1, 0)
+psid$"25-29" <- ifelse(psid$yb >= 1925 & psid$yb <= 1929, 1, 0)
+
+psid$white <- ifelse(psid$race == 1, 1, 0)
+
+head(psid)
 ```
 

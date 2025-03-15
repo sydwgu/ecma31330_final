@@ -41,7 +41,7 @@ test <- cex[test_idx, ]
 ```{r}
 ndur_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, data = train)
 summary(ndur_model)
-ndur_pred_log <- predict(ndur_model4, newdata = test)
+ndur_pred_log <- predict(ndur_model, newdata = test)
 ndur_pred <- exp(ndur_pred_log)
 sq_diff <- (test$ndur - ndur_pred)^2
 rmse <- sqrt(mean(sq_diff))
@@ -62,37 +62,31 @@ rmse_log <- sqrt(mean((log(test$ndur)-ndur_pred_log)^2))
 
 ```
 
-```{r}
-#features <- cex %>% select(-c(ndur, ndurplus))
-#pca <- prcomp(features, center = TRUE, scale. = TRUE)
-#loadings <- abs(pca$rotation)
-#top <- 5
-#num_pcs <- 5
 
-#top_vars <- apply(loadings[, 1:num_pcs], 2, function(x) {
- # names(sort(x, decreasing = TRUE)[1:top])
-#})
-
-#print(top_vars)
-```
 
 ```{r}
-#test_pca_data <- predict(pca, newdata = psid)
-```
+paper_lr <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
+               + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
+               + log(pfood) + `55-59` + `50-54` + `45-49` + `40-44` + `35-39` 
+               + `30-34` + `25-29` + white, data = cex)
+coef <- coef(paper_lr)
+gamma <- coef[2]
+betaDc <- predict(paper_lr, newdata = cex) - gamma*log(cex$ndur) 
 
-```{r}
+cex$paper_ndur <- exp((log(cex$food) - betaDc)/gamma)
 
-cex$lq <- log((cex$food) / cex$pf)
-cex$lp <- log(cex$pf)
+psid$lpfood <- log(psid$pfood)
 
+betaDp <- (coef[3]*psid$onec + coef[4]*psid$twoc 
+           + coef[5]*psid$three_plusc + coef[6]*psid$hs_drop + coef[7]*psid$hs_grad 
+           + coef[8]*psid$age + coef[9]*psid$age^2 + coef[10]*psid$northeast 
+           + coef[11]*psid$midwest + coef[12]*psid$south + coef[13]*psid$fsize 
+           + coef[14]*psid$lpfood + coef[15]*psid$`55-59` + coef[16]*psid$`50-54` 
+           + coef[17]*psid$`45-49` + coef[18]*psid$`40-44` + coef[19]*psid$`35-39` 
+           + coef[20]*psid$`30-34` + coef[21]*psid$`25-29` + coef[22]*psid$white)
 
-model_cex <- lm(lq ~ lx + lxed2 + lxed3 + lxkid2 + lxkid3 + lxkid4 + lxy1 + lxy2 + lxy3 + lxy4 + 
-                age + age2 + lp + lpalc + lpfut + lptra + edd2 + edd3 + regd1 + regd2 + regd3 + 
-                cohd1 + cohd2 + cohd3 + cohd4 + cohd5 + cohd6 + cohd7 + kidd2 + kidd3 + kidd4 +
-                ncomp + white, data = cex)
+psid$paper_ndur <- exp((log(psid$food) - betaDp)/gamma)
 
-# Extract the coefficients from the CEX model (for use in PSID imputation)
-b0 <- coef(model_cex)  # Coefficients for the non-durable consumption model
 
 ```
 ```{r}
