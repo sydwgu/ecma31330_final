@@ -80,4 +80,53 @@ rmse_log <- sqrt(mean((log(test$ndur)-ndur_pred_log)^2))
 #test_pca_data <- predict(pca, newdata = psid)
 ```
 
+```{r}
 
+cex$lq <- log((cex$food) / cex$pf)
+cex$lp <- log(cex$pf)
+
+
+model_cex <- lm(lq ~ lx + lxed2 + lxed3 + lxkid2 + lxkid3 + lxkid4 + lxy1 + lxy2 + lxy3 + lxy4 + 
+                age + age2 + lp + lpalc + lpfut + lptra + edd2 + edd3 + regd1 + regd2 + regd3 + 
+                cohd1 + cohd2 + cohd3 + cohd4 + cohd5 + cohd6 + cohd7 + kidd2 + kidd3 + kidd4 +
+                ncomp + white, data = cex)
+
+# Extract the coefficients from the CEX model (for use in PSID imputation)
+b0 <- coef(model_cex)  # Coefficients for the non-durable consumption model
+
+```
+```{r}
+
+
+# Generate necessary variables (log-transformed values)
+psid$lq <- log((psid$food) / psid$pf)
+psid$lp <- log(psid$pf)
+
+# Merge with other datasets if needed, e.g., `finprice` for price data
+# merge() function can be used for merging datasets
+
+# Generate dummy variables for region, education, cohort, etc.
+psid$age2 <- psid$age^2
+psid$kidcat <- as.factor(psid$kids)
+
+```
+
+```{r}
+# Apply the imputation formula from Stata using the coefficients from CEX
+
+# Example for `lc0` imputation using the formula from Stata
+psid$lc0 <- (psid$lq - (
+  b0["age"] * psid$age +
+  b0["age2"] * psid$age2 +
+  b0["lp"] * psid$lp +
+  b0["lpalc"] * psid$lpalc +
+  b0["lpfut"] * psid$lpfut +
+  b0["lptra"] * psid$lptra +
+  # Add other terms similarly for all variables from the regression
+)) / (b0["lx"] + b0["lxed2"] * psid$edd2 + b0["lxed3"] * psid$edd3 + 
+       b0["lxkid2"] * psid$kidd2 + b0["lxkid3"] * psid$kidd3 + b0["lxkid4"] * psid$kidd4 +
+       # Add other interaction terms here
+)
+
+
+```
