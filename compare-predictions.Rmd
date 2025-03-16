@@ -1,0 +1,124 @@
+---
+title: "Metrics and ML - Original Imputation Method"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(data.table)
+library(knitr)
+```
+
+```{r}
+purl("cleaning.Rmd", output = "cleaning2.R")
+source("cleaning2.R")
+```
+
+Remove observations with NAs:
+```{r}
+cex <- na.omit(cex)
+cex <- cex[cex$fout > 0, ]
+psid <- psid[psid$income > 0, ]
+psid <- psid[psid$fout > 0, ]
+set.seed(123)
+total <- nrow(cex)
+train_idx <- sample(1:total, size=0.7*total)
+test_idx <- setdiff(1:total, train_idx)
+train <- cex[train_idx, ]
+test <- cex[test_idx, ]
+```
+
+Baseline linear regression model:
+```{r}
+ndur_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, data = train)
+summary(ndur_model)
+ndur_pred_log <- predict(ndur_model, newdata = test)
+ndur_pred <- exp(ndur_pred_log)
+sq_diff <- (test$ndur - ndur_pred)^2
+rmse <- sqrt(mean(sq_diff))
+rmse
+rmse_log <- sqrt(mean((log(test$ndur)-ndur_pred_log)^2))
+rmse_log
+
+psid$lr_pred <- exp(predict(ndur_model, newdata=psid))
+summary(psid$lr_pred)
+```
+
+Imputation procedure from Blundell et al. (2008):
+```{r}
+paper_lr <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
+               + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
+               + log(pfood) + `55-59` + `50-54` + `45-49` + `40-44` + `35-39` 
+               + `30-34` + `25-29` + white, data = train)
+coef <- coef(paper_lr)
+gamma <- coef[2]
+betaDc <- predict(paper_lr, newdata = test) - gamma*log(test$ndur) 
+
+test$paper_pred <- exp((log(test$food) - betaDc)/gamma)
+sq_diff <- (test$ndur - test$paper_pred)^2
+rmse <- sqrt(mean(sq_diff))
+rmse
+rmse_log <- sqrt(mean((log(test$ndur)-test$paper_pred)^2))
+rmse_log
+
+betaDp <- (coef[3]*psid$onec + coef[4]*psid$twoc 
+           + coef[5]*psid$three_plusc + coef[6]*psid$hs_drop + coef[7]*psid$hs_grad 
+           + coef[8]*psid$age + coef[9]*psid$age^2 + coef[10]*psid$northeast 
+           + coef[11]*psid$midwest + coef[12]*psid$south + coef[13]*psid$fsize 
+           + coef[14]*log(psid$pfood) + coef[15]*psid$`55-59` + coef[16]*psid$`50-54` 
+           + coef[17]*psid$`45-49` + coef[18]*psid$`40-44` + coef[19]*psid$`35-39` 
+           + coef[20]*psid$`30-34` + coef[21]*psid$`25-29` + coef[22]*psid$white)
+
+psid$paper_ndur <- exp((log(psid$food) - betaDp)/gamma)
+summary(psid$paper_ndur)
+```
+
+GBM Model:
+```{r}
+# Ensure the data is in the correct format
+cex$nondur <- as.numeric(cex$ndur)  # Convert target to numeric if needed
+
+# Split data into training and testing sets
+set.seed(123)  # For reproducibility
+trainIndex_GBM <- createDataPartition(cex$ndur, p = 0.8, list = FALSE)
+trainGBM <- cex[trainIndex_GBM, ]
+testGBM <- cex[-trainIndex_GBM, ]
+```
+
+Now, let's train our GBM:
+```{r}
+# Train the GBM model
+set.seed(123)
+gbm_model <- gbm(
+  formula = ndur ~ .,         # Predict ndur using all other features
+  data = trainGBM,
+  distribution = "gaussian",    # Use Gaussian for regression
+  n.trees = 1000,               # Number of boosting iterations
+  interaction.depth = 3,        # Depth of each tree
+  shrinkage = 0.01,             # Learning rate
+  n.minobsinnode = 10,          # Minimum observations per tree node
+  cv.folds = 5,                 # Cross-validation folds
+  verbose = FALSE               # Set to TRUE for progress updates
+)
+
+```
+```{r}
+# make new column from values
+psid$gbm_ndur <- predict(gbm_model, data = psid, n.trees = 1000)
+```
+
+
+

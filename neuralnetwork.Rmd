@@ -1,0 +1,204 @@
+---
+title: "Metrics and ML - Original Imputation Method"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(data.table)
+library(tensorflow)
+library(keras)
+library(caret)
+```
+To use the keras package, we need to make sure that TensorFlow is installed and can be used correctly:
+```{r}
+library(reticulate)
+use_condaenv("r-tensorflow", required = TRUE)
+
+library(tensorflow)
+
+# Print TensorFlow configuration properly
+# tf_info <- tensorflow::tf_config()
+# str(tf_info)  # View the structure of the config output
+
+# Manually extract the TensorFlow version
+# tf_version <- tf_info$version
+# cat("TensorFlow Version:", tf_version, "\n")
+
+# Manually extract the Python binary path
+# py_path <- tf_info$python
+# cat("Using Python at:", py_path, "\n")
+
+```
+
+
+Run the cleaning.Rmd file first, in order to clean the CEX and PSID datasets.
+
+Now, we're going to train our neural network to predict non-durable consumption.
+```{r}
+# feature columns (remove Y)
+feature_cols <- setdiff(names(cex), "ndur")
+
+# convert data to matrices for keras
+X_data <- as.matrix(cex[, feature_cols])  # Features
+Y_data <- as.matrix(cex$ndur) 
+
+# split CEX data into training and testing sets (80/20 split)
+set.seed(42)
+train_idx <- sample(1:nrow(cex), size = 0.8 * nrow(cex))
+
+X_train <- X_data[train_idx, ]
+Y_train <- Y_data[train_idx]
+X_test <- X_data[-train_idx, ]
+Y_test <- Y_data[-train_idx]
+```
+
+Define our model:
+```{r}
+train_control <- trainControl(method = "cv", number = 10)  # 10-fold cross-validation
+model <- train(X_train, Y_train, 
+               method = "keras", 
+               trControl = train_control,
+               tuneGrid = data.frame(layer1 = 64, layer2 = 32, layer3 = 16, activation = "relu"),
+               verbose = TRUE)
+```
+```{r}
+# og model
+
+model <- keras_model_sequential() %>%
+  layer_dense(units = 64, activation = "relu", input_shape = ncol(X_train)) %>%
+  layer_dense(units = 32, activation = "relu") %>%
+  layer_dense(units = 16, activation = "relu") %>%
+  layer_dense(units = 1, activation = "linear") 
+```
+
+
+
+
+debugging:
+```{r}
+sum(is.na(X_train))  # Check for missing values in features
+sum(is.nan(X_train))  # Check for NaNs
+sum(is.infinite(X_train))  # Check for infinite values
+
+sum(is.na(Y_train))  # Check for missing values in target
+sum(is.nan(Y_train))  # Check for NaNs
+sum(is.infinite(Y_train))  # Check for infinite values
+```
+All of these missing values are in the hourh column, so let's adjust all the NA values in X_train to equal 0:
+```{r}
+X_train[is.na(X_train)] <- 0
+```
+
+convert both back to matrices just to be safe:
+```{r}
+Y_train <- matrix(Y_train, ncol = 1)
+```
+
+
+Compile it:
+```{r}
+model %>% compile(
+  loss = "mse",  # Mean Squared Error (MSE) for regression
+  optimizer = optimizer_adam(lr = 0.001),  # Adam optimizer
+  metrics = c("mae")  # Mean Absolute Error (MAE) for evaluation
+)
+```
+
+Train it:
+```{r}
+history <- model %>% fit(
+  X_train, Y_train,
+  epochs = 50,
+  batch_size = 32,
+  validation_split = 0.2,
+  verbose = 1
+)
+```
+
+some more quick debugging:
+```{r}
+sum(is.na(X_test))  # Should be 0
+sum(is.nan(X_test))  # Should be 0
+sum(is.infinite(X_test))  # Should be 0
+
+sum(is.na(Y_test))  # Should be 0
+sum(is.nan(Y_test))  # Should be 0
+sum(is.infinite(Y_test))  # Should be 0
+```
+```{r}
+X_test[is.na(X_test)] <- 0
+```
+```{r}
+# X_test <- apply(X_test, 2, normalize)  # Ensure the same scaling as training
+X_test <- as.matrix(X_test)
+```
+
+reshape Y_test:
+```{r}
+Y_test <- matrix(Y_test, ncol = 1)
+```
+
+
+```{r}
+# Evaluate on test set
+model %>% evaluate(X_test, Y_test)
+```
+
+```{r}
+# Predict consumption values (ndur) for test data
+predictions <- model %>% predict(X_test)
+```
+
+Then, in order to predict ndur for PSID:
+```{r}
+setdiff(feature_cols, names(psid))
+```
+```{r}
+feature_cols[feature_cols == "hourh"] <- "hours"
+# feature_cols[feature_cols == "nondur"] <- "ndur"
+```
+
+debugging:
+```{r}
+sum(is.na(X_psid))  # Should be 0
+sum(is.nan(X_psid))  # Should be 0
+sum(is.infinite(X_psid))  # Should be 0
+```
+```{r}
+X_psid[is.na(X_psid)] <- 0
+```
+
+```{r}
+# X_psid <- apply(X_psid, 2, normalize)
+X_psid <- as.matrix(X_psid)  # Ensure it's a matrix
+```
+
+
+```{r}
+# check formatting for psid
+psid <- as.data.frame(psid)
+X_psid <- as.matrix(psid[, feature_cols])  # Extract features (same as CEX)
+```
+```{r}
+# Predict ndur for PSID
+psid$pred_ndur <- model %>% predict(X_psid)
+
+# View first few predictions
+head(psid$pred_ndur)
+```
+
+

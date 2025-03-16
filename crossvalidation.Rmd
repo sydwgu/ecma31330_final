@@ -146,7 +146,7 @@ for (i in seq_along(folds)) {
 
 calculate MAE across folds:
 ```{r}
-ta# Calculate average MAE across folds
+# Calculate average MAE across folds
 mean(unlist(lapply(cv_results, function(x) x["mae"])))
 ```
 
