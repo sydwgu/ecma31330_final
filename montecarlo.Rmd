@@ -22,7 +22,7 @@ library(ggplot2)
 num_sim <- 500
 
 # initialize results storage
-MCresults <- data.frame(Model = character(), RMSE = numeric)
+RMSE_results <- data.frame(Model = character(), RMSE = numeric)
 ```
 
 Now, let's set up our bootstrap resampling and training for each of our models:
@@ -30,19 +30,56 @@ Now, let's set up our bootstrap resampling and training for each of our models:
 set.seed(123)
 n <- nrow(cex)
 
-for (i in 1:num_simulations) {
-  # bootstrap to get training samples from CEX data
-  boot_ind <- sample(1:n, size = n, replace = TRUE)
-  train <- cex[boot_ind, ]
+for (i in 1:num_sim) {
+  # bootstrap to get training and testing samples from CEX data (80/20 training/testing split
+  train_ind <- sample(1:n, size = n * 0.8, replace = TRUE)
+  train <- as.data.frame(cex[train_ind, ])
+
+  # ensure no missing values and clean all predictors
+  train <- train %>%
+    mutate(ndur = ifelse(is.na(ndur) | is.nan(ndur) | is.infinite(ndur), 1, ndur))
+  train <- train %>%
+    mutate_all(~ ifelse(is.na(.) | is.nan(.) | is.infinite(.), 0, .))
+  
+  test <- as.data.frame(cex[-train_ind, ])
   
   # fix values in training set
   train[is.na(train)] <- 0
-  train[is.nan(train)] <- 0
-  train[is.infinite(train)] <- 0
+  train <- train %>%
+    mutate_all(~ ifelse(is.nan(.), 0, .)) %>%  # Replace NaN with 0
+    mutate_all(~ ifelse(is.infinite(.), 0, .))  # Replace Inf/-Inf with 0
+  
+  NN_X_train <- as.matrix(train %>% select(-ndur))  # cut ndur from predictors
+  y_train <- train$ndur
+  NN_X_test <- as.matrix(test %>% select(-ndur))
+  actual_ndur <- test$ndur
+  
+  # Check for NA, NaN, or Inf before fitting lm()
+  print(sum(is.na(train)))        # Count NA values
+  print(sum(is.nan(as.matrix(train))))  # Count NaN values
+  print(sum(is.infinite(as.matrix(train))))  # Count Inf values
+
+  str(train)
+  summary(train)
+  
+  # make ndur and all log-transformed variables strictly positive
+  train <- train %>%
+    mutate(
+      ndur = ifelse(ndur <= 0 | is.na(ndur) | is.nan(ndur) | is.infinite(ndur), 1e-6, ndur),
+      income = ifelse(income <= 0 | is.na(income) | is.nan(income) | is.infinite(income), 1e-6, income),
+      food = ifelse(food <= 0 | is.na(food) | is.nan(food) | is.infinite(food), 1e-6, food),
+      fout = ifelse(fout <= 0 | is.na(fout) | is.nan(fout) | is.infinite(fout), 1e-6, fout)
+    )
+
+  # debugging check
+  print(sum(is.na(train)))        
+  print(sum(is.nan(as.matrix(train))))  
+  print(sum(is.infinite(as.matrix(train))))  
   
   # TRAIN MODELS
   # model 1: regression-based model
-  lr_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, data = train)
+  lr_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, 
+               data = train)
   
   # model 2: original imputation-based model from Blundell, Pistaferri, and Preston paper
   paper_model <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
@@ -52,10 +89,26 @@ for (i in 1:num_simulations) {
   
   # model 3: neural network
   nn_model <- keras_model_sequential() %>%
-    layer_dense(units = 64, activation = "relu", input_shape = ncol(train)) %>%
+    layer_dense(units = 64, activation = "relu", input_shape = ncol(NN_X_train)) %>%
     layer_dense(units = 32, activation = "relu") %>%
     layer_dense(units = 16, activation = "relu") %>%
     layer_dense(units = 1, activation = "linear") 
+  
+  # compile NN
+  nn_model %>% compile(
+    loss = "mse",
+    optimizer = optimizer_adam(learning_rate = 0.001),
+    metrics = c("mae")
+  )
+  
+  # train NN
+  nn_model %>% fit(
+    X_train, y_train,
+    epochs = 50,
+    batch_size = 32,
+    validation_split = 0.2,
+    verbose = 0
+  )
   
   # model 4: gradient boosting machines
   gbm_model <- gbm(
@@ -70,15 +123,48 @@ for (i in 1:num_simulations) {
     verbose = FALSE               
   )
 
-  # use all models to predict on PSID
-  lr_pred <- predict(lm_model, psid)
-  paper_pred <- predict(paper_model, psid)
-  nn_pred <- predict(nn_model, psid, type = "raw")
-  gbm_pred <- predict(gbm_model, psid, n.trees = 100)
+  # use all models to predict on testing sets
+  lr_pred <- predict(lr_model, test)
+  paper_pred <- predict(paper_model, test)
+  nn_pred <- predict(nn_model, NN_X_test) %>% as.vector()
+  gbm_pred <- predict(gbm_model, test, n.trees = 1000)
+  
+  # check RMSE values per model
+  lr_rmse <- sqrt(mean((lr_pred - actual_ndur)^2))
+  paper_rmse <- sqrt(mean((paper_pred - actual_ndur)^2))
+  nn_rmse <- sqrt(mean((nn_pred - actual_ndur)^2))
+  gbm_rmse <- sqrt(mean((gbm_pred - actual_ndur)^2 ))
+  
+  # store results from simulations
+  RMSE_results <- rbind(RMSE_results, 
+                      data.frame(Model = "Multiple Linear Regression", RMSE = lr_rmse),
+                      data.frame(Model = "Imputation Model", RMSE = paper_rmse),
+                      data.frame(Model = "Neural Network", RMSE = nn_rmse),
+                      data.frame(Model = "Gradient Boosting Machines", RMSE = gbm_rmse))
   
 }
 
 
+```
+
+Let's summarize our results here:
+```{r}
+results_summary <- RMSE_results %>%
+  group_by(Model) %>%
+  summarise(
+    RMSE_Mean = mean(RMSE),
+    RMSE_SD = sd(RMSE)
+  )
+
+print(results_summary)
+```
+
+And let's also visualize the distributions for the RMSEs from these simulations for each of our models:
+```{r}
+ggplot(RMSE_results, aes(x = RMSE, fill = Model)) +
+  geom_density(alpha = 0.6) +
+  theme_minimal() +
+  ggtitle("RMSE Distribution Across 500 Monte Carlo Simulations")
 ```
 
 
