@@ -18,6 +18,11 @@ library(ggplot2)
 ```
 
 ```{r}
+purl("cleaning.Rmd", output = "cleaning2.R")
+source("cleaning2.R")
+```
+
+```{r}
 # number of bootstrap iterations we're using
 num_sim <- 500
 
