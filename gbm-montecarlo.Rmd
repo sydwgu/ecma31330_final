@@ -11,8 +11,6 @@ output:
 ```{r}
 library(caret)
 library(gbm)
-library(keras)
-library(nnet)
 library(dplyr)
 library(ggplot2)
 ```
@@ -60,15 +58,7 @@ for (i in 1:num_sim) {
   y_train <- train$ndur
   NN_X_test <- as.matrix(test %>% select(-ndur))
   actual_ndur <- test$ndur
-  
-  # Check for NA, NaN, or Inf before fitting lm()
-  # print(sum(is.na(train)))        # Count NA values
-  # print(sum(is.nan(as.matrix(train))))  # Count NaN values
-  # print(sum(is.infinite(as.matrix(train))))  # Count Inf values
 
-  # str(train)
-  # summary(train)
-  
   # make ndur and all log-transformed variables strictly positive
   train <- train %>%
     mutate(
@@ -86,18 +76,12 @@ for (i in 1:num_sim) {
       fout = ifelse(fout <= 0 | is.na(fout) | is.nan(fout) | is.infinite(fout), 1e-6, fout)
     )
   
-
-  # debugging check
-  # print(sum(is.na(train)))        
-  # print(sum(is.nan(as.matrix(train))))  
-  # print(sum(is.infinite(as.matrix(train))))  
-  
   # TRAIN MODELS
   # model 1: regression-based model
   lr_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, 
                data = train)
   
-  # model 2: original imputation-based model from Blundell, Pistaferri, and Preston paper
+  # model 2: original inversion-based model from Blundell, Pistaferri, and Preston paper
   paper_model <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
                + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
                + log(pfood) + `55-59` + `50-54` + `45-49` + `40-44` + `35-39` 

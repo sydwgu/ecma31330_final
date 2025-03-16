@@ -85,7 +85,8 @@ for (i in 1:k) {
                + `30-34` + `25-29` + white, data = train)
   coef <- coef(paper_lr)
   gamma <- coef[2]
-  betaDc <- predict(paper_lr, newdata = test) - gamma*log(test$ndur) 
+  food_pred <- predict(paper_lr, newdata = test)
+  betaDc <- food_pred - gamma*log(test$ndur) 
   test$paper_pred <- exp((log(test$food) - betaDc)/gamma)
   sq_diff <- (test$ndur - test$paper_pred)^2
   results[i] <- sqrt(mean(sq_diff))
