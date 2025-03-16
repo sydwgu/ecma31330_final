@@ -28,6 +28,62 @@ MCresults <- data.frame(Model = character(), RMSE = numeric)
 Now, let's set up our bootstrap resampling and training for each of our models:
 ```{r}
 set.seed(123)
+n <- nrow(cex)
+
+for (i in 1:num_simulations) {
+  # bootstrap to get training samples from CEX data
+  boot_ind <- sample(1:n, size = n, replace = TRUE)
+  train <- cex[boot_ind, ]
+  
+  # fix values in training set
+  train[is.na(train)] <- 0
+  train[is.nan(train)] <- 0
+  train[is.infinite(train)] <- 0
+  
+  # TRAIN MODELS
+  # model 1: regression-based model
+  lr_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, data = train)
+  
+  # model 2: original imputation-based model from Blundell, Pistaferri, and Preston paper
+  paper_model <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
+               + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
+               + log(pfood) + `55-59` + `50-54` + `45-49` + `40-44` + `35-39` 
+               + `30-34` + `25-29` + white, data = train)
+  
+  # model 3: neural network
+  nn_model <- keras_model_sequential() %>%
+    layer_dense(units = 64, activation = "relu", input_shape = ncol(train)) %>%
+    layer_dense(units = 32, activation = "relu") %>%
+    layer_dense(units = 16, activation = "relu") %>%
+    layer_dense(units = 1, activation = "linear") 
+  
+  # model 4: gradient boosting machines
+  gbm_model <- gbm(
+    formula = ndur ~ .,         
+    data = train,
+    distribution = "gaussian",    
+    n.trees = 1000,               # no. of boosting iterations
+    interaction.depth = 3,        # tree depth 
+    shrinkage = 0.01,             # learning rate
+    n.minobsinnode = 10,          # min obs per tree node
+    cv.folds = 5,                 # no. of CV folds
+    verbose = FALSE               
+  )
+
+  # use all models to predict on PSID
+  lr_pred <- predict(lm_model, psid)
+  paper_pred <- predict(paper_model, psid)
+  nn_pred <- predict(nn_model, psid, type = "raw")
+  gbm_pred <- predict(gbm_model, psid, n.trees = 100)
+  
+}
+
+
 ```
 
+
+Let us also predict the variability for OOS predictions using the PSID data in order to gauge the generalizability of each of these models to the PSID data:
+```{r}
+
+```
 
