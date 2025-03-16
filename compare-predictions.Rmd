@@ -33,54 +33,83 @@ cex <- na.omit(cex)
 cex <- cex[cex$fout > 0, ]
 psid <- psid[!is.na(psid$income) & psid$income > 0, ]
 psid <- psid[!is.na(psid$fout) & psid$fout > 0, ]
-set.seed(123)
-total <- nrow(cex)
-train_idx <- sample(1:total, size=0.7*total)
-test_idx <- setdiff(1:total, train_idx)
-train <- cex[train_idx, ]
-test <- cex[test_idx, ]
 ```
 
 Baseline linear regression model:
 ```{r}
-ndur_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, data = train)
-summary(ndur_model)
-ndur_pred_log <- predict(ndur_model, newdata = test)
-ndur_pred <- exp(ndur_pred_log)
-sq_diff <- (test$ndur - ndur_pred)^2
-rmse <- sqrt(mean(sq_diff))
-rmse
-rmse_log <- sqrt(mean((log(test$ndur)-ndur_pred_log)^2))
-rmse_log
+# cross-validation to calculate average RMSE
+k <- 5
+n <- nrow(cex)
+folds <- sample(1:k, n, replace = TRUE)
+results <- numeric(k)
+for (i in 1:k) {
+  train <- cex[folds != i, ]
+  test <- cex[folds == i, ]
+  ndur_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) 
+                 + log(fout) + I(log(fout)^2) + hours + hourw + year, 
+                 data = train)
+  ndur_pred_log <- predict(ndur_model, newdata = test)
+  ndur_pred <- exp(ndur_pred_log)
+  sq_diff <- (test$ndur - ndur_pred)^2
+  results[i] <- sqrt(mean(sq_diff)) # RMSE
+}
 
+mean(results) # average RMSE
+
+
+# train model on whole CEX
+lr_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) 
+                 + log(fout) + I(log(fout)^2) + hours + hourw + year, 
+                 data = cex)
+
+# predict consumption in PSID
 psid$lr_pred <- exp(predict(ndur_model, newdata=psid))
 summary(psid$lr_pred)
 ```
 
 Imputation procedure from Blundell et al. (2008):
 ```{r}
-paper_lr <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
+# cross-validation to calculate average RMSE
+k <- 5
+n <- nrow(cex)
+folds <- sample(1:k, n, replace = TRUE)
+results <- numeric(k)
+for (i in 1:k) {
+  train <- cex[folds != i, ]
+  test <- cex[folds == i, ]
+  
+  # estimate food demand equation
+  paper_lr <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
                + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
                + log(pfood) + `55-59` + `50-54` + `45-49` + `40-44` + `35-39` 
                + `30-34` + `25-29` + white, data = train)
-coef <- coef(paper_lr)
-gamma <- coef[2]
-betaDc <- predict(paper_lr, newdata = test) - gamma*log(test$ndur) 
+  coef <- coef(paper_lr)
+  gamma <- coef[2]
+  betaDc <- predict(paper_lr, newdata = test) - gamma*log(test$ndur) 
+  test$paper_pred <- exp((log(test$food) - betaDc)/gamma)
+  sq_diff <- (test$ndur - test$paper_pred)^2
+  results[i] <- sqrt(mean(sq_diff))
+}
 
-test$paper_pred <- exp((log(test$food) - betaDc)/gamma)
-sq_diff <- (test$ndur - test$paper_pred)^2
-rmse <- sqrt(mean(sq_diff))
-rmse
-rmse_log <- sqrt(mean((log(test$ndur)-test$paper_pred)^2))
-rmse_log
+mean(results) # average RMSE
 
-betaDp <- (coef[3]*psid$onec + coef[4]*psid$twoc 
-           + coef[5]*psid$three_plusc + coef[6]*psid$hs_drop + coef[7]*psid$hs_grad 
-           + coef[8]*psid$age + coef[9]*psid$age^2 + coef[10]*psid$northeast 
+# estimate food demand equation on whole CEX
+paper_lr <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
+               + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
+               + log(pfood) + `55-59` + `50-54` + `45-49` + `40-44` + `35-39` 
+               + `30-34` + `25-29` + white, data = cex)
+
+
+# invert to consumption in PSID
+betaDp <- (coef[3]*psid$onec + coef[4]*psid$twoc + coef[5]*psid$three_plusc 
+           + coef[6]*psid$hs_drop + coef[7]*psid$hs_grad + coef[8]*psid$age 
+           + coef[9]*psid$age^2 + coef[10]*psid$northeast 
            + coef[11]*psid$midwest + coef[12]*psid$south + coef[13]*psid$fsize 
-           + coef[14]*log(psid$pfood) + coef[15]*psid$`55-59` + coef[16]*psid$`50-54` 
-           + coef[17]*psid$`45-49` + coef[18]*psid$`40-44` + coef[19]*psid$`35-39` 
-           + coef[20]*psid$`30-34` + coef[21]*psid$`25-29` + coef[22]*psid$white)
+           + coef[14]*log(psid$pfood) + coef[15]*psid$`55-59` 
+           + coef[16]*psid$`50-54` + coef[17]*psid$`45-49` 
+           + coef[18]*psid$`40-44` + coef[19]*psid$`35-39` 
+           + coef[20]*psid$`30-34` + coef[21]*psid$`25-29` 
+           + coef[22]*psid$white)
 
 psid$paper_ndur <- exp((log(psid$food) - betaDp)/gamma)
 summary(psid$paper_ndur)
@@ -124,11 +153,6 @@ psid$gbm_ndur <- predict(gbm_model, newdata = psid, n.trees = 1000)
 
 ```{r}
 write.csv(psid, "~/Downloads/imputed-psid.csv")
-```
-
-
-```{r}
-write.csv(psid, "~Downloads/imputed-psid.csv")
 ```
 
 
