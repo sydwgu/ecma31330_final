@@ -94,6 +94,7 @@ for (i in 1:k) {
 
 mean(results) # average RMSE
 
+psid <- psid[psid$year>=1980,]
 # estimate food demand equation on whole CEX
 paper_lr <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
                + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
