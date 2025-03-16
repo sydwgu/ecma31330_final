@@ -31,8 +31,8 @@ Remove observations with NAs:
 ```{r}
 cex <- na.omit(cex)
 cex <- cex[cex$fout > 0, ]
-psid <- psid[psid$income > 0, ]
-psid <- psid[psid$fout > 0, ]
+psid <- psid[!is.na(psid$income) & psid$income > 0, ]
+psid <- psid[!is.na(psid$fout) & psid$fout > 0, ]
 set.seed(123)
 total <- nrow(cex)
 train_idx <- sample(1:total, size=0.7*total)
@@ -116,14 +116,11 @@ gbm_model <- gbm(
 
 ```
 
-```{r}
-predictions <- predict(gbm_model, newdata = psid, n.trees = 1000)
-```
 
 
 ```{r}
 # make new column from values
-psid$gbm_ndur <- predict(gbm_model, data = psid, n.trees = 1000)
+psid$gbm_ndur <- predict(gbm_model, newdata = psid, n.trees = 1000)
 ```
 
 ```{r}
