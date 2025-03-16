@@ -106,11 +106,10 @@ psid <- psid %>%
   mutate(food = food + fout)
 ```
 
-Remove unnecessary columns in CEX:
+Remove income column in CEX to avoid duplication error:
 ```{r}
-cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, wageh, wagew, weekh, weekw, ndurplus, hourh))
+cex <- cex %>% select(-c(income))
 ```
-
 
 Rename the variables that have the same values across both datasets:
 ```{r}
@@ -221,3 +220,9 @@ psid$white <- ifelse(psid$race == 1, 1, 0)
 
 ```
 
+Remove unnecessary columns in CEX:
+```{r}
+cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, 
+                         income_net, wageh, wagew, weekh, weekw, ndurplus, 
+                         hourh))
+```

@@ -61,12 +61,12 @@ data_stats <- data.frame(
   Median = round(c(agec[3], famc[3], incc[3], foodc[3]), 2),
   Min. = round(c(agec[1], famc[1], incc[1], foodc[1]), 2),
   Max. = round(c(agec[6], famc[6], incc[6], foodc[6]), 2),
-  Variance = format(c(agecv, famcv, inccv, foodcv), scientific=TRUE, digits=2),
+  Var. = format(c(agecv, famcv, inccv, foodcv), scientific=TRUE, digits=2),
   Mean = round(c(agep[4], famp[4], incp[4], foodp[4]), 2),
   Median = round(c(agep[3], famp[3], incp[3], foodp[3]), 2),
   Min. = round(c(agep[1], famp[1], incp[1], foodp[1]), 2),
   Max. = round(c(agep[6], famp[6], incp[6], foodp[6]), 2),
-  Variance = format(c(agepv, fampv, incpv, foodpv), scientific=TRUE, digits=2), 
+  Var. = format(c(agepv, fampv, incpv, foodpv), scientific=TRUE, digits=2), 
   check.names = FALSE
 )
 
@@ -85,7 +85,7 @@ table <- kable(data_stats, caption = "Comparison of Summary Statistics in CEX an
   column_spec(8, width = ".8cm") %>% 
   column_spec(9, width = ".8cm") %>%  
   column_spec(10, width = ".8cm") %>%
-  column_spec(11, width = ".8cm")  
+  column_spec(11, width = ".8cm")
 
 table
 
