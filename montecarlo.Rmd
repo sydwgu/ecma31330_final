@@ -124,8 +124,10 @@ for (i in 1:num_sim) {
   )
 
   # use all models to predict on testing sets
-  lr_pred <- predict(lr_model, test)
-  paper_pred <- predict(paper_model, test)
+  lr_pred_log <- predict(lr_model, test)
+  lr_pred <- exp(lr_pred_log)
+  paper_pred_log <- predict(paper_model, test)
+  paper_pred <- exp(paper_pred_log)
   nn_pred <- predict(nn_model, NN_X_test) %>% as.vector()
   gbm_pred <- predict(gbm_model, test, n.trees = 1000)
   
