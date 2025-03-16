@@ -20,6 +20,7 @@ library(haven)
 library(glmnet)
 library(data.table)
 library(knitr)
+library(gbm)
 ```
 
 ```{r}
@@ -63,8 +64,8 @@ lr_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2)
                  data = cex)
 
 # predict consumption in PSID
-psid$lr_pred <- exp(predict(ndur_model, newdata=psid))
-summary(psid$lr_pred)
+psid$lr_ndur <- exp(predict(ndur_model, newdata=psid))
+summary(psid$lr_ndur)
 ```
 
 Imputation procedure from Blundell et al. (2008):
@@ -149,6 +150,7 @@ gbm_model <- gbm(
 ```{r}
 # make new column from values
 psid$gbm_ndur <- predict(gbm_model, newdata = psid, n.trees = 1000)
+summary(psid$gbm_ndur)
 ```
 
 ```{r}
