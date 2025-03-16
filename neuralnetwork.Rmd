@@ -22,6 +22,7 @@ library(data.table)
 library(tensorflow)
 library(keras)
 library(caret)
+library(knitr)
 ```
 To use the keras package, we need to make sure that TensorFlow is installed and can be used correctly:
 ```{r}
@@ -46,11 +47,29 @@ library(tensorflow)
 
 
 Run the cleaning.Rmd file first, in order to clean the CEX and PSID datasets.
+```{r}
+purl("cleaning.Rmd", output = "cleaning2.R")
+source("cleaning2.R")
+```
+
+```{r}
+cex$ndur <- log(cex$ndur)
+cex$income <- log(cex$income)
+cex$food <- log(cex$food)
+cex$fout <- log(cex$fout)
+```
+```{r}
+psid$income <- log(psid$income)
+psid$food <- log(psid$food)
+psid$fout <- log(psid$fout)
+```
 
 Now, we're going to train our neural network to predict non-durable consumption.
 ```{r}
 # feature columns (remove Y)
 feature_cols <- setdiff(names(cex), "ndur")
+
+
 
 # convert data to matrices for keras
 X_data <- as.matrix(cex[, feature_cols])  # Features
@@ -67,14 +86,6 @@ Y_test <- Y_data[-train_idx]
 ```
 
 Define our model:
-```{r}
-train_control <- trainControl(method = "cv", number = 10)  # 10-fold cross-validation
-model <- train(X_train, Y_train, 
-               method = "keras", 
-               trControl = train_control,
-               tuneGrid = data.frame(layer1 = 64, layer2 = 32, layer3 = 16, activation = "relu"),
-               verbose = TRUE)
-```
 ```{r}
 # og model
 
@@ -101,6 +112,7 @@ sum(is.infinite(Y_train))  # Check for infinite values
 All of these missing values are in the hourh column, so let's adjust all the NA values in X_train to equal 0:
 ```{r}
 X_train[is.na(X_train)] <- 0
+X_train <- ifelse()
 ```
 
 convert both back to matrices just to be safe:
@@ -123,7 +135,7 @@ Train it:
 history <- model %>% fit(
   X_train, Y_train,
   epochs = 50,
-  batch_size = 32,
+  batch_size = 16,
   validation_split = 0.2,
   verbose = 1
 )
