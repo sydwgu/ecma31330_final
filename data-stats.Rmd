@@ -70,8 +70,6 @@ data_stats <- data.frame(
   check.names = FALSE
 )
 
-
-
 table <- kable(data_stats, caption = "Comparison of Summary Statistics in CEX and PSID") %>%
   kable_styling("striped") %>%
   add_header_above(c(" " = 1, "CEX" = 5, "PSID" = 5)) %>%

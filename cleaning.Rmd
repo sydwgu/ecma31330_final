@@ -134,12 +134,16 @@ cex <- cex %>%
   mutate(across(c(hours, hourw), ~ ifelse(is.na(.), 0, .)))
 ```
 
+Convert number of kids columns to 0 in place of NA in PSID:
+```{r}
+psid$kids <- replace(psid$kids, is.na(psid$kids), 0)
+```
+
 Remove observations with negative income in CEX and PSID:
 ```{r}
 cex <- cex[cex$income >= 0, ]
 psid <- psid[psid$income >= 0, ]
 ```
-
 
 Create dummy columns for variables in the CEX:
 ```{r}
@@ -176,8 +180,6 @@ cex$"30-34" <- ifelse(cex$yb >= 1930 & cex$yb <= 1934, 1, 0)
 cex$"25-29" <- ifelse(cex$yb >= 1925 & cex$yb <= 1929, 1, 0)
 
 cex$white <- ifelse(cex$race == 1, 1, 0)
-
-head(cex)
 ```
 
 
@@ -217,6 +219,5 @@ psid$"25-29" <- ifelse(psid$yb >= 1925 & psid$yb <= 1929, 1, 0)
 
 psid$white <- ifelse(psid$race == 1, 1, 0)
 
-head(psid)
 ```
 
