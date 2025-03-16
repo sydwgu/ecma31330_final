@@ -88,7 +88,7 @@ psid <- psid %>%
 
 
 ## -------------------------------------------------------------------------------------------------------------------------
-cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, wageh, wagew, weekh, weekw, ndurplus))
+cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, wageh, wagew, weekh, weekw, ndurplus, hourh))
 
 
 ## -------------------------------------------------------------------------------------------------------------------------

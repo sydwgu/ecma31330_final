@@ -106,12 +106,6 @@ psid <- psid %>%
   mutate(food = food + fout)
 ```
 
-Remove unnecessary columns in CEX:
-```{r}
-cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, wageh, wagew, weekh, weekw, ndurplus))
-```
-
-
 Rename the variables that have the same values across both datasets:
 ```{r}
 cex <- cex %>%
@@ -138,6 +132,7 @@ Convert number of kids columns to 0 in place of NA in PSID:
 ```{r}
 psid$kids <- replace(psid$kids, is.na(psid$kids), 0)
 ```
+
 
 Remove observations with negative income in CEX and PSID:
 ```{r}
@@ -221,3 +216,10 @@ psid$white <- ifelse(psid$race == 1, 1, 0)
 
 ```
 
+Remove unnecessary columns in CEX:
+```{r}
+cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, 
+                         income, income_net, wageh, wagew, weekh, weekw, 
+                         ndurplus, hourh, pfin, pfaw, pf, yb, pfood, pfoodin,
+                         pfout, cpi))
+```
