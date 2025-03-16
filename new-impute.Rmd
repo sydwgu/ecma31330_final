@@ -169,7 +169,7 @@ setdiff(feature_cols, names(psid))
 ```
 ```{r}
 feature_cols[feature_cols == "hourh"] <- "hours"
-feature_cols[feature_cols == "nondur"] <- "ndur"
+# feature_cols[feature_cols == "nondur"] <- "ndur"
 ```
 
 debugging:
