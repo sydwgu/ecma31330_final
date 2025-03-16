@@ -1,0 +1,33 @@
+---
+title: "Metrics and ML - Monte Carlo Simulations"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(caret)
+library(gbm)
+library(keras)
+library(nnet)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+# number of bootstrap iterations we're using
+num_sim <- 500
+
+# initialize results storage
+MCresults <- data.frame(Model = character(), RMSE = numeric)
+```
+
+Now, let's set up our bootstrap resampling and training for each of our models:
+```{r}
+set.seed(123)
+```
+
+
