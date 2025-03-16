@@ -29,7 +29,7 @@ library(gbm)
 Let's prepare our data:
 ```{r}
 # Ensure the data is in the correct format
-cex$nondur <- as.numeric(cex$ndur)  # Convert target to numeric if needed
+cex$ndur <- as.numeric(cex$ndur)  # Convert target to numeric if needed
 
 # Split data into training and testing sets
 set.seed(123)  # For reproducibility

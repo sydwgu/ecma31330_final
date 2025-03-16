@@ -89,7 +89,7 @@ summary(psid$paper_ndur)
 GBM Model:
 ```{r}
 # Ensure the data is in the correct format
-cex$nondur <- as.numeric(cex$ndur)  # Convert target to numeric if needed
+cex$ndur <- as.numeric(cex$ndur)  # Convert target to numeric if needed
 
 # Split data into training and testing sets
 set.seed(123)  # For reproducibility
@@ -115,20 +115,6 @@ gbm_model <- gbm(
 )
 
 ```
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-=======
-=======
->>>>>>> Stashed changes
-
-```{r}
-predictions <- predict(gbm_model, newdata = psid, n.trees = 1000)
-```
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
 
 ```{r}
@@ -137,15 +123,12 @@ psid$gbm_ndur <- predict(gbm_model, newdata = psid, n.trees = 1000)
 ```
 
 ```{r}
-write.csv(gbm_model, "~Downloads/imputed-psid.csv")
+write.csv(psid, "~/Downloads/imputed-psid.csv")
 ```
 
-```{r}
-write.csv(gbm_model, "~Downloads/imputed-psid.csv")
-```
 
 ```{r}
-write.csv(gbm_model, "~Downloads/imputed-psid.csv")
+write.csv(psid, "~Downloads/imputed-psid.csv")
 ```
 
 
