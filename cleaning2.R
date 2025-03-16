@@ -89,8 +89,11 @@ psid <- psid %>%
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, wageh, wagew, weekh, weekw, ndurplus, hourh))
 =======
+=======
+>>>>>>> Stashed changes
 cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, income, income_net, wageh, wagew, weekh, weekw, ndurplus))
 >>>>>>> Stashed changes
 
@@ -116,10 +119,13 @@ cex <- cex %>%
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 psid$kids <- replace(psid$kids, is.na(psid$kids), 0)
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 cex <- cex[cex$income >= 0, ]
@@ -165,6 +171,9 @@ cex$white <- ifelse(cex$race == 1, 1, 0)
 <<<<<<< Updated upstream
 =======
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 psid$hs_drop <- ifelse(psid$educ == 1, 1, 0)
