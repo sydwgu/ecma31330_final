@@ -224,5 +224,5 @@ Remove unnecessary columns in CEX:
 ```{r}
 cex <- cex %>% select(-c(complete, cons1, cons2, cpi, educw, family, famtype, 
                          income_net, wageh, wagew, weekh, weekw, ndurplus, 
-                         hourh))
+                         hourh, pfood, pfoodin, pfout, pfin, pfaw, pf, yb))
 ```
