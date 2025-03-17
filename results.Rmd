@@ -49,11 +49,11 @@ ggplot(long, aes(x = time, y = mean, color = variable)) +
        y = "Average Household Nondurable Consumption",
        color = "Model") +
   scale_color_manual(
-    values = c("gbm_ndur" = "#F28C8C", "lr_ndur" = "#A8E1A1", "paper_ndur" = "#A8C9F0"),  # Assign colors to each line
-    labels = c("Gradient Boosting Machines", "Multiple Linear Regression", "Inversion Model")  # Rename legend items
+    values = c("gbm_ndur" = "#F28C8C", "lr_ndur" = "#A8E1A1", "paper_ndur" = "#A8C9F0"),  
+    labels = c("Gradient Boosting Machines", "Multiple Linear Regression", "Inversion Model")  
   ) +
   scale_x_continuous(
-    breaks = seq(min(long$time), max(long$time), by = 1)  # Set breaks to every year
+    breaks = seq(min(long$time), max(long$time), by = 1)  
   ) +
   theme_minimal() +
   theme(legend.title = element_text(size=10),
@@ -71,7 +71,7 @@ ggplot(long, aes(x = time, y = mean, color = variable)) +
   )
 ```
 
-Plot results of Monte Carlo simulations:
+Read in file from gbm-sim:
 ```{r}
 mc_results <- read.csv("~/Desktop/metrics_and_ml/ecma31330_final/rmse_out.csv")
 ```
@@ -95,6 +95,7 @@ table <- kable(results_summary, caption = "RMSE Summary Statistics across Models
 
 table
 ```
+
 ```{r}
 ggplot(mc_results, aes(x = RMSE, fill = Model)) +
   geom_histogram(binwidth = 100, position = "dodge", alpha = 0.6) +  
@@ -118,15 +119,11 @@ ggplot(mc_results, aes(x = RMSE, fill = Model)) +
 ```
 
 ```{r}
-
-
-# Assuming mc_results contains columns 'Model' and 'RMSE'
-
-# Apply Shapiro-Wilk test for each model
+# Shapiro-Wilk test for each model
 shapiro_results <- mc_results %>%
   group_by(Model) %>%
   summarise(
-    "p-value" = shapiro.test(RMSE)$p.value  # Apply the Shapiro-Wilk test
+    "p-value" = shapiro.test(RMSE)$p.value 
   )
 
  table <- kable(shapiro_results, caption = "P-Value for Shapiro-Wilk across Models") %>%
@@ -135,6 +132,5 @@ shapiro_results <- mc_results %>%
   kable_styling("striped", full_width = FALSE)
 
 table
-
 ```
 
