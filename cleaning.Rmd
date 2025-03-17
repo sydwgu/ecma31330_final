@@ -17,7 +17,6 @@ library(knitr)
 library(kableExtra)
 library(caret)
 library(stats)
-library(fastDummies)
 ```
 
 Read in data sets:
