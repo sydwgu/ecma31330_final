@@ -1,0 +1,140 @@
+---
+title: "results"
+author: "Isabella Lin and Sydney Gu"
+date: "2025-03-16"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(haven)
+library(glmnet)
+library(data.table)
+library(knitr)
+library(webshot2)
+library(kableExtra)
+library(ggplot2)
+library(stringr)
+```
+
+Read in file from compare-predictions:
+```{r}
+imputations <- read.csv("~/Desktop/metrics_and_ml/ecma31330_final/imputed-psid.csv")
+imputations <- imputations[imputations$year >= 1980, ]
+```
+
+```{r}
+ndur_means <- data.frame(
+  time = imputations$year,
+  lr_ndur = ave(imputations$lr_ndur, imputations$year, FUN = mean),
+  paper_ndur = ave(imputations$paper_ndur, imputations$year, FUN = function(x) mean(x, na.rm=TRUE)),
+  gbm_ndur = ave(imputations$gbm_ndur, imputations$year, FUN = mean)
+)
+
+long <- reshape(ndur_means, 
+                   varying = c("lr_ndur", "paper_ndur", "gbm_ndur"), 
+                   v.names = "mean", 
+                   timevar = "variable", 
+                   times = c("lr_ndur", "paper_ndur", "gbm_ndur"), 
+                   direction = "long")
+
+ggplot(long, aes(x = time, y = mean, color = variable)) + 
+  geom_line(size = 1) + 
+  labs(x = "Year", 
+       y = "Average Household Nondurable Consumption",
+       color = "Model") +
+  scale_color_manual(
+    values = c("gbm_ndur" = "#F28C8C", "lr_ndur" = "#A8E1A1", "paper_ndur" = "#A8C9F0"),  # Assign colors to each line
+    labels = c("Gradient Boosting Machines", "Multiple Linear Regression", "Inversion Model")  # Rename legend items
+  ) +
+  scale_x_continuous(
+    breaks = seq(min(long$time), max(long$time), by = 1)  # Set breaks to every year
+  ) +
+  theme_minimal() +
+  theme(legend.title = element_text(size=10),
+        legend.key.size = unit(0.5, "cm"),
+    axis.title.x = element_text(size = 11), 
+    axis.title.y = element_text(size = 11),  
+    axis.text = element_text(size = 8),  
+    legend.text = element_text(size = 9),  
+    legend.position = "right", 
+    legend.background = element_rect(fill = "white", color = "black"),  
+    panel.grid.major = element_line(color = "lightgray", size = 0.3),  
+    panel.grid.minor = element_blank(),  
+    strip.text = element_text(size = 12)  
+  
+  )
+```
+
+Plot results of Monte Carlo simulations:
+```{r}
+mc_results <- read.csv("~/Desktop/metrics_and_ml/ecma31330_final/rmse_out.csv")
+```
+
+\setcounter{table}{1}
+```{r}
+mc_results$Model <- ifelse(mc_results$Model == "Imputation Model", "Inversion Model", mc_results$Model)
+results_summary <- mc_results %>%
+  group_by(Model) %>%
+  summarise(
+    Mean = mean(RMSE),
+    "Standard Deviation" = sd(RMSE)
+  )
+
+print(results_summary)
+
+table <- kable(results_summary, caption = "RMSE Summary Statistics across Models") %>%
+  kable_styling("striped") %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling("striped", full_width = FALSE)
+
+table
+```
+```{r}
+ggplot(mc_results, aes(x = RMSE, fill = Model)) +
+  geom_histogram(binwidth = 100, position = "dodge", alpha = 0.6) +  
+  facet_wrap(~ Model, scales = "free_x", labeller = labeller(Model = function(x) str_wrap(x, width = 10))) +
+  labs(
+    x = "RMSE",
+    y = "Density") +
+   theme_minimal() +  
+  theme(
+    axis.title.x = element_text(size = 10), 
+    axis.title.y = element_text(size = 10),  
+    axis.text = element_text(size = 6),  
+    legend.title = element_text(size = 11), 
+    legend.text = element_text(size = 10),  
+    legend.position = "right", 
+    legend.background = element_rect(fill = "white", color = "black"),  
+    panel.grid.major = element_line(color = "lightgray", size = 0.3),  
+    panel.grid.minor = element_blank(),  
+    strip.text = element_text(size = 12)  
+  )
+```
+
+```{r}
+
+
+# Assuming mc_results contains columns 'Model' and 'RMSE'
+
+# Apply Shapiro-Wilk test for each model
+shapiro_results <- mc_results %>%
+  group_by(Model) %>%
+  summarise(
+    "p-value" = shapiro.test(RMSE)$p.value  # Apply the Shapiro-Wilk test
+  )
+
+ table <- kable(shapiro_results, caption = "P-Value for Shapiro-Wilk across Models") %>%
+  kable_styling("striped") %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling("striped", full_width = FALSE)
+
+table
+
+```
+

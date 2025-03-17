@@ -1,0 +1,1501 @@
+"","Model","RMSE"
+"1","Multiple Linear Regression",4447.18657247248
+"2","Imputation Model",14100.5004796023
+"3","Gradient Boosting Machines",4066.89372488195
+"4","Multiple Linear Regression",4746.31628581186
+"5","Imputation Model",14239.6722153213
+"6","Gradient Boosting Machines",4389.95947438787
+"7","Multiple Linear Regression",4485.35727811477
+"8","Imputation Model",14110.6578318179
+"9","Gradient Boosting Machines",4092.18570099552
+"10","Multiple Linear Regression",4695.27924971399
+"11","Imputation Model",14221.293467392
+"12","Gradient Boosting Machines",4280.10747071125
+"13","Multiple Linear Regression",4277.52131295006
+"14","Imputation Model",13919.8020608389
+"15","Gradient Boosting Machines",3952.26090402942
+"16","Multiple Linear Regression",4620.21299487911
+"17","Imputation Model",14306.1781084667
+"18","Gradient Boosting Machines",4143.91339841478
+"19","Multiple Linear Regression",4159.76569375996
+"20","Imputation Model",13934.3250993778
+"21","Gradient Boosting Machines",3977.53220083708
+"22","Multiple Linear Regression",4590.3684366553
+"23","Imputation Model",14156.289829647
+"24","Gradient Boosting Machines",4110.64324046864
+"25","Multiple Linear Regression",4574.19007428577
+"26","Imputation Model",14282.4229426764
+"27","Gradient Boosting Machines",4116.16166565371
+"28","Multiple Linear Regression",4591.09581963917
+"29","Imputation Model",14092.3512720027
+"30","Gradient Boosting Machines",4132.57072843136
+"31","Multiple Linear Regression",4958.58454473627
+"32","Imputation Model",14406.7185819692
+"33","Gradient Boosting Machines",4471.37001024993
+"34","Multiple Linear Regression",4779.93822930905
+"35","Imputation Model",14353.4049921248
+"36","Gradient Boosting Machines",4236.72885155873
+"37","Multiple Linear Regression",4596.84646936791
+"38","Imputation Model",14178.0617746785
+"39","Gradient Boosting Machines",4134.08500517485
+"40","Multiple Linear Regression",4851.76608198987
+"41","Imputation Model",14254.8669210102
+"42","Gradient Boosting Machines",4320.95101588088
+"43","Multiple Linear Regression",4462.64307910807
+"44","Imputation Model",14138.1476056697
+"45","Gradient Boosting Machines",4128.76302763154
+"46","Multiple Linear Regression",4372.67120095888
+"47","Imputation Model",14048.6897294541
+"48","Gradient Boosting Machines",4069.79343994067
+"49","Multiple Linear Regression",4729.19020484882
+"50","Imputation Model",14338.1293660198
+"51","Gradient Boosting Machines",4292.18583335579
+"52","Multiple Linear Regression",4790.02027344226
+"53","Imputation Model",14357.9016635267
+"54","Gradient Boosting Machines",4360.9684550747
+"55","Multiple Linear Regression",4513.27263607946
+"56","Imputation Model",14082.5377323831
+"57","Gradient Boosting Machines",4134.82302180552
+"58","Multiple Linear Regression",4728.0341091701
+"59","Imputation Model",14292.5628043205
+"60","Gradient Boosting Machines",4185.19683598253
+"61","Multiple Linear Regression",4536.83214635064
+"62","Imputation Model",14159.5457811925
+"63","Gradient Boosting Machines",4112.94694138175
+"64","Multiple Linear Regression",4640.3984778483
+"65","Imputation Model",14227.2045602112
+"66","Gradient Boosting Machines",4189.00521083724
+"67","Multiple Linear Regression",4771.2561541652
+"68","Imputation Model",14339.0594330499
+"69","Gradient Boosting Machines",4313.5938337123
+"70","Multiple Linear Regression",4921.44569380184
+"71","Imputation Model",14441.5075396469
+"72","Gradient Boosting Machines",4359.24652258369
+"73","Multiple Linear Regression",4607.4195413028
+"74","Imputation Model",14100.9637964994
+"75","Gradient Boosting Machines",4133.63055941234
+"76","Multiple Linear Regression",4670.24518961603
+"77","Imputation Model",14075.5746229448
+"78","Gradient Boosting Machines",4226.40194906005
+"79","Multiple Linear Regression",4318.25300480318
+"80","Imputation Model",13981.4895354173
+"81","Gradient Boosting Machines",3926.46319580513
+"82","Multiple Linear Regression",4531.91769637889
+"83","Imputation Model",14095.7937427382
+"84","Gradient Boosting Machines",4173.90919763715
+"85","Multiple Linear Regression",4761.14399214223
+"86","Imputation Model",14270.8321656396
+"87","Gradient Boosting Machines",4319.10191533442
+"88","Multiple Linear Regression",4740.02394463428
+"89","Imputation Model",14315.5181600481
+"90","Gradient Boosting Machines",4241.55591386716
+"91","Multiple Linear Regression",4444.10406743498
+"92","Imputation Model",14075.4644390979
+"93","Gradient Boosting Machines",3934.85487686892
+"94","Multiple Linear Regression",4654.99247633699
+"95","Imputation Model",14088.9703474155
+"96","Gradient Boosting Machines",4187.75190099829
+"97","Multiple Linear Regression",4549.19747803602
+"98","Imputation Model",14217.1921861879
+"99","Gradient Boosting Machines",4115.45953706744
+"100","Multiple Linear Regression",4561.63970323375
+"101","Imputation Model",14259.5644202962
+"102","Gradient Boosting Machines",4047.83365665783
+"103","Multiple Linear Regression",4750.62611742623
+"104","Imputation Model",14145.4853026278
+"105","Gradient Boosting Machines",4297.3132314008
+"106","Multiple Linear Regression",4692.18976617698
+"107","Imputation Model",14401.5934974588
+"108","Gradient Boosting Machines",4245.53476072801
+"109","Multiple Linear Regression",4487.79742439813
+"110","Imputation Model",14019.5625856429
+"111","Gradient Boosting Machines",4108.00528763115
+"112","Multiple Linear Regression",4559.98335232832
+"113","Imputation Model",14062.2149654659
+"114","Gradient Boosting Machines",4147.07254392229
+"115","Multiple Linear Regression",4532.4824427227
+"116","Imputation Model",14115.6767824643
+"117","Gradient Boosting Machines",4154.51185846141
+"118","Multiple Linear Regression",4754.91452088109
+"119","Imputation Model",14181.7260822988
+"120","Gradient Boosting Machines",4293.15315717907
+"121","Multiple Linear Regression",4932.50866556583
+"122","Imputation Model",14446.4705122155
+"123","Gradient Boosting Machines",4417.46834684086
+"124","Multiple Linear Regression",4665.69122095844
+"125","Imputation Model",14245.9784239463
+"126","Gradient Boosting Machines",4206.07595217085
+"127","Multiple Linear Regression",4428.04912129162
+"128","Imputation Model",14056.0548692073
+"129","Gradient Boosting Machines",4041.61702299413
+"130","Multiple Linear Regression",4437.1200882482
+"131","Imputation Model",14053.230215934
+"132","Gradient Boosting Machines",4048.10280521517
+"133","Multiple Linear Regression",4319.74573417657
+"134","Imputation Model",14000.7539159915
+"135","Gradient Boosting Machines",3984.44743236
+"136","Multiple Linear Regression",4812.99489365202
+"137","Imputation Model",14255.9456540654
+"138","Gradient Boosting Machines",4372.97272945864
+"139","Multiple Linear Regression",4524.30952014196
+"140","Imputation Model",13957.0164538716
+"141","Gradient Boosting Machines",4091.30037228416
+"142","Multiple Linear Regression",4581.99617029101
+"143","Imputation Model",14189.8028477174
+"144","Gradient Boosting Machines",4097.13825657902
+"145","Multiple Linear Regression",4746.66063938242
+"146","Imputation Model",14268.8657990397
+"147","Gradient Boosting Machines",4325.05309993673
+"148","Multiple Linear Regression",4688.37222875676
+"149","Imputation Model",14280.9809911251
+"150","Gradient Boosting Machines",4232.84956924492
+"151","Multiple Linear Regression",4358.739984647
+"152","Imputation Model",13979.1776728385
+"153","Gradient Boosting Machines",3954.50527767618
+"154","Multiple Linear Regression",4751.79077896392
+"155","Imputation Model",14147.2835121287
+"156","Gradient Boosting Machines",4289.32192435718
+"157","Multiple Linear Regression",4680.71678178704
+"158","Imputation Model",14237.9574367725
+"159","Gradient Boosting Machines",4161.28704821029
+"160","Multiple Linear Regression",4757.04948286815
+"161","Imputation Model",14296.0895029594
+"162","Gradient Boosting Machines",4382.08759469773
+"163","Multiple Linear Regression",4610.55910786872
+"164","Imputation Model",14229.1621591853
+"165","Gradient Boosting Machines",4270.58147911424
+"166","Multiple Linear Regression",4623.17279267205
+"167","Imputation Model",14333.1919929093
+"168","Gradient Boosting Machines",4144.57095418832
+"169","Multiple Linear Regression",4427.71139969509
+"170","Imputation Model",14071.4087918005
+"171","Gradient Boosting Machines",4042.64854767171
+"172","Multiple Linear Regression",4711.99561538354
+"173","Imputation Model",14223.8040800531
+"174","Gradient Boosting Machines",4155.14731263758
+"175","Multiple Linear Regression",4604.68735849753
+"176","Imputation Model",14242.4026271808
+"177","Gradient Boosting Machines",4093.19169907706
+"178","Multiple Linear Regression",4826.63711445391
+"179","Imputation Model",14297.7933519666
+"180","Gradient Boosting Machines",4411.45147850776
+"181","Multiple Linear Regression",4389.30830783606
+"182","Imputation Model",14030.4199853603
+"183","Gradient Boosting Machines",4047.31525293287
+"184","Multiple Linear Regression",4854.3613630739
+"185","Imputation Model",14296.6625711574
+"186","Gradient Boosting Machines",4376.21557759922
+"187","Multiple Linear Regression",4646.39813675052
+"188","Imputation Model",14211.0088205284
+"189","Gradient Boosting Machines",4212.33102392784
+"190","Multiple Linear Regression",4471.8846843828
+"191","Imputation Model",14109.860914422
+"192","Gradient Boosting Machines",4111.76597116287
+"193","Multiple Linear Regression",4523.85677467765
+"194","Imputation Model",14124.4512020503
+"195","Gradient Boosting Machines",4160.26723924638
+"196","Multiple Linear Regression",4442.80872028243
+"197","Imputation Model",14084.0372597192
+"198","Gradient Boosting Machines",4026.08599058017
+"199","Multiple Linear Regression",4635.64078413672
+"200","Imputation Model",14100.859350179
+"201","Gradient Boosting Machines",4272.17806273334
+"202","Multiple Linear Regression",4614.15533362684
+"203","Imputation Model",14121.4633081284
+"204","Gradient Boosting Machines",4179.62132990254
+"205","Multiple Linear Regression",4426.12072244337
+"206","Imputation Model",14126.3436131622
+"207","Gradient Boosting Machines",4040.65111037253
+"208","Multiple Linear Regression",4620.61116453021
+"209","Imputation Model",14186.6424900061
+"210","Gradient Boosting Machines",4091.59024193356
+"211","Multiple Linear Regression",4546.10327706885
+"212","Imputation Model",14072.7320744106
+"213","Gradient Boosting Machines",4126.99766084317
+"214","Multiple Linear Regression",4749.92170706621
+"215","Imputation Model",14312.8523323493
+"216","Gradient Boosting Machines",4299.53350771089
+"217","Multiple Linear Regression",4496.0188644699
+"218","Imputation Model",14124.3114691305
+"219","Gradient Boosting Machines",4032.81712727767
+"220","Multiple Linear Regression",4366.29110006222
+"221","Imputation Model",14056.8071777723
+"222","Gradient Boosting Machines",4055.01069309792
+"223","Multiple Linear Regression",4381.77644491939
+"224","Imputation Model",14010.2091069511
+"225","Gradient Boosting Machines",4054.03335521956
+"226","Multiple Linear Regression",4510.7448233208
+"227","Imputation Model",14209.9833965128
+"228","Gradient Boosting Machines",4022.71238828
+"229","Multiple Linear Regression",4657.38690526299
+"230","Imputation Model",14073.788187401
+"231","Gradient Boosting Machines",4261.02154147945
+"232","Multiple Linear Regression",4469.93050916822
+"233","Imputation Model",14155.3028317631
+"234","Gradient Boosting Machines",4024.22171736705
+"235","Multiple Linear Regression",4337.30030194633
+"236","Imputation Model",13916.0969096347
+"237","Gradient Boosting Machines",4048.59497137758
+"238","Multiple Linear Regression",4801.26999246062
+"239","Imputation Model",14339.3131163454
+"240","Gradient Boosting Machines",4297.5438787915
+"241","Multiple Linear Regression",4721.39425006424
+"242","Imputation Model",14166.5177496076
+"243","Gradient Boosting Machines",4340.83850002577
+"244","Multiple Linear Regression",4553.52210149123
+"245","Imputation Model",14167.6741332242
+"246","Gradient Boosting Machines",4122.36881504589
+"247","Multiple Linear Regression",4886.24180956051
+"248","Imputation Model",14316.2645171851
+"249","Gradient Boosting Machines",4360.56279193744
+"250","Multiple Linear Regression",4777.99348211321
+"251","Imputation Model",14351.2590948076
+"252","Gradient Boosting Machines",4368.96595462297
+"253","Multiple Linear Regression",4266.01169582204
+"254","Imputation Model",13949.2388074807
+"255","Gradient Boosting Machines",4050.34631179645
+"256","Multiple Linear Regression",4762.03643150223
+"257","Imputation Model",14293.3765897335
+"258","Gradient Boosting Machines",4258.20522305276
+"259","Multiple Linear Regression",4716.85615964568
+"260","Imputation Model",14191.7258384957
+"261","Gradient Boosting Machines",4305.1866676592
+"262","Multiple Linear Regression",4722.3467847734
+"263","Imputation Model",14286.0671231651
+"264","Gradient Boosting Machines",4355.86300054236
+"265","Multiple Linear Regression",4830.29491533774
+"266","Imputation Model",14191.1248678155
+"267","Gradient Boosting Machines",4309.95828087527
+"268","Multiple Linear Regression",4449.72702653846
+"269","Imputation Model",14010.5157610796
+"270","Gradient Boosting Machines",4101.9140520374
+"271","Multiple Linear Regression",4557.30791703664
+"272","Imputation Model",14123.9519854541
+"273","Gradient Boosting Machines",4128.6585610675
+"274","Multiple Linear Regression",4496.96409679613
+"275","Imputation Model",14161.9334684683
+"276","Gradient Boosting Machines",4128.33620450972
+"277","Multiple Linear Regression",4502.30077467823
+"278","Imputation Model",14140.5113909686
+"279","Gradient Boosting Machines",4133.91668502773
+"280","Multiple Linear Regression",4642.01336438643
+"281","Imputation Model",14190.1161429626
+"282","Gradient Boosting Machines",4217.60960279034
+"283","Multiple Linear Regression",4654.15430691359
+"284","Imputation Model",14181.4133954066
+"285","Gradient Boosting Machines",4185.13190775378
+"286","Multiple Linear Regression",4844.13891510819
+"287","Imputation Model",14264.4118062555
+"288","Gradient Boosting Machines",4335.06142520894
+"289","Multiple Linear Regression",4548.36161145373
+"290","Imputation Model",14113.6615235278
+"291","Gradient Boosting Machines",4062.85527907043
+"292","Multiple Linear Regression",4569.02555414851
+"293","Imputation Model",14071.9770454359
+"294","Gradient Boosting Machines",4123.17785117127
+"295","Multiple Linear Regression",4566.9947528967
+"296","Imputation Model",14208.0093142748
+"297","Gradient Boosting Machines",4200.49746302577
+"298","Multiple Linear Regression",4335.4594829101
+"299","Imputation Model",14054.6583810875
+"300","Gradient Boosting Machines",4043.73808078759
+"301","Multiple Linear Regression",4400.42126751589
+"302","Imputation Model",14074.5972139791
+"303","Gradient Boosting Machines",4016.43219858935
+"304","Multiple Linear Regression",4839.88459115677
+"305","Imputation Model",14390.5048106804
+"306","Gradient Boosting Machines",4284.83179706925
+"307","Multiple Linear Regression",4812.68369254354
+"308","Imputation Model",14321.0361628765
+"309","Gradient Boosting Machines",4314.63336823199
+"310","Multiple Linear Regression",4613.82949118116
+"311","Imputation Model",14144.9253440223
+"312","Gradient Boosting Machines",4136.04337482681
+"313","Multiple Linear Regression",4512.13310611515
+"314","Imputation Model",14195.2506415198
+"315","Gradient Boosting Machines",4039.00874528666
+"316","Multiple Linear Regression",4864.92533102525
+"317","Imputation Model",14319.3387071114
+"318","Gradient Boosting Machines",4359.76384658683
+"319","Multiple Linear Regression",4752.13176018803
+"320","Imputation Model",14319.9320643414
+"321","Gradient Boosting Machines",4250.93920866373
+"322","Multiple Linear Regression",4416.96936730838
+"323","Imputation Model",14039.2995726906
+"324","Gradient Boosting Machines",4071.27466505242
+"325","Multiple Linear Regression",4600.62088328867
+"326","Imputation Model",14216.4421359888
+"327","Gradient Boosting Machines",4139.79306184344
+"328","Multiple Linear Regression",4700.96702747892
+"329","Imputation Model",14337.9552063088
+"330","Gradient Boosting Machines",4280.50421615175
+"331","Multiple Linear Regression",4700.6791176387
+"332","Imputation Model",14219.0791528254
+"333","Gradient Boosting Machines",4207.69378973925
+"334","Multiple Linear Regression",4543.81338516764
+"335","Imputation Model",14097.4326367097
+"336","Gradient Boosting Machines",4231.8716226915
+"337","Multiple Linear Regression",4444.8565943982
+"338","Imputation Model",14154.2860521959
+"339","Gradient Boosting Machines",4068.90586354203
+"340","Multiple Linear Regression",4645.48125219661
+"341","Imputation Model",14127.2975159113
+"342","Gradient Boosting Machines",4155.68356435824
+"343","Multiple Linear Regression",4614.76355309126
+"344","Imputation Model",14190.978928906
+"345","Gradient Boosting Machines",4200.11567002826
+"346","Multiple Linear Regression",4367.98339847513
+"347","Imputation Model",14037.6893447361
+"348","Gradient Boosting Machines",4018.85313183387
+"349","Multiple Linear Regression",4948.18861027521
+"350","Imputation Model",14301.2136669785
+"351","Gradient Boosting Machines",4469.98382280833
+"352","Multiple Linear Regression",4404.74311732308
+"353","Imputation Model",13965.3069825755
+"354","Gradient Boosting Machines",3999.73119535331
+"355","Multiple Linear Regression",4636.16431312651
+"356","Imputation Model",14300.1448415917
+"357","Gradient Boosting Machines",4121.15747177891
+"358","Multiple Linear Regression",4708.65999643727
+"359","Imputation Model",14272.2562344105
+"360","Gradient Boosting Machines",4309.24317785111
+"361","Multiple Linear Regression",4361.2048985269
+"362","Imputation Model",14134.6022494251
+"363","Gradient Boosting Machines",3955.47241748943
+"364","Multiple Linear Regression",4488.52239686017
+"365","Imputation Model",14114.8528236822
+"366","Gradient Boosting Machines",4069.79393858828
+"367","Multiple Linear Regression",4553.17445170846
+"368","Imputation Model",14108.4340393476
+"369","Gradient Boosting Machines",4124.17714435188
+"370","Multiple Linear Regression",4234.65134278569
+"371","Imputation Model",13845.6367336393
+"372","Gradient Boosting Machines",3936.56871114363
+"373","Multiple Linear Regression",4916.40276209198
+"374","Imputation Model",14341.0507339273
+"375","Gradient Boosting Machines",4391.49830262852
+"376","Multiple Linear Regression",4692.82058437985
+"377","Imputation Model",14221.3639339345
+"378","Gradient Boosting Machines",4236.31242880849
+"379","Multiple Linear Regression",4621.70922850199
+"380","Imputation Model",14148.3212045389
+"381","Gradient Boosting Machines",4225.790499961
+"382","Multiple Linear Regression",4925.91469185816
+"383","Imputation Model",14405.9035711292
+"384","Gradient Boosting Machines",4416.04641136399
+"385","Multiple Linear Regression",4786.96808137535
+"386","Imputation Model",14275.3220708277
+"387","Gradient Boosting Machines",4278.15753536508
+"388","Multiple Linear Regression",4590.27965896849
+"389","Imputation Model",14156.1578412537
+"390","Gradient Boosting Machines",4182.50128265435
+"391","Multiple Linear Regression",4745.88192682845
+"392","Imputation Model",14320.7235127669
+"393","Gradient Boosting Machines",4295.85037898039
+"394","Multiple Linear Regression",4578.79823469354
+"395","Imputation Model",14211.792434847
+"396","Gradient Boosting Machines",4104.12252115005
+"397","Multiple Linear Regression",4805.08045426671
+"398","Imputation Model",14306.766012267
+"399","Gradient Boosting Machines",4307.57636941933
+"400","Multiple Linear Regression",4523.15324196169
+"401","Imputation Model",14006.2477251503
+"402","Gradient Boosting Machines",4064.58686326618
+"403","Multiple Linear Regression",4678.58166409074
+"404","Imputation Model",14190.2560720709
+"405","Gradient Boosting Machines",4211.33420148024
+"406","Multiple Linear Regression",4494.1660754294
+"407","Imputation Model",14131.8322075508
+"408","Gradient Boosting Machines",4140.29019607764
+"409","Multiple Linear Regression",4654.19701029218
+"410","Imputation Model",14287.2775309045
+"411","Gradient Boosting Machines",4317.57514315964
+"412","Multiple Linear Regression",4684.66235841125
+"413","Imputation Model",14207.2710545848
+"414","Gradient Boosting Machines",4298.81366417668
+"415","Multiple Linear Regression",4507.7347282343
+"416","Imputation Model",14166.8073421319
+"417","Gradient Boosting Machines",4047.90894673469
+"418","Multiple Linear Regression",4602.73208499182
+"419","Imputation Model",14082.4912633989
+"420","Gradient Boosting Machines",4089.45860715129
+"421","Multiple Linear Regression",4536.51744894541
+"422","Imputation Model",14070.5398701362
+"423","Gradient Boosting Machines",4171.74617616495
+"424","Multiple Linear Regression",4864.48200196302
+"425","Imputation Model",14299.1271481929
+"426","Gradient Boosting Machines",4366.06097058961
+"427","Multiple Linear Regression",4643.15617928553
+"428","Imputation Model",14180.794349572
+"429","Gradient Boosting Machines",4159.62603907383
+"430","Multiple Linear Regression",4688.24633866125
+"431","Imputation Model",14239.1291373684
+"432","Gradient Boosting Machines",4267.36536319889
+"433","Multiple Linear Regression",4535.86210459872
+"434","Imputation Model",14230.3977292714
+"435","Gradient Boosting Machines",4034.40884324607
+"436","Multiple Linear Regression",4573.60133303825
+"437","Imputation Model",14050.366193729
+"438","Gradient Boosting Machines",4166.29345067347
+"439","Multiple Linear Regression",4487.68650298324
+"440","Imputation Model",14109.0795968768
+"441","Gradient Boosting Machines",4072.00550480087
+"442","Multiple Linear Regression",4679.19360847453
+"443","Imputation Model",14229.0915495823
+"444","Gradient Boosting Machines",4247.68281855241
+"445","Multiple Linear Regression",4306.31716277332
+"446","Imputation Model",14022.712732379
+"447","Gradient Boosting Machines",4078.45490383546
+"448","Multiple Linear Regression",4572.38658008569
+"449","Imputation Model",14093.4124838643
+"450","Gradient Boosting Machines",4154.45824253704
+"451","Multiple Linear Regression",4420.38102193886
+"452","Imputation Model",14118.4611710583
+"453","Gradient Boosting Machines",4078.01749944913
+"454","Multiple Linear Regression",4545.70130565609
+"455","Imputation Model",14254.1857281474
+"456","Gradient Boosting Machines",4083.66751448435
+"457","Multiple Linear Regression",4740.37294878222
+"458","Imputation Model",14198.6181691643
+"459","Gradient Boosting Machines",4246.11391242603
+"460","Multiple Linear Regression",4619.71887230063
+"461","Imputation Model",14219.7207694417
+"462","Gradient Boosting Machines",4153.24815597655
+"463","Multiple Linear Regression",4495.73165358185
+"464","Imputation Model",14153.8205363486
+"465","Gradient Boosting Machines",4156.79417009896
+"466","Multiple Linear Regression",4452.83296532226
+"467","Imputation Model",14021.9430558025
+"468","Gradient Boosting Machines",4113.46075110077
+"469","Multiple Linear Regression",4703.53283832743
+"470","Imputation Model",14253.4290221034
+"471","Gradient Boosting Machines",4257.39460063849
+"472","Multiple Linear Regression",4503.09112288666
+"473","Imputation Model",14137.2612280185
+"474","Gradient Boosting Machines",4057.95255099696
+"475","Multiple Linear Regression",4612.37745282977
+"476","Imputation Model",14152.2990789108
+"477","Gradient Boosting Machines",4289.91400403868
+"478","Multiple Linear Regression",4474.96434088945
+"479","Imputation Model",14144.4242348833
+"480","Gradient Boosting Machines",4119.48953527644
+"481","Multiple Linear Regression",4710.57922012833
+"482","Imputation Model",14280.5300852515
+"483","Gradient Boosting Machines",4332.14010994564
+"484","Multiple Linear Regression",4400.04943070437
+"485","Imputation Model",14009.3283952852
+"486","Gradient Boosting Machines",3984.6971347857
+"487","Multiple Linear Regression",4586.77071491744
+"488","Imputation Model",14130.9575010955
+"489","Gradient Boosting Machines",4165.34809612582
+"490","Multiple Linear Regression",4647.33742077578
+"491","Imputation Model",14198.416589792
+"492","Gradient Boosting Machines",4246.57245535472
+"493","Multiple Linear Regression",4430.13191014577
+"494","Imputation Model",13997.0087459089
+"495","Gradient Boosting Machines",4126.46193202234
+"496","Multiple Linear Regression",4649.41329108674
+"497","Imputation Model",14278.3855311481
+"498","Gradient Boosting Machines",4250.57500886788
+"499","Multiple Linear Regression",4742.3580206247
+"500","Imputation Model",14125.5464888011
+"501","Gradient Boosting Machines",4321.3784704992
+"502","Multiple Linear Regression",4456.9629175517
+"503","Imputation Model",14113.1659492505
+"504","Gradient Boosting Machines",4035.45670878427
+"505","Multiple Linear Regression",4421.93334711789
+"506","Imputation Model",14102.0688109388
+"507","Gradient Boosting Machines",4029.69506701072
+"508","Multiple Linear Regression",4627.36731833744
+"509","Imputation Model",14217.6321332292
+"510","Gradient Boosting Machines",4269.58332824345
+"511","Multiple Linear Regression",4754.15403896178
+"512","Imputation Model",14261.5230261371
+"513","Gradient Boosting Machines",4281.31934929218
+"514","Multiple Linear Regression",4549.66860909571
+"515","Imputation Model",14112.1874698501
+"516","Gradient Boosting Machines",4136.81956454589
+"517","Multiple Linear Regression",4530.46957412646
+"518","Imputation Model",14116.4911825057
+"519","Gradient Boosting Machines",4110.09191561196
+"520","Multiple Linear Regression",4410.86470337628
+"521","Imputation Model",14073.3985799236
+"522","Gradient Boosting Machines",4052.7124235876
+"523","Multiple Linear Regression",4617.23664183668
+"524","Imputation Model",14116.8330631547
+"525","Gradient Boosting Machines",4223.93787836359
+"526","Multiple Linear Regression",4519.27093119253
+"527","Imputation Model",14037.3028935279
+"528","Gradient Boosting Machines",4128.44972344451
+"529","Multiple Linear Regression",4663.79754179164
+"530","Imputation Model",14089.372514271
+"531","Gradient Boosting Machines",4260.89434877876
+"532","Multiple Linear Regression",4532.48866460217
+"533","Imputation Model",14136.2938349945
+"534","Gradient Boosting Machines",4219.79398210384
+"535","Multiple Linear Regression",4452.23054923474
+"536","Imputation Model",14068.7448706974
+"537","Gradient Boosting Machines",4121.63973904218
+"538","Multiple Linear Regression",4691.96808523298
+"539","Imputation Model",14216.6628082099
+"540","Gradient Boosting Machines",4224.6371319263
+"541","Multiple Linear Regression",4416.92343064671
+"542","Imputation Model",14162.4266157633
+"543","Gradient Boosting Machines",4034.31348631766
+"544","Multiple Linear Regression",4379.21121505103
+"545","Imputation Model",14014.8651658859
+"546","Gradient Boosting Machines",3977.53907389192
+"547","Multiple Linear Regression",4885.6908416718
+"548","Imputation Model",14466.9731406895
+"549","Gradient Boosting Machines",4398.76790349477
+"550","Multiple Linear Regression",4555.5686277528
+"551","Imputation Model",14152.4363433861
+"552","Gradient Boosting Machines",4148.43867411704
+"553","Multiple Linear Regression",4878.97513122256
+"554","Imputation Model",14450.3441952925
+"555","Gradient Boosting Machines",4398.79904994768
+"556","Multiple Linear Regression",4629.14189958275
+"557","Imputation Model",14080.7769178901
+"558","Gradient Boosting Machines",4103.87483446928
+"559","Multiple Linear Regression",4785.23160151268
+"560","Imputation Model",14264.4894550535
+"561","Gradient Boosting Machines",4343.91413571105
+"562","Multiple Linear Regression",4582.99896069917
+"563","Imputation Model",14220.3450078074
+"564","Gradient Boosting Machines",4120.04041998393
+"565","Multiple Linear Regression",4661.52861379752
+"566","Imputation Model",14226.9258887553
+"567","Gradient Boosting Machines",4210.71910035284
+"568","Multiple Linear Regression",4723.29487487689
+"569","Imputation Model",14312.6196919211
+"570","Gradient Boosting Machines",4162.06695944501
+"571","Multiple Linear Regression",4739.44629216221
+"572","Imputation Model",14296.7720555706
+"573","Gradient Boosting Machines",4307.01864970933
+"574","Multiple Linear Regression",4782.65224336105
+"575","Imputation Model",14255.7947666112
+"576","Gradient Boosting Machines",4330.44511573311
+"577","Multiple Linear Regression",4393.2868027531
+"578","Imputation Model",14119.490487077
+"579","Gradient Boosting Machines",4083.56475483048
+"580","Multiple Linear Regression",4858.19311312092
+"581","Imputation Model",14339.4156055682
+"582","Gradient Boosting Machines",4402.01119525556
+"583","Multiple Linear Regression",4816.42558715927
+"584","Imputation Model",14295.4388485327
+"585","Gradient Boosting Machines",4237.3244274338
+"586","Multiple Linear Regression",4524.85908752769
+"587","Imputation Model",14184.5171162475
+"588","Gradient Boosting Machines",4092.63581196577
+"589","Multiple Linear Regression",4810.29514985178
+"590","Imputation Model",14292.9583332096
+"591","Gradient Boosting Machines",4349.60265087961
+"592","Multiple Linear Regression",4342.031745261
+"593","Imputation Model",13885.0914990057
+"594","Gradient Boosting Machines",3966.42076377843
+"595","Multiple Linear Regression",4819.97573733784
+"596","Imputation Model",14318.5828718568
+"597","Gradient Boosting Machines",4325.86488093393
+"598","Multiple Linear Regression",4623.14945775584
+"599","Imputation Model",14124.6867148901
+"600","Gradient Boosting Machines",4160.45800462495
+"601","Multiple Linear Regression",4741.03009140759
+"602","Imputation Model",14178.3280534778
+"603","Gradient Boosting Machines",4299.03788214102
+"604","Multiple Linear Regression",4645.66650510203
+"605","Imputation Model",14240.9563897739
+"606","Gradient Boosting Machines",4187.80813628469
+"607","Multiple Linear Regression",4616.72535674405
+"608","Imputation Model",14153.315570061
+"609","Gradient Boosting Machines",4128.15257182595
+"610","Multiple Linear Regression",4583.20081908096
+"611","Imputation Model",14244.5292908445
+"612","Gradient Boosting Machines",4109.17320501429
+"613","Multiple Linear Regression",4346.2509255884
+"614","Imputation Model",14086.0667831358
+"615","Gradient Boosting Machines",4082.04100581084
+"616","Multiple Linear Regression",4484.38975553193
+"617","Imputation Model",14090.2475694105
+"618","Gradient Boosting Machines",4045.59150239085
+"619","Multiple Linear Regression",4747.76674167883
+"620","Imputation Model",14272.6915937024
+"621","Gradient Boosting Machines",4336.89001908152
+"622","Multiple Linear Regression",4622.75655515788
+"623","Imputation Model",14161.2380128403
+"624","Gradient Boosting Machines",4148.51228069284
+"625","Multiple Linear Regression",4433.40624932237
+"626","Imputation Model",14039.114132565
+"627","Gradient Boosting Machines",4093.35394268003
+"628","Multiple Linear Regression",4640.47774989349
+"629","Imputation Model",14262.6501170136
+"630","Gradient Boosting Machines",4266.06644422973
+"631","Multiple Linear Regression",4703.46317786227
+"632","Imputation Model",14232.2361330183
+"633","Gradient Boosting Machines",4249.11819535734
+"634","Multiple Linear Regression",4379.85409338457
+"635","Imputation Model",14100.6632340645
+"636","Gradient Boosting Machines",4158.32094401219
+"637","Multiple Linear Regression",4417.53323535016
+"638","Imputation Model",13976.1069051081
+"639","Gradient Boosting Machines",4024.07429814896
+"640","Multiple Linear Regression",4487.59763491548
+"641","Imputation Model",14094.2679715969
+"642","Gradient Boosting Machines",4177.4430772037
+"643","Multiple Linear Regression",4779.03640302683
+"644","Imputation Model",14288.9177323228
+"645","Gradient Boosting Machines",4316.63482442258
+"646","Multiple Linear Regression",4703.9895775296
+"647","Imputation Model",14159.3455851958
+"648","Gradient Boosting Machines",4260.99990278826
+"649","Multiple Linear Regression",4474.9607823911
+"650","Imputation Model",14137.0602084334
+"651","Gradient Boosting Machines",4073.44321807702
+"652","Multiple Linear Regression",4583.66762982236
+"653","Imputation Model",14093.6141749843
+"654","Gradient Boosting Machines",4132.38770288056
+"655","Multiple Linear Regression",4585.04256636843
+"656","Imputation Model",14136.9502335153
+"657","Gradient Boosting Machines",4130.89963389734
+"658","Multiple Linear Regression",4758.06136945579
+"659","Imputation Model",14334.6143003861
+"660","Gradient Boosting Machines",4312.15947115507
+"661","Multiple Linear Regression",4890.32347413017
+"662","Imputation Model",14424.0670487136
+"663","Gradient Boosting Machines",4337.60886390845
+"664","Multiple Linear Regression",4496.6303090575
+"665","Imputation Model",14096.4423187543
+"666","Gradient Boosting Machines",4081.7364694832
+"667","Multiple Linear Regression",4404.33905085955
+"668","Imputation Model",13992.9249448307
+"669","Gradient Boosting Machines",3993.22234837095
+"670","Multiple Linear Regression",4786.33652909811
+"671","Imputation Model",14259.8384692157
+"672","Gradient Boosting Machines",4346.11758204658
+"673","Multiple Linear Regression",4446.68433397801
+"674","Imputation Model",14203.6110455832
+"675","Gradient Boosting Machines",4120.6763061114
+"676","Multiple Linear Regression",4787.69832864321
+"677","Imputation Model",14335.2852836106
+"678","Gradient Boosting Machines",4236.80097934241
+"679","Multiple Linear Regression",4792.87261415882
+"680","Imputation Model",14264.6645983117
+"681","Gradient Boosting Machines",4282.02198909374
+"682","Multiple Linear Regression",4699.01789018787
+"683","Imputation Model",14244.5025891532
+"684","Gradient Boosting Machines",4232.09643629684
+"685","Multiple Linear Regression",4536.0606003725
+"686","Imputation Model",14093.1226712705
+"687","Gradient Boosting Machines",4159.29413369566
+"688","Multiple Linear Regression",4584.82493905172
+"689","Imputation Model",14048.4699269745
+"690","Gradient Boosting Machines",4202.16771592756
+"691","Multiple Linear Regression",4757.13528359258
+"692","Imputation Model",14333.2909220539
+"693","Gradient Boosting Machines",4291.02691141036
+"694","Multiple Linear Regression",4444.93939510329
+"695","Imputation Model",14053.0425948031
+"696","Gradient Boosting Machines",4011.27343969397
+"697","Multiple Linear Regression",4555.50621106067
+"698","Imputation Model",14143.1727846656
+"699","Gradient Boosting Machines",4151.99845086457
+"700","Multiple Linear Regression",4587.89014425006
+"701","Imputation Model",14099.8036588949
+"702","Gradient Boosting Machines",4116.59542710753
+"703","Multiple Linear Regression",4465.83206223954
+"704","Imputation Model",14036.3762557486
+"705","Gradient Boosting Machines",4134.59298062559
+"706","Multiple Linear Regression",4511.00286658881
+"707","Imputation Model",14034.2625955083
+"708","Gradient Boosting Machines",4087.75010449232
+"709","Multiple Linear Regression",4713.09265001487
+"710","Imputation Model",14269.2181362716
+"711","Gradient Boosting Machines",4275.01230672876
+"712","Multiple Linear Regression",4599.7559510124
+"713","Imputation Model",14211.9193972581
+"714","Gradient Boosting Machines",4179.3981721126
+"715","Multiple Linear Regression",4512.94857570117
+"716","Imputation Model",14221.7896059841
+"717","Gradient Boosting Machines",4245.49178164091
+"718","Multiple Linear Regression",4496.72405149595
+"719","Imputation Model",14024.8893837459
+"720","Gradient Boosting Machines",4068.78120869553
+"721","Multiple Linear Regression",4504.56925485061
+"722","Imputation Model",14053.2273741314
+"723","Gradient Boosting Machines",4017.29718851909
+"724","Multiple Linear Regression",4475.05272798557
+"725","Imputation Model",14135.1689106457
+"726","Gradient Boosting Machines",4141.72425992863
+"727","Multiple Linear Regression",4912.27788360716
+"728","Imputation Model",14539.3809122431
+"729","Gradient Boosting Machines",4425.99131881065
+"730","Multiple Linear Regression",4823.65564120868
+"731","Imputation Model",14257.1342076689
+"732","Gradient Boosting Machines",4402.41786347097
+"733","Multiple Linear Regression",4576.52348996501
+"734","Imputation Model",14153.8118778361
+"735","Gradient Boosting Machines",4172.3688214873
+"736","Multiple Linear Regression",4619.11023477744
+"737","Imputation Model",14202.8666679639
+"738","Gradient Boosting Machines",4150.72018342458
+"739","Multiple Linear Regression",4596.5989885934
+"740","Imputation Model",14113.6571598833
+"741","Gradient Boosting Machines",4145.03100876369
+"742","Multiple Linear Regression",4518.19073631957
+"743","Imputation Model",14089.1253757663
+"744","Gradient Boosting Machines",4079.82237865255
+"745","Multiple Linear Regression",4462.60644150506
+"746","Imputation Model",14209.5283438835
+"747","Gradient Boosting Machines",4116.61738395238
+"748","Multiple Linear Regression",4841.88343266717
+"749","Imputation Model",14368.5532184528
+"750","Gradient Boosting Machines",4448.58511506954
+"751","Multiple Linear Regression",4602.98913688407
+"752","Imputation Model",14189.2720554069
+"753","Gradient Boosting Machines",4177.23238885044
+"754","Multiple Linear Regression",4809.37511035276
+"755","Imputation Model",14358.7441203141
+"756","Gradient Boosting Machines",4426.02060662356
+"757","Multiple Linear Regression",4557.730861646
+"758","Imputation Model",14161.5001812148
+"759","Gradient Boosting Machines",4049.75026378066
+"760","Multiple Linear Regression",4535.21117900987
+"761","Imputation Model",14182.7075091188
+"762","Gradient Boosting Machines",4117.1844457323
+"763","Multiple Linear Regression",4590.2280346014
+"764","Imputation Model",14201.6867766159
+"765","Gradient Boosting Machines",4125.77837007339
+"766","Multiple Linear Regression",4350.6021848872
+"767","Imputation Model",14120.9829228086
+"768","Gradient Boosting Machines",4155.54190892075
+"769","Multiple Linear Regression",4620.04651559412
+"770","Imputation Model",14154.1544341796
+"771","Gradient Boosting Machines",4156.25585151567
+"772","Multiple Linear Regression",4525.29714230269
+"773","Imputation Model",14205.3473171091
+"774","Gradient Boosting Machines",4055.6100231112
+"775","Multiple Linear Regression",4773.99376705165
+"776","Imputation Model",14341.1696602705
+"777","Gradient Boosting Machines",4306.1378923169
+"778","Multiple Linear Regression",4650.20337737279
+"779","Imputation Model",14159.4609611783
+"780","Gradient Boosting Machines",4232.33495936627
+"781","Multiple Linear Regression",4496.78517761115
+"782","Imputation Model",14117.8095637069
+"783","Gradient Boosting Machines",4055.20948121195
+"784","Multiple Linear Regression",4743.58070545874
+"785","Imputation Model",14177.1566374404
+"786","Gradient Boosting Machines",4282.8653145479
+"787","Multiple Linear Regression",4635.99318493666
+"788","Imputation Model",14217.5156738303
+"789","Gradient Boosting Machines",4189.57982116653
+"790","Multiple Linear Regression",4876.24601089451
+"791","Imputation Model",14344.6035730406
+"792","Gradient Boosting Machines",4400.14906426736
+"793","Multiple Linear Regression",4836.57599971049
+"794","Imputation Model",14301.0992651596
+"795","Gradient Boosting Machines",4447.94319152951
+"796","Multiple Linear Regression",4448.17395748514
+"797","Imputation Model",14210.7988718408
+"798","Gradient Boosting Machines",4060.88200133545
+"799","Multiple Linear Regression",4697.41051557755
+"800","Imputation Model",14242.6746607328
+"801","Gradient Boosting Machines",4182.28519471806
+"802","Multiple Linear Regression",4681.90947215458
+"803","Imputation Model",14114.8229936297
+"804","Gradient Boosting Machines",4245.28358178115
+"805","Multiple Linear Regression",4591.41316694523
+"806","Imputation Model",14069.9019325854
+"807","Gradient Boosting Machines",4189.72057469444
+"808","Multiple Linear Regression",4564.4805755385
+"809","Imputation Model",14150.6402107523
+"810","Gradient Boosting Machines",4062.84076442148
+"811","Multiple Linear Regression",4648.09901210245
+"812","Imputation Model",14265.4259635484
+"813","Gradient Boosting Machines",4199.66447536498
+"814","Multiple Linear Regression",4529.48830905583
+"815","Imputation Model",14034.8286763325
+"816","Gradient Boosting Machines",4049.60348416809
+"817","Multiple Linear Regression",4596.78492126979
+"818","Imputation Model",14163.943523464
+"819","Gradient Boosting Machines",4196.52127438297
+"820","Multiple Linear Regression",4710.60878407402
+"821","Imputation Model",14224.7700786053
+"822","Gradient Boosting Machines",4300.33445315747
+"823","Multiple Linear Regression",4705.63001955041
+"824","Imputation Model",14203.0358668787
+"825","Gradient Boosting Machines",4263.96319452833
+"826","Multiple Linear Regression",4375.86051715622
+"827","Imputation Model",13984.5128753984
+"828","Gradient Boosting Machines",3965.75768998797
+"829","Multiple Linear Regression",4604.43282698214
+"830","Imputation Model",14172.6119484706
+"831","Gradient Boosting Machines",4227.69877134072
+"832","Multiple Linear Regression",4502.8830813301
+"833","Imputation Model",14137.1785496654
+"834","Gradient Boosting Machines",4049.75455035328
+"835","Multiple Linear Regression",4646.03275007951
+"836","Imputation Model",14236.9276575312
+"837","Gradient Boosting Machines",4245.89142993255
+"838","Multiple Linear Regression",4461.7580961007
+"839","Imputation Model",14002.6263178769
+"840","Gradient Boosting Machines",4245.21477402445
+"841","Multiple Linear Regression",4694.03213968942
+"842","Imputation Model",14189.5631911953
+"843","Gradient Boosting Machines",4205.45809612038
+"844","Multiple Linear Regression",4694.04248968316
+"845","Imputation Model",14308.6082198384
+"846","Gradient Boosting Machines",4146.1188421716
+"847","Multiple Linear Regression",4783.188608809
+"848","Imputation Model",14264.9953177705
+"849","Gradient Boosting Machines",4278.87431138601
+"850","Multiple Linear Regression",4519.91544514709
+"851","Imputation Model",14042.3994740812
+"852","Gradient Boosting Machines",4059.28468003659
+"853","Multiple Linear Regression",4731.9405768812
+"854","Imputation Model",14301.2780165979
+"855","Gradient Boosting Machines",4292.55102333202
+"856","Multiple Linear Regression",4778.03725203112
+"857","Imputation Model",14213.6954466344
+"858","Gradient Boosting Machines",4280.93238982418
+"859","Multiple Linear Regression",4765.80192897475
+"860","Imputation Model",14183.1184749831
+"861","Gradient Boosting Machines",4336.09288451347
+"862","Multiple Linear Regression",4813.885786238
+"863","Imputation Model",14333.9119869431
+"864","Gradient Boosting Machines",4467.97350118264
+"865","Multiple Linear Regression",4743.26497426113
+"866","Imputation Model",14218.6139244381
+"867","Gradient Boosting Machines",4280.94676692864
+"868","Multiple Linear Regression",4636.50726294044
+"869","Imputation Model",14119.1101849951
+"870","Gradient Boosting Machines",4145.82602209381
+"871","Multiple Linear Regression",4781.86129422318
+"872","Imputation Model",14312.6281421352
+"873","Gradient Boosting Machines",4307.89431718354
+"874","Multiple Linear Regression",4560.67714862307
+"875","Imputation Model",14114.0406409924
+"876","Gradient Boosting Machines",4173.74813960663
+"877","Multiple Linear Regression",4615.52842345669
+"878","Imputation Model",14163.3747729766
+"879","Gradient Boosting Machines",4244.35663001541
+"880","Multiple Linear Regression",4852.14881139854
+"881","Imputation Model",14374.6570340388
+"882","Gradient Boosting Machines",4407.25037616218
+"883","Multiple Linear Regression",4393.24587207299
+"884","Imputation Model",14082.1248929493
+"885","Gradient Boosting Machines",4115.62486338734
+"886","Multiple Linear Regression",4469.39805298294
+"887","Imputation Model",14111.1130105236
+"888","Gradient Boosting Machines",4029.76157025705
+"889","Multiple Linear Regression",4496.803560085
+"890","Imputation Model",14052.3472543206
+"891","Gradient Boosting Machines",4033.53116514596
+"892","Multiple Linear Regression",4431.87395060978
+"893","Imputation Model",13999.9854612899
+"894","Gradient Boosting Machines",4009.13928696745
+"895","Multiple Linear Regression",4446.91150581777
+"896","Imputation Model",14180.9185882386
+"897","Gradient Boosting Machines",4038.19087073187
+"898","Multiple Linear Regression",4644.89800636208
+"899","Imputation Model",14233.6927167273
+"900","Gradient Boosting Machines",4141.55385109883
+"901","Multiple Linear Regression",4418.76428194318
+"902","Imputation Model",14103.523361778
+"903","Gradient Boosting Machines",4050.31227898983
+"904","Multiple Linear Regression",4369.88994674784
+"905","Imputation Model",14092.7560029874
+"906","Gradient Boosting Machines",4052.28139869813
+"907","Multiple Linear Regression",4486.50038977593
+"908","Imputation Model",14149.6555083569
+"909","Gradient Boosting Machines",4130.9480699862
+"910","Multiple Linear Regression",4901.02744713734
+"911","Imputation Model",14417.5317169492
+"912","Gradient Boosting Machines",4365.7707139353
+"913","Multiple Linear Regression",4619.24702029896
+"914","Imputation Model",14154.1015898748
+"915","Gradient Boosting Machines",4205.91242583146
+"916","Multiple Linear Regression",4686.433130962
+"917","Imputation Model",14207.6778011554
+"918","Gradient Boosting Machines",4222.01869814566
+"919","Multiple Linear Regression",4345.8619921243
+"920","Imputation Model",14115.7076425749
+"921","Gradient Boosting Machines",3964.70396762398
+"922","Multiple Linear Regression",4570.18050957505
+"923","Imputation Model",14175.5128984631
+"924","Gradient Boosting Machines",4162.43933534407
+"925","Multiple Linear Regression",4848.59576987017
+"926","Imputation Model",14336.4474678096
+"927","Gradient Boosting Machines",4373.49644058162
+"928","Multiple Linear Regression",4588.68552762121
+"929","Imputation Model",14153.3681029934
+"930","Gradient Boosting Machines",4237.03542986601
+"931","Multiple Linear Regression",4465.82341207257
+"932","Imputation Model",14078.2047867073
+"933","Gradient Boosting Machines",4014.50531627654
+"934","Multiple Linear Regression",4891.58243294697
+"935","Imputation Model",14429.8815911331
+"936","Gradient Boosting Machines",4406.0733184522
+"937","Multiple Linear Regression",4795.93954128743
+"938","Imputation Model",14234.6543571692
+"939","Gradient Boosting Machines",4328.71461147521
+"940","Multiple Linear Regression",4438.24270293785
+"941","Imputation Model",13971.6185879446
+"942","Gradient Boosting Machines",4073.99383467316
+"943","Multiple Linear Regression",4713.9396823246
+"944","Imputation Model",14253.5000253182
+"945","Gradient Boosting Machines",4258.68472011452
+"946","Multiple Linear Regression",4552.65748187578
+"947","Imputation Model",14220.3264558555
+"948","Gradient Boosting Machines",4113.84770568982
+"949","Multiple Linear Regression",4539.67650658659
+"950","Imputation Model",14192.8101979103
+"951","Gradient Boosting Machines",4051.41174222168
+"952","Multiple Linear Regression",4553.16964047772
+"953","Imputation Model",14118.5146899177
+"954","Gradient Boosting Machines",4161.01856270675
+"955","Multiple Linear Regression",4432.6331927719
+"956","Imputation Model",14070.3635789347
+"957","Gradient Boosting Machines",4054.81372197841
+"958","Multiple Linear Regression",4581.69489941387
+"959","Imputation Model",14217.7233759349
+"960","Gradient Boosting Machines",4181.55148895515
+"961","Multiple Linear Regression",4834.0656148493
+"962","Imputation Model",14285.0005083539
+"963","Gradient Boosting Machines",4326.36665176997
+"964","Multiple Linear Regression",4408.86000040012
+"965","Imputation Model",14146.8805903418
+"966","Gradient Boosting Machines",4034.02890833978
+"967","Multiple Linear Regression",4530.47237521965
+"968","Imputation Model",14183.3713300634
+"969","Gradient Boosting Machines",4138.34297219722
+"970","Multiple Linear Regression",4673.12861550271
+"971","Imputation Model",14284.0137679721
+"972","Gradient Boosting Machines",4149.86711287225
+"973","Multiple Linear Regression",4886.62837402894
+"974","Imputation Model",14358.6473847038
+"975","Gradient Boosting Machines",4349.74688322457
+"976","Multiple Linear Regression",4688.10309499269
+"977","Imputation Model",14207.0427146015
+"978","Gradient Boosting Machines",4244.5893368104
+"979","Multiple Linear Regression",4502.3772946132
+"980","Imputation Model",14132.3672462644
+"981","Gradient Boosting Machines",4055.98613020229
+"982","Multiple Linear Regression",4605.31903478232
+"983","Imputation Model",14080.5845315233
+"984","Gradient Boosting Machines",4139.64270222608
+"985","Multiple Linear Regression",4546.21738464616
+"986","Imputation Model",14167.4681539389
+"987","Gradient Boosting Machines",4132.68843258556
+"988","Multiple Linear Regression",4540.2362757999
+"989","Imputation Model",14243.2655630809
+"990","Gradient Boosting Machines",4123.28394879182
+"991","Multiple Linear Regression",4525.09560193235
+"992","Imputation Model",14128.8465828886
+"993","Gradient Boosting Machines",4134.59087086693
+"994","Multiple Linear Regression",4718.04204531235
+"995","Imputation Model",14288.8731799487
+"996","Gradient Boosting Machines",4293.19906762253
+"997","Multiple Linear Regression",4581.97605913857
+"998","Imputation Model",14075.7692328938
+"999","Gradient Boosting Machines",4237.80680763515
+"1000","Multiple Linear Regression",4705.30735192213
+"1001","Imputation Model",14299.7435983125
+"1002","Gradient Boosting Machines",4244.04220400138
+"1003","Multiple Linear Regression",4595.94784371725
+"1004","Imputation Model",14172.990984979
+"1005","Gradient Boosting Machines",4165.5692798022
+"1006","Multiple Linear Regression",4681.11447760698
+"1007","Imputation Model",14213.9118457907
+"1008","Gradient Boosting Machines",4212.35559063405
+"1009","Multiple Linear Regression",4655.06371315541
+"1010","Imputation Model",14309.3295148236
+"1011","Gradient Boosting Machines",4201.14930823847
+"1012","Multiple Linear Regression",4736.81571521822
+"1013","Imputation Model",14304.9462649544
+"1014","Gradient Boosting Machines",4298.22886161214
+"1015","Multiple Linear Regression",4554.22040766789
+"1016","Imputation Model",14091.4205948885
+"1017","Gradient Boosting Machines",4044.65690939254
+"1018","Multiple Linear Regression",4792.42320927599
+"1019","Imputation Model",14314.280480542
+"1020","Gradient Boosting Machines",4267.66311352319
+"1021","Multiple Linear Regression",4627.12674438425
+"1022","Imputation Model",14260.3293359646
+"1023","Gradient Boosting Machines",4034.87982494093
+"1024","Multiple Linear Regression",4919.7687545986
+"1025","Imputation Model",14482.9867431827
+"1026","Gradient Boosting Machines",4452.26560739348
+"1027","Multiple Linear Regression",4784.44841035585
+"1028","Imputation Model",14249.9762616692
+"1029","Gradient Boosting Machines",4370.12882034068
+"1030","Multiple Linear Regression",4675.16769979512
+"1031","Imputation Model",14219.2410197136
+"1032","Gradient Boosting Machines",4224.31435324891
+"1033","Multiple Linear Regression",4548.53915726325
+"1034","Imputation Model",14161.443196268
+"1035","Gradient Boosting Machines",4155.42414629136
+"1036","Multiple Linear Regression",4594.15379547803
+"1037","Imputation Model",14280.7817652141
+"1038","Gradient Boosting Machines",4177.95723277166
+"1039","Multiple Linear Regression",4310.54270246891
+"1040","Imputation Model",14135.4794893922
+"1041","Gradient Boosting Machines",3969.86284289572
+"1042","Multiple Linear Regression",4484.20606469185
+"1043","Imputation Model",13999.8663229492
+"1044","Gradient Boosting Machines",4152.02727342982
+"1045","Multiple Linear Regression",4768.71055444759
+"1046","Imputation Model",14284.1906355461
+"1047","Gradient Boosting Machines",4239.34000599435
+"1048","Multiple Linear Regression",4588.37068102103
+"1049","Imputation Model",14163.3804309917
+"1050","Gradient Boosting Machines",4242.50587453932
+"1051","Multiple Linear Regression",4542.06356714291
+"1052","Imputation Model",14142.6644163568
+"1053","Gradient Boosting Machines",4111.13476442478
+"1054","Multiple Linear Regression",4213.775040995
+"1055","Imputation Model",13954.8138360759
+"1056","Gradient Boosting Machines",3953.05410194564
+"1057","Multiple Linear Regression",4585.44457633414
+"1058","Imputation Model",14117.15974679
+"1059","Gradient Boosting Machines",4202.27417230959
+"1060","Multiple Linear Regression",4834.76778226121
+"1061","Imputation Model",14240.0766083527
+"1062","Gradient Boosting Machines",4324.18404563534
+"1063","Multiple Linear Regression",4550.03499585991
+"1064","Imputation Model",14186.1455189006
+"1065","Gradient Boosting Machines",4114.72217112047
+"1066","Multiple Linear Regression",4541.80431405911
+"1067","Imputation Model",14276.0981280499
+"1068","Gradient Boosting Machines",4252.62874128471
+"1069","Multiple Linear Regression",4758.27128711904
+"1070","Imputation Model",14310.0339757114
+"1071","Gradient Boosting Machines",4261.31483165187
+"1072","Multiple Linear Regression",4457.80321178335
+"1073","Imputation Model",14126.8768332082
+"1074","Gradient Boosting Machines",3987.47737614246
+"1075","Multiple Linear Regression",4443.51023543084
+"1076","Imputation Model",13908.4477362333
+"1077","Gradient Boosting Machines",4018.00346818145
+"1078","Multiple Linear Regression",4483.23593323033
+"1079","Imputation Model",13941.632921467
+"1080","Gradient Boosting Machines",4092.1268543673
+"1081","Multiple Linear Regression",4435.01288398745
+"1082","Imputation Model",14079.8407151684
+"1083","Gradient Boosting Machines",4100.14786067131
+"1084","Multiple Linear Regression",4485.25364478895
+"1085","Imputation Model",14064.5228826237
+"1086","Gradient Boosting Machines",3993.66450312595
+"1087","Multiple Linear Regression",4456.69144505477
+"1088","Imputation Model",14089.2633348641
+"1089","Gradient Boosting Machines",4103.16906181027
+"1090","Multiple Linear Regression",4648.9431514005
+"1091","Imputation Model",14188.4580006973
+"1092","Gradient Boosting Machines",4145.84068014234
+"1093","Multiple Linear Regression",4525.15983061929
+"1094","Imputation Model",14137.4356218745
+"1095","Gradient Boosting Machines",4041.0045186151
+"1096","Multiple Linear Regression",4651.39056573937
+"1097","Imputation Model",14249.5875804615
+"1098","Gradient Boosting Machines",4174.21874327545
+"1099","Multiple Linear Regression",4629.68159357085
+"1100","Imputation Model",14230.4675001976
+"1101","Gradient Boosting Machines",4161.74228385533
+"1102","Multiple Linear Regression",4614.37229526429
+"1103","Imputation Model",14162.4137245791
+"1104","Gradient Boosting Machines",4138.45916502651
+"1105","Multiple Linear Regression",4625.10687771878
+"1106","Imputation Model",14232.166261919
+"1107","Gradient Boosting Machines",4290.50288280698
+"1108","Multiple Linear Regression",4608.32992055785
+"1109","Imputation Model",14192.4563602012
+"1110","Gradient Boosting Machines",4212.18527247332
+"1111","Multiple Linear Regression",4506.5317313354
+"1112","Imputation Model",14171.5577756615
+"1113","Gradient Boosting Machines",4051.31236841849
+"1114","Multiple Linear Regression",4654.10051812498
+"1115","Imputation Model",14212.5838993979
+"1116","Gradient Boosting Machines",4197.51215128953
+"1117","Multiple Linear Regression",4632.0386946936
+"1118","Imputation Model",14219.4327466534
+"1119","Gradient Boosting Machines",4127.71569732372
+"1120","Multiple Linear Regression",4646.18275714213
+"1121","Imputation Model",14207.8239439925
+"1122","Gradient Boosting Machines",4169.65239781208
+"1123","Multiple Linear Regression",4841.55637177656
+"1124","Imputation Model",14295.9172101635
+"1125","Gradient Boosting Machines",4354.85262734446
+"1126","Multiple Linear Regression",4700.80257736115
+"1127","Imputation Model",14306.5135877689
+"1128","Gradient Boosting Machines",4272.16640775692
+"1129","Multiple Linear Regression",4863.13684375226
+"1130","Imputation Model",14382.6070102995
+"1131","Gradient Boosting Machines",4345.92465305978
+"1132","Multiple Linear Regression",4860.65035562938
+"1133","Imputation Model",14389.0797511259
+"1134","Gradient Boosting Machines",4404.6721397974
+"1135","Multiple Linear Regression",4691.60177999425
+"1136","Imputation Model",14284.0659356366
+"1137","Gradient Boosting Machines",4195.72716091029
+"1138","Multiple Linear Regression",4534.21418316321
+"1139","Imputation Model",14116.3402060816
+"1140","Gradient Boosting Machines",4086.27737797954
+"1141","Multiple Linear Regression",4374.92997164442
+"1142","Imputation Model",13962.3706762882
+"1143","Gradient Boosting Machines",3922.8082038007
+"1144","Multiple Linear Regression",4453.47574175937
+"1145","Imputation Model",14078.1376403381
+"1146","Gradient Boosting Machines",4048.37606783133
+"1147","Multiple Linear Regression",4457.44071236809
+"1148","Imputation Model",14083.6378974706
+"1149","Gradient Boosting Machines",4043.40327304948
+"1150","Multiple Linear Regression",4637.52944076998
+"1151","Imputation Model",14154.3472940075
+"1152","Gradient Boosting Machines",4234.68302822038
+"1153","Multiple Linear Regression",4820.86638858376
+"1154","Imputation Model",14423.1787842227
+"1155","Gradient Boosting Machines",4417.32946696659
+"1156","Multiple Linear Regression",4521.35864023837
+"1157","Imputation Model",14056.6944811742
+"1158","Gradient Boosting Machines",4149.487140379
+"1159","Multiple Linear Regression",4700.60449670315
+"1160","Imputation Model",14120.8919280463
+"1161","Gradient Boosting Machines",4305.5019931361
+"1162","Multiple Linear Regression",4733.35334093871
+"1163","Imputation Model",14164.5292879744
+"1164","Gradient Boosting Machines",4266.40976105085
+"1165","Multiple Linear Regression",4432.28187194772
+"1166","Imputation Model",14023.5974987787
+"1167","Gradient Boosting Machines",4086.91612768452
+"1168","Multiple Linear Regression",4802.80260905568
+"1169","Imputation Model",14370.1455460903
+"1170","Gradient Boosting Machines",4366.39428625958
+"1171","Multiple Linear Regression",4437.57907140451
+"1172","Imputation Model",14094.2813864539
+"1173","Gradient Boosting Machines",4109.33233492269
+"1174","Multiple Linear Regression",4476.91502556602
+"1175","Imputation Model",13968.5777439029
+"1176","Gradient Boosting Machines",4155.85056087522
+"1177","Multiple Linear Regression",4345.66936793245
+"1178","Imputation Model",13990.9544611884
+"1179","Gradient Boosting Machines",4031.96713392809
+"1180","Multiple Linear Regression",4891.5990483359
+"1181","Imputation Model",14519.7847338245
+"1182","Gradient Boosting Machines",4415.37443438845
+"1183","Multiple Linear Regression",4426.84836195329
+"1184","Imputation Model",14109.7817317551
+"1185","Gradient Boosting Machines",3948.74792739669
+"1186","Multiple Linear Regression",4623.07383635482
+"1187","Imputation Model",14266.3876794204
+"1188","Gradient Boosting Machines",4164.47953551419
+"1189","Multiple Linear Regression",4591.85751958742
+"1190","Imputation Model",14186.1431249026
+"1191","Gradient Boosting Machines",4109.25373959126
+"1192","Multiple Linear Regression",4413.28274310674
+"1193","Imputation Model",13994.3463910177
+"1194","Gradient Boosting Machines",3994.12361104896
+"1195","Multiple Linear Regression",4499.3847225346
+"1196","Imputation Model",14088.335955752
+"1197","Gradient Boosting Machines",4109.21618653783
+"1198","Multiple Linear Regression",4915.81003982371
+"1199","Imputation Model",14406.6901585089
+"1200","Gradient Boosting Machines",4442.69898415287
+"1201","Multiple Linear Regression",4407.08911998787
+"1202","Imputation Model",14000.7326032477
+"1203","Gradient Boosting Machines",4098.70302854132
+"1204","Multiple Linear Regression",4482.01365053906
+"1205","Imputation Model",14136.4712097515
+"1206","Gradient Boosting Machines",4035.71656840393
+"1207","Multiple Linear Regression",4757.51842294604
+"1208","Imputation Model",14341.1661681295
+"1209","Gradient Boosting Machines",4382.92961338481
+"1210","Multiple Linear Regression",4584.0125922149
+"1211","Imputation Model",14082.9004486104
+"1212","Gradient Boosting Machines",4151.99435843166
+"1213","Multiple Linear Regression",4848.14701304224
+"1214","Imputation Model",14299.8129194691
+"1215","Gradient Boosting Machines",4407.73076401981
+"1216","Multiple Linear Regression",4643.65942507644
+"1217","Imputation Model",14191.1624779717
+"1218","Gradient Boosting Machines",4316.45623496882
+"1219","Multiple Linear Regression",4723.30689387332
+"1220","Imputation Model",14300.3326200878
+"1221","Gradient Boosting Machines",4224.54076667024
+"1222","Multiple Linear Regression",4697.05958447002
+"1223","Imputation Model",14212.7012057048
+"1224","Gradient Boosting Machines",4193.78150158779
+"1225","Multiple Linear Regression",4677.70556510322
+"1226","Imputation Model",14079.3882479719
+"1227","Gradient Boosting Machines",4334.09511645015
+"1228","Multiple Linear Regression",4610.35596142738
+"1229","Imputation Model",14209.6849873463
+"1230","Gradient Boosting Machines",4220.54562417611
+"1231","Multiple Linear Regression",4750.60165993343
+"1232","Imputation Model",14365.2488562852
+"1233","Gradient Boosting Machines",4252.399708116
+"1234","Multiple Linear Regression",4535.60885254658
+"1235","Imputation Model",14133.7096607032
+"1236","Gradient Boosting Machines",4088.49048408099
+"1237","Multiple Linear Regression",4531.91040243204
+"1238","Imputation Model",14165.2048806969
+"1239","Gradient Boosting Machines",4090.82057066328
+"1240","Multiple Linear Regression",4564.86733614176
+"1241","Imputation Model",14287.0978928712
+"1242","Gradient Boosting Machines",4176.12383218361
+"1243","Multiple Linear Regression",4541.93580540311
+"1244","Imputation Model",14098.1077693711
+"1245","Gradient Boosting Machines",4088.14086377024
+"1246","Multiple Linear Regression",4328.54638982994
+"1247","Imputation Model",13857.1474927661
+"1248","Gradient Boosting Machines",3980.14428815533
+"1249","Multiple Linear Regression",4653.625904579
+"1250","Imputation Model",14200.0562375723
+"1251","Gradient Boosting Machines",4186.01556326579
+"1252","Multiple Linear Regression",4733.06283984385
+"1253","Imputation Model",14163.8040611417
+"1254","Gradient Boosting Machines",4297.43374650408
+"1255","Multiple Linear Regression",4395.12814389346
+"1256","Imputation Model",14191.6529191854
+"1257","Gradient Boosting Machines",4093.86784062689
+"1258","Multiple Linear Regression",4546.25090381033
+"1259","Imputation Model",14245.5183601739
+"1260","Gradient Boosting Machines",4078.08450687469
+"1261","Multiple Linear Regression",4751.22375165239
+"1262","Imputation Model",14292.4804336551
+"1263","Gradient Boosting Machines",4278.59831575565
+"1264","Multiple Linear Regression",4517.08400494342
+"1265","Imputation Model",14141.3088562095
+"1266","Gradient Boosting Machines",4084.79565979214
+"1267","Multiple Linear Regression",4822.34624544261
+"1268","Imputation Model",14329.8272740707
+"1269","Gradient Boosting Machines",4389.22704370216
+"1270","Multiple Linear Regression",4400.90962440169
+"1271","Imputation Model",13988.0952170403
+"1272","Gradient Boosting Machines",3973.65175989721
+"1273","Multiple Linear Regression",4831.44791896648
+"1274","Imputation Model",14285.9697771805
+"1275","Gradient Boosting Machines",4320.89236192973
+"1276","Multiple Linear Regression",4434.23765859578
+"1277","Imputation Model",14108.9864446644
+"1278","Gradient Boosting Machines",4025.36787825248
+"1279","Multiple Linear Regression",4682.33444094023
+"1280","Imputation Model",14268.8997329909
+"1281","Gradient Boosting Machines",4229.71381034414
+"1282","Multiple Linear Regression",4581.41669598325
+"1283","Imputation Model",14166.7130054654
+"1284","Gradient Boosting Machines",4118.42136183897
+"1285","Multiple Linear Regression",4661.58089920648
+"1286","Imputation Model",14219.6740451611
+"1287","Gradient Boosting Machines",4159.300393482
+"1288","Multiple Linear Regression",4304.78938605721
+"1289","Imputation Model",14146.344723231
+"1290","Gradient Boosting Machines",3879.74237586247
+"1291","Multiple Linear Regression",4623.14137614189
+"1292","Imputation Model",14183.8889980108
+"1293","Gradient Boosting Machines",4132.48407152497
+"1294","Multiple Linear Regression",4628.78077601785
+"1295","Imputation Model",14321.4231066901
+"1296","Gradient Boosting Machines",4170.19082745706
+"1297","Multiple Linear Regression",4701.97192905689
+"1298","Imputation Model",14119.4734081075
+"1299","Gradient Boosting Machines",4196.53572273687
+"1300","Multiple Linear Regression",4753.51372106687
+"1301","Imputation Model",14271.0532881723
+"1302","Gradient Boosting Machines",4283.48538259377
+"1303","Multiple Linear Regression",4617.32177528183
+"1304","Imputation Model",14229.9040620109
+"1305","Gradient Boosting Machines",4140.18507082004
+"1306","Multiple Linear Regression",4814.88729017854
+"1307","Imputation Model",14369.3974573225
+"1308","Gradient Boosting Machines",4323.03504801129
+"1309","Multiple Linear Regression",4589.82372793288
+"1310","Imputation Model",14124.0108812909
+"1311","Gradient Boosting Machines",4218.2575704903
+"1312","Multiple Linear Regression",4741.78484937477
+"1313","Imputation Model",14274.783905428
+"1314","Gradient Boosting Machines",4263.51921914641
+"1315","Multiple Linear Regression",4810.1290839173
+"1316","Imputation Model",14228.0402226496
+"1317","Gradient Boosting Machines",4305.2480224769
+"1318","Multiple Linear Regression",4666.96935385756
+"1319","Imputation Model",14243.809065894
+"1320","Gradient Boosting Machines",4198.1843745372
+"1321","Multiple Linear Regression",4543.11600386226
+"1322","Imputation Model",14294.4659392934
+"1323","Gradient Boosting Machines",4044.94823354183
+"1324","Multiple Linear Regression",4502.05768826968
+"1325","Imputation Model",14056.6222053127
+"1326","Gradient Boosting Machines",4054.90832553631
+"1327","Multiple Linear Regression",4407.11221136439
+"1328","Imputation Model",14057.8255946202
+"1329","Gradient Boosting Machines",4067.3409388046
+"1330","Multiple Linear Regression",4525.93600320138
+"1331","Imputation Model",14142.5810004533
+"1332","Gradient Boosting Machines",4045.7446492232
+"1333","Multiple Linear Regression",4570.28652923613
+"1334","Imputation Model",14113.4697594324
+"1335","Gradient Boosting Machines",4190.4122541008
+"1336","Multiple Linear Regression",4413.27566466643
+"1337","Imputation Model",14002.9195401737
+"1338","Gradient Boosting Machines",4050.11760656388
+"1339","Multiple Linear Regression",4484.3833467387
+"1340","Imputation Model",14138.8956839843
+"1341","Gradient Boosting Machines",3989.79114164933
+"1342","Multiple Linear Regression",4509.1217823409
+"1343","Imputation Model",14167.334554465
+"1344","Gradient Boosting Machines",4109.85581182645
+"1345","Multiple Linear Regression",4533.55432334163
+"1346","Imputation Model",14029.8833279303
+"1347","Gradient Boosting Machines",4147.53717013739
+"1348","Multiple Linear Regression",4690.55500320753
+"1349","Imputation Model",14271.2172992503
+"1350","Gradient Boosting Machines",4284.33978723587
+"1351","Multiple Linear Regression",4717.22830527904
+"1352","Imputation Model",14268.2715511747
+"1353","Gradient Boosting Machines",4213.10791235327
+"1354","Multiple Linear Regression",4498.83900092263
+"1355","Imputation Model",14003.1306163797
+"1356","Gradient Boosting Machines",4054.91491127894
+"1357","Multiple Linear Regression",4678.7428782971
+"1358","Imputation Model",14234.0381360316
+"1359","Gradient Boosting Machines",4207.9901090143
+"1360","Multiple Linear Regression",4781.41017823835
+"1361","Imputation Model",14286.8776458674
+"1362","Gradient Boosting Machines",4335.30854167135
+"1363","Multiple Linear Regression",4705.8988362448
+"1364","Imputation Model",14267.0535612468
+"1365","Gradient Boosting Machines",4277.22912090942
+"1366","Multiple Linear Regression",4707.41482624447
+"1367","Imputation Model",14170.8031372282
+"1368","Gradient Boosting Machines",4247.99658955084
+"1369","Multiple Linear Regression",4448.94722201204
+"1370","Imputation Model",14067.1340095122
+"1371","Gradient Boosting Machines",4110.81138806769
+"1372","Multiple Linear Regression",4365.78625716653
+"1373","Imputation Model",14010.361568147
+"1374","Gradient Boosting Machines",4202.93410295751
+"1375","Multiple Linear Regression",4734.8811884894
+"1376","Imputation Model",14161.3531049438
+"1377","Gradient Boosting Machines",4247.01374998833
+"1378","Multiple Linear Regression",4628.25152359364
+"1379","Imputation Model",14235.2160831816
+"1380","Gradient Boosting Machines",4292.53347128688
+"1381","Multiple Linear Regression",4593.29892536661
+"1382","Imputation Model",14201.6761123527
+"1383","Gradient Boosting Machines",4153.54532172068
+"1384","Multiple Linear Regression",4511.77197458584
+"1385","Imputation Model",14122.4326575076
+"1386","Gradient Boosting Machines",4079.76086028414
+"1387","Multiple Linear Regression",4704.62191771548
+"1388","Imputation Model",14230.511795382
+"1389","Gradient Boosting Machines",4335.85422541991
+"1390","Multiple Linear Regression",4696.41025382993
+"1391","Imputation Model",14257.9834187538
+"1392","Gradient Boosting Machines",4306.38288174936
+"1393","Multiple Linear Regression",4789.01010472405
+"1394","Imputation Model",14220.7323782235
+"1395","Gradient Boosting Machines",4382.27860304897
+"1396","Multiple Linear Regression",4920.34877993153
+"1397","Imputation Model",14382.1841601795
+"1398","Gradient Boosting Machines",4463.83951647356
+"1399","Multiple Linear Regression",4409.48891841346
+"1400","Imputation Model",14109.8445315609
+"1401","Gradient Boosting Machines",4083.62968645701
+"1402","Multiple Linear Regression",4857.91135816062
+"1403","Imputation Model",14257.6401249308
+"1404","Gradient Boosting Machines",4361.25463486839
+"1405","Multiple Linear Regression",4638.57527953741
+"1406","Imputation Model",14253.0523313875
+"1407","Gradient Boosting Machines",4220.15442948427
+"1408","Multiple Linear Regression",4583.41271331188
+"1409","Imputation Model",14219.0330531923
+"1410","Gradient Boosting Machines",4138.31000600295
+"1411","Multiple Linear Regression",4695.3656816747
+"1412","Imputation Model",14239.3344578852
+"1413","Gradient Boosting Machines",4288.51818334027
+"1414","Multiple Linear Regression",4466.92067124587
+"1415","Imputation Model",14151.7346204448
+"1416","Gradient Boosting Machines",4068.72988668809
+"1417","Multiple Linear Regression",4849.37737797704
+"1418","Imputation Model",14420.235588124
+"1419","Gradient Boosting Machines",4354.22291925829
+"1420","Multiple Linear Regression",4624.39622031356
+"1421","Imputation Model",14224.6642915119
+"1422","Gradient Boosting Machines",4190.94346624938
+"1423","Multiple Linear Regression",4297.74909277488
+"1424","Imputation Model",13882.0911032067
+"1425","Gradient Boosting Machines",3925.58507774992
+"1426","Multiple Linear Regression",4636.30338598776
+"1427","Imputation Model",14111.8880056239
+"1428","Gradient Boosting Machines",4245.19448822553
+"1429","Multiple Linear Regression",4403.55319328706
+"1430","Imputation Model",13972.4564365023
+"1431","Gradient Boosting Machines",3974.11184832041
+"1432","Multiple Linear Regression",4506.49354771107
+"1433","Imputation Model",14044.8732520294
+"1434","Gradient Boosting Machines",4120.5605064233
+"1435","Multiple Linear Regression",4672.17530764748
+"1436","Imputation Model",14288.384501155
+"1437","Gradient Boosting Machines",4159.67038314738
+"1438","Multiple Linear Regression",4609.53485266895
+"1439","Imputation Model",14130.7807748509
+"1440","Gradient Boosting Machines",4153.16110260886
+"1441","Multiple Linear Regression",4524.30886585749
+"1442","Imputation Model",14154.7260248249
+"1443","Gradient Boosting Machines",4170.8693258887
+"1444","Multiple Linear Regression",4763.39941675893
+"1445","Imputation Model",14372.3212637513
+"1446","Gradient Boosting Machines",4296.5694080441
+"1447","Multiple Linear Regression",4550.34141704125
+"1448","Imputation Model",14101.7395874988
+"1449","Gradient Boosting Machines",4153.80959724477
+"1450","Multiple Linear Regression",4594.99152433252
+"1451","Imputation Model",14131.2302384548
+"1452","Gradient Boosting Machines",4131.51322422497
+"1453","Multiple Linear Regression",4440.31320869319
+"1454","Imputation Model",14133.78233356
+"1455","Gradient Boosting Machines",4048.79169076719
+"1456","Multiple Linear Regression",4704.58612838414
+"1457","Imputation Model",14181.6534581206
+"1458","Gradient Boosting Machines",4202.24267460659
+"1459","Multiple Linear Regression",4555.00601431167
+"1460","Imputation Model",14079.4197726226
+"1461","Gradient Boosting Machines",4122.04272654971
+"1462","Multiple Linear Regression",4416.68844529136
+"1463","Imputation Model",14190.1085837056
+"1464","Gradient Boosting Machines",3999.51436396309
+"1465","Multiple Linear Regression",4352.50304577515
+"1466","Imputation Model",13893.5079788718
+"1467","Gradient Boosting Machines",3945.09255825887
+"1468","Multiple Linear Regression",4514.38417666295
+"1469","Imputation Model",14092.4006845213
+"1470","Gradient Boosting Machines",4061.56369462876
+"1471","Multiple Linear Regression",4390.18516571322
+"1472","Imputation Model",13991.1394071764
+"1473","Gradient Boosting Machines",3989.0148086394
+"1474","Multiple Linear Regression",4627.95276403674
+"1475","Imputation Model",14099.6196864982
+"1476","Gradient Boosting Machines",4209.5254414148
+"1477","Multiple Linear Regression",4534.50423211049
+"1478","Imputation Model",14236.5668657033
+"1479","Gradient Boosting Machines",4119.58626424121
+"1480","Multiple Linear Regression",4675.66417200815
+"1481","Imputation Model",14176.1931901579
+"1482","Gradient Boosting Machines",4291.99405743028
+"1483","Multiple Linear Regression",4219.6690669901
+"1484","Imputation Model",13927.000301688
+"1485","Gradient Boosting Machines",3931.79316166914
+"1486","Multiple Linear Regression",4846.4075343065
+"1487","Imputation Model",14370.6424453763
+"1488","Gradient Boosting Machines",4334.78038952651
+"1489","Multiple Linear Regression",4748.87485027253
+"1490","Imputation Model",14232.574444184
+"1491","Gradient Boosting Machines",4271.80656080913
+"1492","Multiple Linear Regression",4958.35322050486
+"1493","Imputation Model",14399.898422631
+"1494","Gradient Boosting Machines",4435.88175863575
+"1495","Multiple Linear Regression",4406.9681799086
+"1496","Imputation Model",14140.1009903251
+"1497","Gradient Boosting Machines",4026.50599068303
+"1498","Multiple Linear Regression",4855.50798686368
+"1499","Imputation Model",14315.8929344141
+"1500","Gradient Boosting Machines",4328.19824816038
