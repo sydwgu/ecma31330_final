@@ -60,15 +60,7 @@ for (i in 1:num_sim) {
   y_train <- train$ndur
   NN_X_test <- as.matrix(test %>% select(-ndur))
   actual_ndur <- test$ndur
-  
-  # Check for NA, NaN, or Inf before fitting lm()
-  # print(sum(is.na(train)))        # Count NA values
-  # print(sum(is.nan(as.matrix(train))))  # Count NaN values
-  # print(sum(is.infinite(as.matrix(train))))  # Count Inf values
 
-  # str(train)
-  # summary(train)
-  
   # make ndur and all log-transformed variables strictly positive
   train <- train %>%
     mutate(
@@ -85,12 +77,6 @@ for (i in 1:num_sim) {
       food = ifelse(food <= 0 | is.na(food) | is.nan(food) | is.infinite(food), 1e-6, food),
       fout = ifelse(fout <= 0 | is.na(fout) | is.nan(fout) | is.infinite(fout), 1e-6, fout)
     )
-  
-
-  # debugging check
-  # print(sum(is.na(train)))        
-  # print(sum(is.nan(as.matrix(train))))  
-  # print(sum(is.infinite(as.matrix(train))))  
   
   # TRAIN MODELS
   # model 1: regression-based model
@@ -163,8 +149,4 @@ ggplot(RMSE_results, aes(x = RMSE, fill = Model)) +
 ```
 
 
-Let us also predict the variability for OOS predictions using the PSID data in order to gauge the generalizability of each of these models to the PSID data:
-```{r}
-
-```
 
