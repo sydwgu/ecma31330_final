@@ -1,0 +1,165 @@
+---
+title: "Metrics and ML - Monte Carlo Simulations"
+author: "Sydney Gu and Isabella Lin"
+date: "2025-02-02"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(caret)
+library(gbm)
+library(keras)
+library(nnet)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+purl("cleaning.Rmd", output = "cleaning2.R")
+source("cleaning2.R")
+```
+
+```{r}
+# number of bootstrap iterations we're using
+num_sim <- 50
+
+# initialize results storage
+RMSE_results <- data.frame(Model = character(), RMSE = numeric)
+```
+
+Now, let's set up our bootstrap resampling and training for each of our models:
+```{r}
+set.seed(123)
+n <- nrow(cex)
+counter <- 0
+
+
+for (i in 1:num_sim) {
+  # bootstrap to get training and testing samples from CEX data (80/20 training/testing split
+  train_ind <- sample(1:n, size = n * 0.8, replace = TRUE)
+  train <- as.data.frame(cex[train_ind, ])
+
+  # ensure no missing values and clean all predictors
+  train <- train %>%
+    mutate(ndur = ifelse(is.na(ndur) | is.nan(ndur) | is.infinite(ndur), 1, ndur))
+  train <- train %>%
+    mutate_all(~ ifelse(is.na(.) | is.nan(.) | is.infinite(.), 0, .))
+  
+  test <- as.data.frame(cex[-train_ind, ])
+  
+  # fix values in training set
+  train[is.na(train)] <- 0
+  train <- train %>%
+    mutate_all(~ ifelse(is.nan(.), 0, .)) %>%  # Replace NaN with 0
+    mutate_all(~ ifelse(is.infinite(.), 0, .))  # Replace Inf/-Inf with 0
+  
+  NN_X_train <- as.matrix(train %>% select(-ndur))  # cut ndur from predictors
+  y_train <- train$ndur
+  NN_X_test <- as.matrix(test %>% select(-ndur))
+  actual_ndur <- test$ndur
+  
+  # Check for NA, NaN, or Inf before fitting lm()
+  # print(sum(is.na(train)))        # Count NA values
+  # print(sum(is.nan(as.matrix(train))))  # Count NaN values
+  # print(sum(is.infinite(as.matrix(train))))  # Count Inf values
+
+  # str(train)
+  # summary(train)
+  
+  # make ndur and all log-transformed variables strictly positive
+  train <- train %>%
+    mutate(
+      ndur = ifelse(ndur <= 0 | is.na(ndur) | is.nan(ndur) | is.infinite(ndur), 1e-6, ndur),
+      income = ifelse(income <= 0 | is.na(income) | is.nan(income) | is.infinite(income), 1e-6, income),
+      food = ifelse(food <= 0 | is.na(food) | is.nan(food) | is.infinite(food), 1e-6, food),
+      fout = ifelse(fout <= 0 | is.na(fout) | is.nan(fout) | is.infinite(fout), 1e-6, fout)
+    )
+  
+  test <- test %>%
+    mutate(
+      ndur = ifelse(ndur <= 0 | is.na(ndur) | is.nan(ndur) | is.infinite(ndur), 1e-6, ndur),
+      income = ifelse(income <= 0 | is.na(income) | is.nan(income) | is.infinite(income), 1e-6, income),
+      food = ifelse(food <= 0 | is.na(food) | is.nan(food) | is.infinite(food), 1e-6, food),
+      fout = ifelse(fout <= 0 | is.na(fout) | is.nan(fout) | is.infinite(fout), 1e-6, fout)
+    )
+  
+
+  # debugging check
+  # print(sum(is.na(train)))        
+  # print(sum(is.nan(as.matrix(train))))  
+  # print(sum(is.infinite(as.matrix(train))))  
+  
+  # TRAIN MODELS
+  # model 1: regression-based model
+  lr_model <- lm(log(ndur) ~ log(income) + log(food) + I(log(food)^2) + log(fout) + I(log(fout)^2) + hours + hourw + year, 
+               data = train)
+  
+  # model 2: original imputation-based model from Blundell, Pistaferri, and Preston paper
+  paper_model <- lm(log(food) ~ log(ndur) + onec + twoc + three_plusc + hs_drop 
+               + hs_grad + age + I(age^2) + northeast + midwest + south + fsize 
+               + log(pfood) + `55-59` + `50-54` + `45-49` + `40-44` + `35-39` 
+               + `30-34` + `25-29` + white, data = train)
+  
+  # model 3: gradient boosting machines
+  gbm_model <- gbm(
+    formula = ndur ~ .,         
+    data = train,
+    distribution = "gaussian",    
+    n.trees = 1000,               # no. of boosting iterations
+    interaction.depth = 3,        # tree depth 
+    shrinkage = 0.01,             # learning rate
+    n.minobsinnode = 10,          # min obs per tree node
+    cv.folds = 5,                 # no. of CV folds
+    verbose = FALSE               
+  )
+
+  # use all models to predict on testing sets
+  lr_pred_log <- predict(lr_model, test)
+  lr_pred <- exp(lr_pred_log)
+  paper_pred_log <- predict(paper_model, test)
+  paper_pred <- exp(paper_pred_log)
+  gbm_pred <- predict(gbm_model, test, n.trees = 1000)
+  
+  # check RMSE values per model
+  lr_rmse <- sqrt(mean((lr_pred - actual_ndur)^2))
+  paper_rmse <- sqrt(mean((paper_pred - actual_ndur)^2))
+  gbm_rmse <- sqrt(mean((gbm_pred - actual_ndur)^2 ))
+  
+  # store results from simulations
+  RMSE_results <- rbind(RMSE_results, 
+                      data.frame(Model = "Multiple Linear Regression", RMSE = lr_rmse),
+                      data.frame(Model = "Imputation Model", RMSE = paper_rmse),
+                      data.frame(Model = "Gradient Boosting Machines", RMSE = gbm_rmse))
+  
+  counter <- counter + 1
+  print(counter)
+  
+}
+
+
+```
+
+Let's summarize our results here:
+```{r}
+results_summary <- RMSE_results %>%
+  group_by(Model) %>%
+  summarise(
+    RMSE_Mean = mean(RMSE),
+    RMSE_SD = sd(RMSE)
+  )
+
+print(results_summary)
+```
+
+And let's also visualize the distributions for the RMSEs from these simulations for each of our models:
+```{r}
+ggplot(RMSE_results, aes(x = RMSE, fill = Model)) +
+  geom_density(alpha = 0.6) +
+  theme_minimal() +
+  ggtitle("RMSE Distribution Across 500 Monte Carlo Simulations")
+```
+
+
